@@ -9,6 +9,8 @@ Modern website concept for Blackheath Sports Club at Rectory Field.
 - A GitHub Pages workflow in `.github/workflows/deploy.yml`.
 - A review-led information architecture for the club's next public website.
 - A working website specification and sprint roadmap in `docs/site-spec.md`.
+- AI handover notes in `docs/ai-handover.md`.
+- A sprint execution plan in `docs/sprint-plan.md`.
 
 ## Review summary
 
@@ -56,3 +58,5 @@ npm run build
 ## Product specification
 
 The current improvement plan, sprint structure and acceptance criteria live in [`docs/site-spec.md`](docs/site-spec.md).
+
+For another AI/LLM taking over the work, start with [`docs/ai-handover.md`](docs/ai-handover.md), then use [`docs/sprint-plan.md`](docs/sprint-plan.md) as the execution backlog.

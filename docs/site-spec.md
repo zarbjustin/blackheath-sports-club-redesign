@@ -6,6 +6,8 @@ Build a modern public website for Blackheath Sports Club that makes the club fee
 
 This document is the working specification. It should evolve as the club supplies confirmed copy, photography, videos, booking links, membership details and operational policies.
 
+For implementation handover, see `docs/ai-handover.md`. For the tactical sprint backlog, see `docs/sprint-plan.md`.
+
 ## Current concept status
 
 The current repo contains a first-pass static concept site. It establishes the visual direction, public information architecture and core journeys, but it is not yet a production-ready replacement for the live club website.
