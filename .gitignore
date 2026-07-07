@@ -4,3 +4,6 @@ dist
 .env
 .env.local
 npm-debug.log*
+
+# Raw club media downloads (originals); optimized WebP lives in src/assets/club
+_clubmedia

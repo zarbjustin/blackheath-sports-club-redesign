@@ -8,16 +8,32 @@ import {
   useTransform,
 } from "framer-motion";
 import {
+  Accessibility,
   ArrowRight,
+  ArrowUpRight,
+  Baby,
+  Beer,
   CalendarDays,
-  ChevronRight,
+  Car,
   Clock,
+  Dumbbell,
+  ExternalLink,
+  Facebook,
   Handshake,
+  Landmark,
+  Mail,
   MapPin,
   Menu,
   MessageCircle,
+  Navigation,
+  PartyPopper,
+  PawPrint,
+  Phone,
   Sparkles,
+  Tv,
+  Twitter,
   Users,
+  Utensils,
   X,
 } from "lucide-react";
 import { RugbyIcon, CricketIcon, TennisIcon, SquashIcon } from "./icons.jsx";
@@ -29,55 +45,31 @@ import "@fontsource/inter/700.css";
 import "@fontsource/inter/900.css";
 import "./styles.css";
 
+import {
+  club,
+  sports,
+  otherFacilities,
+  venueFacilities,
+  heritage,
+  gallery,
+  groundsMap,
+  venueImage,
+} from "./data.js";
+
 import hero640 from "./assets/rectory-field-640.webp";
 import hero1024 from "./assets/rectory-field-1024.webp";
 import hero1440 from "./assets/rectory-field-1440.webp";
 import hero1920 from "./assets/rectory-field-1920.webp";
 import { heroBlur } from "./assets/hero-blur.js";
 
-const sports = [
-  {
-    name: "Rugby",
-    detail: "A proud Rectory Field tradition with match-day energy and club pathways.",
-    icon: RugbyIcon,
-    accent: "var(--brick)",
-    action: "View fixtures",
-  },
-  {
-    name: "Cricket",
-    detail: "Summer cricket, junior development, social fixtures, and green space at the heart of the club.",
-    icon: CricketIcon,
-    accent: "var(--gold)",
-    action: "Join the season",
-  },
-  {
-    name: "Tennis",
-    detail: "All-year tennis access with coaching, teams, casual play, and a welcoming club culture.",
-    icon: TennisIcon,
-    accent: "var(--blue)",
-    action: "Book a court",
-  },
-  {
-    name: "Squash",
-    detail: "Indoor court sport for members, teams, leagues, coaching, and evening play.",
-    icon: SquashIcon,
-    accent: "var(--forest)",
-    action: "Find a game",
-  },
-];
+const sportIcons = {
+  Rugby: RugbyIcon,
+  Cricket: CricketIcon,
+  Tennis: TennisIcon,
+  Squash: SquashIcon,
+};
 
-const priorities = [
-  "Make the four sports visible within seconds, with equal status and clear entry points.",
-  "Promote venue hire and the clubhouse as part of the club offer, not a buried secondary page.",
-  "Bring the heritage of Rectory Field forward while making the site feel fresh on mobile.",
-  "Create future-ready spaces for photography, fixtures, events, and membership campaigns.",
-];
-
-const events = [
-  { date: "Sat", title: "Weekend fixtures", meta: "Rugby, cricket, tennis and squash activity" },
-  { date: "Sun", title: "Junior sessions", meta: "Coaching pathways and family-friendly club time" },
-  { date: "Weeknights", title: "Courts and clubhouse", meta: "Evening play, training, socials and hire" },
-];
+const lucide = { Dumbbell, Baby, Beer, PartyPopper, Utensils, Accessibility, Car, Tv };
 
 const easeOut = [0.22, 1, 0.36, 1];
 
@@ -104,7 +96,7 @@ function Reveal({ as = "section", className, children, ...rest }) {
       variants={revealVariants}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, amount: 0.2 }}
+      viewport={{ once: true, amount: 0.15 }}
       {...rest}
     >
       {children}
@@ -120,7 +112,7 @@ function Hero() {
   const parallaxY = reduceMotion ? 0 : rawY;
 
   return (
-    <section className="hero" aria-label="Blackheath Sports Club at Rectory Field">
+    <section className="hero" aria-label={`${club.name} at ${club.address.line1}`}>
       <motion.div className="hero-media" style={{ y: parallaxY }}>
         <img
           className={loaded ? "hero-img is-loaded" : "hero-img"}
@@ -130,7 +122,7 @@ function Hero() {
           sizes="100vw"
           width={1672}
           height={941}
-          alt="Concept view of Blackheath Sports Club's multi-sport ground at Rectory Field"
+          alt="The Rectory Field, home of Blackheath Sports Club"
           fetchpriority="high"
           decoding="async"
           onLoad={() => setLoaded(true)}
@@ -138,19 +130,14 @@ function Hero() {
       </motion.div>
       <div className="hero-scrim" aria-hidden="true" />
 
-      <motion.div
-        className="hero-content"
-        variants={staggerContainer}
-        initial="hidden"
-        animate="show"
-      >
+      <motion.div className="hero-content" variants={staggerContainer} initial="hidden" animate="show">
         <motion.p className="eyebrow" variants={staggerItem}>
-          Rectory Field, Blackheath
+          The Rectory Field, Blackheath · Est. {club.established}
         </motion.p>
-        <motion.h1 variants={staggerItem}>Blackheath Sports Club</motion.h1>
+        <motion.h1 variants={staggerItem}>{club.name}</motion.h1>
         <motion.p className="hero-copy" variants={staggerItem}>
-          A historic South East London home for rugby, cricket, tennis, squash, events,
-          families, teams, and the next generation of club sport.
+          {club.slogan}. A historic South East London home for rugby, cricket, tennis and
+          squash — a family members' club with coaching for all ages, venue hire and more.
         </motion.p>
         <motion.div className="hero-actions" variants={staggerItem}>
           <a className="button primary" href="#membership">
@@ -169,11 +156,380 @@ function Hero() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: easeOut, delay: 0.5 }}
       >
-        <span><MapPin size={17} /> Charlton Road, SE3</span>
+        <span><MapPin size={17} /> Charlton Road, {club.address.postcode}</span>
         <span><Users size={17} /> Four sports, one club</span>
-        <span><Clock size={17} /> Weekday and weekend activity</span>
+        <span><Clock size={17} /> Bar open 7 days</span>
       </motion.div>
     </section>
+  );
+}
+
+function Welcome() {
+  const facts = [
+    { icon: CalendarDays, label: `Established ${club.established}` },
+    { icon: Users, label: "Four sporting clubs" },
+    { icon: Handshake, label: "Family members' club" },
+    { icon: Sparkles, label: "Coaching for all ages" },
+  ];
+  return (
+    <Reveal className="intro band">
+      <div className="section-heading">
+        <p className="eyebrow">Welcome</p>
+        <h2>One historic club, four sports and more</h2>
+      </div>
+      <div className="intro-grid">
+        <div className="intro-copy">
+          <p>
+            The aim of Blackheath Sports Club is to promote quality sporting activities for
+            our members all year round. Established over a century ago, we are the shared home
+            of four clubs — rugby, cricket, tennis and squash — welcoming everyone from
+            beginners with excellent coaching to teams competing at a high level, and with a
+            strong tradition of sport for children of all ages.
+          </p>
+          <div className="notice">
+            <PawPrint size={20} />
+            <p>{club.dogNotice}</p>
+          </div>
+        </div>
+        <motion.ul
+          className="fact-list"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.3 }}
+        >
+          {facts.map((f) => {
+            const Icon = f.icon;
+            return (
+              <motion.li key={f.label} variants={staggerItem}>
+                <Icon size={20} />
+                {f.label}
+              </motion.li>
+            );
+          })}
+        </motion.ul>
+      </div>
+    </Reveal>
+  );
+}
+
+function Sports() {
+  return (
+    <Reveal className="sports-section" id="sports">
+      <div className="section-heading">
+        <p className="eyebrow">Sports at the Rectory Field</p>
+        <h2>Four clubs, one home</h2>
+      </div>
+      <motion.div
+        className="sport-grid"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.1 }}
+      >
+        {sports.map((sport) => {
+          const Icon = sportIcons[sport.key];
+          return (
+            <motion.a
+              className="sport-card"
+              key={sport.key}
+              style={{ "--accent": sport.accent }}
+              href={sport.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              variants={staggerItem}
+            >
+              <div className="sport-media">
+                <img src={sport.image} alt={`${sport.key} at Blackheath Sports Club`} loading="lazy" />
+                <span className="sport-badge"><Icon size={22} /></span>
+              </div>
+              <div className="sport-body">
+                <h3>{sport.key}</h3>
+                <p>{sport.detail}</p>
+                <span className="sport-link">
+                  Visit {sport.site} <ExternalLink size={15} />
+                </span>
+              </div>
+            </motion.a>
+          );
+        })}
+      </motion.div>
+    </Reveal>
+  );
+}
+
+function OtherFacilities() {
+  return (
+    <Reveal className="facilities-section band" id="facilities">
+      <div className="section-heading">
+        <p className="eyebrow">Also at the Rectory Field</p>
+        <h2>More than four sports</h2>
+      </div>
+      <motion.div
+        className="facility-grid"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+      >
+        {otherFacilities.map((f) => {
+          const Icon = lucide[f.icon] ?? Sparkles;
+          return (
+            <motion.a
+              className="facility-card"
+              key={f.name}
+              href={f.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              variants={staggerItem}
+            >
+              <span className="facility-icon"><Icon size={26} /></span>
+              <div className="facility-text">
+                <h3>{f.name}</h3>
+                <span className="facility-org">{f.org}</span>
+                <p>{f.detail}</p>
+              </div>
+              <span className="facility-link">
+                {f.site} <ArrowUpRight size={16} />
+              </span>
+            </motion.a>
+          );
+        })}
+      </motion.div>
+    </Reveal>
+  );
+}
+
+function Membership() {
+  return (
+    <Reveal className="membership" id="membership">
+      <div className="section-heading">
+        <p className="eyebrow">Membership</p>
+        <h2>Built for players, parents, supporters and social members</h2>
+      </div>
+      <div className="membership-layout">
+        <div className="membership-copy">
+          <p>
+            Each sport runs its own playing membership through its club, while social membership
+            of Blackheath Sports Club gives you the run of the clubhouse and bar seven days a week.
+          </p>
+          <div className="membership-price">
+            <span className="price">{club.socialMembership}</span>
+            <span>Social membership, giving full use of the bar facilities.</span>
+          </div>
+          <a className="button primary compact" href="#contact">
+            Start an enquiry <MessageCircle size={18} />
+          </a>
+        </div>
+        <motion.div
+          className="pathways"
+          aria-label="Membership pathways"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.3 }}
+        >
+          {["Junior sport", "Adult teams", "Casual play", "Coaching", "Social membership", "Club events"].map((p) => (
+            <motion.span key={p} variants={staggerItem}>{p}</motion.span>
+          ))}
+        </motion.div>
+      </div>
+    </Reveal>
+  );
+}
+
+function VenueHire() {
+  return (
+    <Reveal className="hire" id="hire">
+      <div className="hire-grid">
+        <div className="hire-copy">
+          <p className="eyebrow">Venue hire</p>
+          <h2>Clubhouse spaces for celebrations, meetings and events</h2>
+          <p className="hire-lead">
+            Members can hire our bar areas and function rooms for occasions large and small,
+            with in-house catering tailored to your event.
+          </p>
+          <ul className="facility-list">
+            {venueFacilities.map((f) => {
+              const Icon = lucide[f.icon] ?? Sparkles;
+              return (
+                <li key={f.text}>
+                  <Icon size={18} />
+                  <span>{f.text}</span>
+                </li>
+              );
+            })}
+          </ul>
+          <div className="hire-actions">
+            <a className="button light" href={`mailto:${club.contact.email}`}>
+              Enquire by email <Mail size={18} />
+            </a>
+            <a className="button ghost light-ghost" href={club.contact.phoneHref}>
+              {club.contact.phone} <Phone size={18} />
+            </a>
+          </div>
+        </div>
+        <figure className="hire-media">
+          <img src={venueImage} alt="The clubhouse bar at Blackheath Sports Club" loading="lazy" />
+        </figure>
+      </div>
+    </Reveal>
+  );
+}
+
+function Heritage() {
+  return (
+    <Reveal className="heritage" id="heritage">
+      <div className="section-heading">
+        <p className="eyebrow">Since {club.established}</p>
+        <h2>A home for the history of the game</h2>
+      </div>
+      <div className="heritage-grid">
+        <div className="timeline">
+          <p className="heritage-intro">{heritage.intro}</p>
+          {heritage.timeline.map((t) => (
+            <div className="timeline-item" key={t.year}>
+              <span className="year">{t.year}</span>
+              <p>{t.text}</p>
+            </div>
+          ))}
+          <p className="heritage-note">
+            <Landmark size={18} /> {heritage.note}
+          </p>
+        </div>
+        <div className="heritage-media">
+          <figure className="heritage-main">
+            <img src={heritage.images.team} alt={heritage.images.teamAlt} loading="lazy" />
+            <figcaption>{heritage.images.teamAlt}</figcaption>
+          </figure>
+          <figure className="heritage-portrait">
+            <img src={heritage.images.carpmael} alt={heritage.images.carpmaelAlt} loading="lazy" />
+            <figcaption>{heritage.images.carpmaelAlt}</figcaption>
+          </figure>
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
+function Gallery() {
+  return (
+    <Reveal className="gallery-section band">
+      <div className="section-heading">
+        <p className="eyebrow">Gallery</p>
+        <h2>Life at the Rectory Field</h2>
+      </div>
+      <motion.div
+        className="gallery-grid"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.05 }}
+      >
+        {gallery.map((g) => (
+          <motion.figure className="gallery-item" key={g.caption} variants={staggerItem}>
+            <img src={g.src} alt={g.caption} loading="lazy" />
+            <figcaption>{g.caption}</figcaption>
+          </motion.figure>
+        ))}
+      </motion.div>
+    </Reveal>
+  );
+}
+
+function Visit() {
+  const { address } = club;
+  return (
+    <>
+      <Reveal className="visit" id="visit">
+        <div className="visit-copy">
+          <p className="eyebrow">Visit us</p>
+          <h2>The Rectory Field, Charlton Road</h2>
+          <address className="visit-address">
+            {address.line1}<br />
+            {address.line2}<br />
+            {address.city} {address.postcode}
+          </address>
+          <p className="satnav"><Navigation size={16} /> For Sat-Nav use postcode <strong>{address.satnav}</strong></p>
+          <p>
+            In the heart of South East London, close to local public transport with extensive
+            on-site parking and wheelchair access throughout.
+          </p>
+          <a className="button primary compact" href={club.mapLink} target="_blank" rel="noopener noreferrer">
+            Open in maps <ArrowUpRight size={18} />
+          </a>
+        </div>
+        <div className="visit-map">
+          <iframe
+            title="Map to Blackheath Sports Club"
+            src={club.mapEmbed}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+      </Reveal>
+
+      <Reveal className="grounds band">
+        <div className="section-heading">
+          <p className="eyebrow">Our grounds</p>
+          <h2>Find your way around the club</h2>
+        </div>
+        <div className="grounds-grid">
+          <figure className="grounds-map">
+            <img src={groundsMap.image} alt="Map of the Blackheath Sports Club grounds" loading="lazy" />
+          </figure>
+          <ul className="grounds-legend">
+            {groundsMap.legend.map((item) => (
+              <li key={item}><MapPin size={16} /> {item}</li>
+            ))}
+          </ul>
+        </div>
+      </Reveal>
+    </>
+  );
+}
+
+function Contact() {
+  return (
+    <Reveal className="contact" id="contact">
+      <div className="section-heading">
+        <p className="eyebrow">Get in touch</p>
+        <h2>Bar & venue enquiries</h2>
+      </div>
+      <div className="contact-grid">
+        <a className="contact-card" href={`mailto:${club.contact.email}`}>
+          <Mail size={22} />
+          <span className="contact-label">Email</span>
+          <span className="contact-value">{club.contact.email}</span>
+        </a>
+        <a className="contact-card" href={club.contact.phoneHref}>
+          <Phone size={22} />
+          <span className="contact-label">Telephone</span>
+          <span className="contact-value">{club.contact.phone}</span>
+        </a>
+        <div className="contact-card">
+          <Clock size={22} />
+          <span className="contact-label">Bar opening hours</span>
+          {club.hours.map((h) => (
+            <span className="contact-value" key={h.days}>{h.days}: {h.time}</span>
+          ))}
+        </div>
+      </div>
+      <div className="contact-footer">
+        <p>
+          For rugby, cricket, tennis or squash enquiries, please contact each club directly via
+          their website above.
+        </p>
+        <div className="socials">
+          <a href={club.social.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <Facebook size={20} />
+          </a>
+          <a href={club.social.twitter} target="_blank" rel="noopener noreferrer" aria-label="Twitter / X">
+            <Twitter size={20} />
+          </a>
+        </div>
+      </div>
+    </Reveal>
   );
 }
 
@@ -188,10 +544,18 @@ function App() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const navItems = [
+    ["Sports", "#sports"],
+    ["Venue hire", "#hire"],
+    ["Membership", "#membership"],
+    ["Heritage", "#heritage"],
+    ["Visit", "#visit"],
+  ];
+
   return (
     <MotionConfig reducedMotion="user">
       <header className={scrolled ? "site-header is-scrolled" : "site-header"}>
-        <a className="brand" href="#top" aria-label="Blackheath Sports Club home">
+        <a className="brand" href="#top" aria-label={`${club.name} home`}>
           <span className="brand-mark">BSC</span>
           <span>
             Blackheath
@@ -208,184 +572,39 @@ function App() {
           {open ? <X size={21} /> : <Menu size={21} />}
         </button>
         <nav className={open ? "nav-links is-open" : "nav-links"} aria-label="Primary navigation">
-          <a href="#sports" onClick={() => setOpen(false)}>Sports</a>
-          <a href="#membership" onClick={() => setOpen(false)}>Membership</a>
-          <a href="#hire" onClick={() => setOpen(false)}>Venue hire</a>
-          <a href="#visit" onClick={() => setOpen(false)}>Visit</a>
+          {navItems.map(([label, href]) => (
+            <a key={href} href={href} onClick={() => setOpen(false)}>{label}</a>
+          ))}
           <a className="nav-cta" href="#contact" onClick={() => setOpen(false)}>Enquire</a>
         </nav>
       </header>
 
       <main id="top">
         <Hero />
-
-        <Reveal className="intro band">
-          <div className="section-heading">
-            <p className="eyebrow">Review-led redesign</p>
-            <h2>A clearer club front door</h2>
-          </div>
-          <motion.div
-            className="priority-list"
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.2 }}
-          >
-            {priorities.map((item) => (
-              <motion.article className="priority" key={item} variants={staggerItem}>
-                <Sparkles size={20} />
-                <p>{item}</p>
-              </motion.article>
-            ))}
-          </motion.div>
-        </Reveal>
-
-        <Reveal className="sports-section" id="sports">
-          <div className="section-heading">
-            <p className="eyebrow">Sports at Rectory Field</p>
-            <h2>Find your way into the club</h2>
-          </div>
-          <motion.div
-            className="sport-grid"
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.15 }}
-          >
-            {sports.map((sport) => {
-              const Icon = sport.icon;
-              return (
-                <motion.article
-                  className="sport-card"
-                  key={sport.name}
-                  style={{ "--accent": sport.accent }}
-                  variants={staggerItem}
-                >
-                  <span className="sport-icon"><Icon size={30} /></span>
-                  <h3>{sport.name}</h3>
-                  <p>{sport.detail}</p>
-                  <a href="#contact">
-                    {sport.action} <ChevronRight size={17} />
-                  </a>
-                </motion.article>
-              );
-            })}
-          </motion.div>
-        </Reveal>
-
-        <Reveal className="membership band" id="membership">
-          <div className="section-heading">
-            <p className="eyebrow">Membership</p>
-            <h2>Built for players, parents, supporters and social members</h2>
-          </div>
-          <div className="membership-layout">
-            <div className="membership-copy">
-              <p>
-                The new journey separates sport-specific actions from club-wide decisions,
-                so visitors can quickly choose coaching, court access, team play, venue hire,
-                junior sport, or social membership without hunting through legacy pages.
-              </p>
-              <a className="button primary compact" href="#contact">
-                Start an enquiry <MessageCircle size={18} />
-              </a>
-            </div>
-            <motion.div
-              className="pathways"
-              aria-label="Membership pathways"
-              variants={staggerContainer}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, amount: 0.3 }}
-            >
-              {["Junior sport", "Adult teams", "Casual play", "Coaching", "Social membership", "Club events"].map((p) => (
-                <motion.span key={p} variants={staggerItem}>{p}</motion.span>
-              ))}
-            </motion.div>
-          </div>
-        </Reveal>
-
-        <Reveal className="events" aria-label="Club activity">
-          <div className="section-heading">
-            <p className="eyebrow">Always active</p>
-            <h2>A weekly rhythm visitors can understand</h2>
-          </div>
-          <motion.div
-            className="event-list"
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.2 }}
-          >
-            {events.map((event) => (
-              <motion.article className="event-row" key={event.title} variants={staggerItem}>
-                <div className="date">{event.date}</div>
-                <div>
-                  <h3>{event.title}</h3>
-                  <p>{event.meta}</p>
-                </div>
-                <ArrowRight size={19} />
-              </motion.article>
-            ))}
-          </motion.div>
-        </Reveal>
-
-        <Reveal className="hire band" id="hire">
-          <div>
-            <p className="eyebrow">Venue hire</p>
-            <h2>Clubhouse spaces for sport, celebrations and community gatherings</h2>
-          </div>
-          <p>
-            Venue hire deserves a stronger presence. This concept treats the clubhouse as
-            a core part of the offer, with prominent calls to action, space for event
-            photography, package details, and a fast enquiry flow.
-          </p>
-          <a className="button light" href="#contact">
-            Discuss an event <Handshake size={18} />
-          </a>
-        </Reveal>
-
-        <Reveal className="visit" id="visit">
-          <div className="visit-copy">
-            <p className="eyebrow">Visit us</p>
-            <h2>Rectory Field, Charlton Road</h2>
-            <p>
-              The redesign keeps the location obvious and practical, with transport,
-              accessibility, parking, and match-day guidance ready to expand when the club
-              supplies confirmed operational details.
-            </p>
-          </div>
-          <div className="map-panel" aria-label="Location summary">
-            <MapPin size={34} />
-            <strong>Blackheath Sports Club</strong>
-            <span>Rectory Field, Charlton Road, London SE3 8SR</span>
-            <a href="https://www.google.com/maps/search/?api=1&query=Blackheath%20Sports%20Club%20Rectory%20Field%20Charlton%20Road%20London%20SE3%208SR">
-              Open in maps <ArrowRight size={17} />
-            </a>
-          </div>
-        </Reveal>
-
-        <Reveal className="contact band" id="contact">
-          <div className="section-heading">
-            <p className="eyebrow">Next step</p>
-            <h2>Ready for real club imagery, copy and booking links</h2>
-          </div>
-          <div className="contact-grid">
-            <a href="mailto:info@blackheathsportsclub.co.uk">
-              General enquiry <ArrowRight size={18} />
-            </a>
-            <a href="#sports">
-              Choose a sport <ArrowRight size={18} />
-            </a>
-            <a href="#hire">
-              Plan venue hire <ArrowRight size={18} />
-            </a>
-          </div>
-        </Reveal>
+        <Welcome />
+        <Sports />
+        <OtherFacilities />
+        <Membership />
+        <VenueHire />
+        <Heritage />
+        <Gallery />
+        <Visit />
+        <Contact />
       </main>
 
       <footer>
-        <strong>Blackheath Sports Club concept redesign</strong>
-        <span>Prepared as a modern website direction for zarbjustin.</span>
+        <div className="footer-brand">
+          <strong>{club.name}</strong>
+          <span>{club.address.line1}, {club.address.line2}, {club.address.city} {club.address.postcode}</span>
+        </div>
+        <div className="footer-social">
+          <a href={club.social.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <Facebook size={18} />
+          </a>
+          <a href={club.social.twitter} target="_blank" rel="noopener noreferrer" aria-label="Twitter / X">
+            <Twitter size={18} />
+          </a>
+        </div>
       </footer>
     </MotionConfig>
   );
