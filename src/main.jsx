@@ -442,6 +442,31 @@ function Gallery() {
   );
 }
 
+function MapEmbed() {
+  const [show, setShow] = useState(false);
+
+  if (show) {
+    return (
+      <iframe
+        title="Map to Blackheath Sports Club"
+        src={club.mapEmbed}
+        loading="lazy"
+        referrerPolicy="strict-origin-when-cross-origin"
+        sandbox="allow-scripts allow-same-origin allow-popups"
+      ></iframe>
+    );
+  }
+
+  return (
+    <button type="button" className="map-consent" onClick={() => setShow(true)}>
+      <MapPin size={30} />
+      <strong>Load interactive map</strong>
+      <span>Loads Google Maps, which may set cookies. See our privacy notice.</span>
+      <span className="map-consent-cta">Show map <ArrowRight size={16} /></span>
+    </button>
+  );
+}
+
 function Visit() {
   const { address } = club;
   return (
@@ -465,13 +490,7 @@ function Visit() {
           </a>
         </div>
         <div className="visit-map">
-          <iframe
-            title="Map to Blackheath Sports Club"
-            src={club.mapEmbed}
-            loading="lazy"
-            referrerPolicy="strict-origin-when-cross-origin"
-            sandbox="allow-scripts allow-same-origin allow-popups"
-          ></iframe>
+          <MapEmbed />
         </div>
       </Reveal>
 
@@ -613,7 +632,11 @@ function App() {
         <div className="footer-brand">
           <strong>{club.name}</strong>
           <span>{club.address.line1}, {club.address.line2}, {club.address.city} {club.address.postcode}</span>
+          <span className="footer-copy">© {new Date().getFullYear()} Blackheath Sports Club · Concept redesign</span>
         </div>
+        <nav className="footer-links" aria-label="Footer">
+          <a href="privacy.html">Privacy &amp; cookies</a>
+        </nav>
         <div className="footer-social">
           <a href={club.social.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
             <Facebook size={18} />

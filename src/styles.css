@@ -8,6 +8,7 @@
   --brick: #a63c2f;
   --blue: #146b8f;
   --gold: #cf993d;
+  --gold-ink: #8a5e12;
   --line: rgba(16, 32, 28, 0.14);
   --shadow: 0 20px 55px rgba(16, 32, 28, 0.16);
   --shadow-sm: 0 8px 25px rgba(16, 32, 28, 0.06);
@@ -226,11 +227,15 @@ img {
 
 .eyebrow {
   margin: 0 0 14px;
-  color: var(--gold);
+  color: var(--gold-ink);
   font-weight: 900;
   text-transform: uppercase;
   font-size: 0.76rem;
   letter-spacing: 0.14em;
+}
+
+.hero .eyebrow {
+  color: var(--gold);
 }
 
 h1,
@@ -939,6 +944,63 @@ h2 {
   border: 0;
 }
 
+.map-consent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 400px;
+  padding: 32px;
+  text-align: center;
+  cursor: pointer;
+  border: 0;
+  color: var(--ink);
+  background:
+    linear-gradient(rgba(251, 250, 246, 0.86), rgba(251, 250, 246, 0.86)),
+    repeating-linear-gradient(45deg, #d6e1d9 0 12px, #f1efe7 12px 24px);
+  transition: background 0.3s var(--ease);
+}
+
+.map-consent:hover {
+  background:
+    linear-gradient(rgba(251, 250, 246, 0.78), rgba(251, 250, 246, 0.78)),
+    repeating-linear-gradient(45deg, #d6e1d9 0 12px, #f1efe7 12px 24px);
+}
+
+.map-consent svg {
+  color: var(--brick);
+}
+
+.map-consent strong {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+}
+
+.map-consent span {
+  color: var(--muted);
+  max-width: 340px;
+  font-size: 0.92rem;
+}
+
+.map-consent-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 10px 18px;
+  border-radius: var(--r-pill);
+  background: var(--forest);
+  color: #fff !important;
+  font-weight: 800;
+}
+
+.map-consent:hover .map-consent-cta svg {
+  transform: translateX(3px);
+  transition: transform 0.28s var(--ease);
+}
+
 /* Grounds map ------------------------------------------------------------- */
 .grounds-grid {
   display: grid;
@@ -1083,6 +1145,26 @@ footer {
 .footer-brand strong {
   color: white;
   font-size: 1.05rem;
+}
+
+.footer-copy {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.footer-links {
+  display: flex;
+  gap: 18px;
+}
+
+.footer-links a {
+  color: rgba(255, 255, 255, 0.82);
+  font-weight: 700;
+  transition: color 0.25s var(--ease);
+}
+
+.footer-links a:hover {
+  color: white;
 }
 
 .footer-social {
