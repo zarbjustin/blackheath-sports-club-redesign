@@ -415,21 +415,14 @@ function Enquiry() {
 
   return (
     <Reveal className="enquiry band" id="enquire">
-      <div className="section-heading">
-        <p className="eyebrow">Enquire</p>
-        <h2>Ask about venue hire or membership</h2>
-      </div>
-      <div className="enquiry-grid">
-        <div className="enquiry-intro">
-          <p>
-            Tell us a little about your event or enquiry and we'll come back to you. You can also
-            reach the club directly:
+      <div className="enquiry-inner">
+        <div className="section-heading enquiry-head">
+          <p className="eyebrow">Enquire</p>
+          <h2>Ask about venue hire or membership</h2>
+          <p className="enquiry-lead">
+            Tell us a little about your event or enquiry and we'll come back to you as soon as
+            we can.
           </p>
-          <ul className="enquiry-contacts">
-            <li><Mail size={18} /> <a href={`mailto:${club.contact.email}`}>{club.contact.email}</a></li>
-            <li><Phone size={18} /> <a href={club.contact.phoneHref}>{club.contact.phone}</a></li>
-            <li><Clock size={18} /> {club.hours.map((h) => `${h.days} ${h.time}`).join(" · ")}</li>
-          </ul>
         </div>
 
         {status === "success" ? (
@@ -517,6 +510,12 @@ function Enquiry() {
             </button>
           </form>
         )}
+
+        <ul className="enquiry-contacts" aria-label="Contact the club directly">
+          <li><Mail size={17} /> <a href={`mailto:${club.contact.email}`}>{club.contact.email}</a></li>
+          <li><Phone size={17} /> <a href={club.contact.phoneHref}>{club.contact.phone}</a></li>
+          <li><Clock size={17} /> {club.hours.map((h) => `${h.days} ${h.time}`).join(" · ")}</li>
+        </ul>
       </div>
     </Reveal>
   );
