@@ -16,8 +16,9 @@ import {
   Baby,
   Beer,
   CalendarDays,
-  Car,
+  CircleCheckBig,
   Clock,
+  Car,
   Dumbbell,
   ExternalLink,
   Facebook,
@@ -31,7 +32,9 @@ import {
   PartyPopper,
   PawPrint,
   Phone,
+  Send,
   Sparkles,
+  TriangleAlert,
   Tv,
   Twitter,
   Users,
@@ -53,6 +56,8 @@ import {
   gallery,
   groundsMap,
   venueImage,
+  enquiry,
+  ENQUIRY_PLACEHOLDER_KEY,
 } from "./data.js";
 
 import hero640 from "./assets/rectory-field-640.webp";
@@ -322,7 +327,7 @@ function Membership() {
             <span className="price">{club.socialMembership}</span>
             <span>Social membership, giving full use of the bar facilities.</span>
           </div>
-          <a className="button primary compact" href="#contact">
+          <a className="button primary compact" href="#enquire">
             Start an enquiry <MessageCircle size={18} />
           </a>
         </div>
@@ -338,6 +343,180 @@ function Membership() {
             <m.span key={p} variants={staggerItem}>{p}</m.span>
           ))}
         </m.div>
+      </div>
+    </Reveal>
+  );
+}
+
+function Enquiry() {
+  const [status, setStatus] = useState("idle"); // idle | submitting | success | error | mailto
+  const [errorMsg, setErrorMsg] = useState("");
+  const configured = enquiry.accessKey !== ENQUIRY_PLACEHOLDER_KEY;
+
+  async function onSubmit(e) {
+    e.preventDefault();
+    const formEl = e.currentTarget;
+    const fd = new FormData(formEl);
+    if ((fd.get("botcheck") || "").toString()) return; // honeypot tripped — silently drop
+    const val = (k) => (fd.get(k) || "").toString().trim();
+
+    if (!configured) {
+      // Fallback until a Web3Forms access key is set: prefill the user's email client.
+      const body = encodeURIComponent(
+        [
+          `Name: ${val("name")}`,
+          `Email: ${val("email")}`,
+          `Phone: ${val("phone")}`,
+          `Event type: ${val("event_type")}`,
+          `Preferred date: ${val("preferred_date")}`,
+          `Guests: ${val("guests")}`,
+          "",
+          val("message"),
+        ].join("\n")
+      );
+      window.location.href = `mailto:${club.contact.email}?subject=${encodeURIComponent(enquiry.subject)}&body=${body}`;
+      setStatus("mailto");
+      return;
+    }
+
+    setStatus("submitting");
+    setErrorMsg("");
+    try {
+      const res = await fetch(enquiry.endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: enquiry.accessKey,
+          subject: enquiry.subject,
+          from_name: val("name"),
+          name: val("name"),
+          email: val("email"),
+          phone: val("phone"),
+          event_type: val("event_type"),
+          preferred_date: val("preferred_date"),
+          guests: val("guests"),
+          message: val("message"),
+          botcheck: false,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setStatus("success");
+        formEl.reset();
+      } else {
+        setStatus("error");
+        setErrorMsg(data.message || "Something went wrong. Please try again or email us directly.");
+      }
+    } catch {
+      setStatus("error");
+      setErrorMsg("We couldn't send that right now. Please try again, or email us directly.");
+    }
+  }
+
+  return (
+    <Reveal className="enquiry band" id="enquire">
+      <div className="section-heading">
+        <p className="eyebrow">Enquire</p>
+        <h2>Ask about venue hire or membership</h2>
+      </div>
+      <div className="enquiry-grid">
+        <div className="enquiry-intro">
+          <p>
+            Tell us a little about your event or enquiry and we'll come back to you. You can also
+            reach the club directly:
+          </p>
+          <ul className="enquiry-contacts">
+            <li><Mail size={18} /> <a href={`mailto:${club.contact.email}`}>{club.contact.email}</a></li>
+            <li><Phone size={18} /> <a href={club.contact.phoneHref}>{club.contact.phone}</a></li>
+            <li><Clock size={18} /> {club.hours.map((h) => `${h.days} ${h.time}`).join(" · ")}</li>
+          </ul>
+        </div>
+
+        {status === "success" ? (
+          <div className="enquiry-result" role="status">
+            <CircleCheckBig size={42} />
+            <h3>Thank you — your enquiry is on its way</h3>
+            <p>We'll be in touch as soon as we can. For anything urgent, call {club.contact.phone}.</p>
+          </div>
+        ) : (
+          <form className="enquiry-form" onSubmit={onSubmit}>
+            {!configured && (
+              <p className="enquiry-note">
+                <TriangleAlert size={16} /> Online sending isn't switched on yet — submitting will
+                open your email app with the details filled in.
+              </p>
+            )}
+            {/* Honeypot: hidden from users; bots that tick it are dropped. */}
+            <input
+              type="checkbox"
+              name="botcheck"
+              className="enquiry-hp"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+            />
+
+            <div className="field">
+              <label htmlFor="q-name">Name <span aria-hidden="true">*</span></label>
+              <input id="q-name" name="name" type="text" required autoComplete="name" />
+            </div>
+            <div className="field-row">
+              <div className="field">
+                <label htmlFor="q-email">Email <span aria-hidden="true">*</span></label>
+                <input id="q-email" name="email" type="email" required autoComplete="email" />
+              </div>
+              <div className="field">
+                <label htmlFor="q-phone">Phone</label>
+                <input id="q-phone" name="phone" type="tel" autoComplete="tel" />
+              </div>
+            </div>
+            <div className="field-row">
+              <div className="field">
+                <label htmlFor="q-type">Event type</label>
+                <select id="q-type" name="event_type" defaultValue="">
+                  <option value="" disabled>Choose…</option>
+                  {enquiry.eventTypes.map((t) => (
+                    <option key={t} value={t}>{t}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="field">
+                <label htmlFor="q-date">Preferred date</label>
+                <input id="q-date" name="preferred_date" type="date" />
+              </div>
+              <div className="field field-narrow">
+                <label htmlFor="q-guests">Guests</label>
+                <input id="q-guests" name="guests" type="number" min="1" inputMode="numeric" />
+              </div>
+            </div>
+            <div className="field">
+              <label htmlFor="q-message">Message <span aria-hidden="true">*</span></label>
+              <textarea id="q-message" name="message" rows={4} required></textarea>
+            </div>
+            <label className="consent">
+              <input type="checkbox" name="consent" required />
+              <span>
+                I'm happy for the club to use these details to respond to my enquiry. See our{" "}
+                <a href="privacy.html">privacy notice</a>.
+              </span>
+            </label>
+
+            {status === "error" && (
+              <p className="enquiry-status error" role="alert">
+                <TriangleAlert size={16} /> {errorMsg}
+              </p>
+            )}
+            {status === "mailto" && (
+              <p className="enquiry-status" role="status">
+                Your email app should have opened with the details. If not, email {club.contact.email}.
+              </p>
+            )}
+
+            <button className="button primary" type="submit" disabled={status === "submitting"}>
+              {status === "submitting" ? "Sending…" : "Send enquiry"} <Send size={18} />
+            </button>
+          </form>
+        )}
       </div>
     </Reveal>
   );
@@ -366,8 +545,8 @@ function VenueHire() {
             })}
           </ul>
           <div className="hire-actions">
-            <a className="button light" href={`mailto:${club.contact.email}`}>
-              Enquire by email <Mail size={18} />
+            <a className="button light" href="#enquire">
+              Make an enquiry <ArrowRight size={18} />
             </a>
             <a className="button ghost light-ghost" href={club.contact.phoneHref}>
               {club.contact.phone} <Phone size={18} />
@@ -611,7 +790,7 @@ function App() {
           {navItems.map(([label, href]) => (
             <a key={href} href={href} onClick={() => setOpen(false)}>{label}</a>
           ))}
-          <a className="nav-cta" href="#contact" onClick={() => setOpen(false)}>Enquire</a>
+          <a className="nav-cta" href="#enquire" onClick={() => setOpen(false)}>Enquire</a>
         </nav>
       </header>
 
@@ -622,6 +801,7 @@ function App() {
         <OtherFacilities />
         <Membership />
         <VenueHire />
+        <Enquiry />
         <Heritage />
         <Gallery />
         <Visit />

@@ -165,3 +165,24 @@ export const groundsMap = {
 };
 
 export const venueImage = venueBarImg;
+
+// Venue-hire enquiry form (Web3Forms).
+// TO GO LIVE: create a free access key at https://web3forms.com (enter the club's
+// destination email; the key is emailed to you and is safe to commit), then replace
+// the placeholder below. Until then the form gracefully falls back to a mailto link.
+export const enquiry = {
+  endpoint: "https://api.web3forms.com/submit",
+  accessKey: "YOUR_WEB3FORMS_ACCESS_KEY",
+  subject: "New venue-hire enquiry — Blackheath Sports Club",
+  eventTypes: [
+    "Wedding",
+    "Birthday or celebration",
+    "Conference or meeting",
+    "Training course",
+    "Wake",
+    "Other",
+  ],
+};
+
+export const ENQUIRY_PLACEHOLDER_KEY = "YOUR_WEB3FORMS_ACCESS_KEY";
+

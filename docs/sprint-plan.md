@@ -121,7 +121,7 @@ Acceptance criteria:
 
 ## Sprint 3: Venue hire and enquiries
 
-Status: Backlog.
+Status: Built — awaiting Web3Forms access key (see "Enabling the enquiry form" below).
 
 Goal: Turn venue hire into a high-quality conversion journey.
 
@@ -131,31 +131,44 @@ Tasks:
 - Add venue hire gallery.
 - Add spaces, capacities and event types once confirmed.
 - Add bar/catering information once confirmed.
-- Add enquiry form.
-- Add form validation.
-- Add success and error states.
-- Decide form backend.
-- Build Contact page.
+- Add enquiry form. — Done: accessible `Enquiry` form (`#enquire`) with name, email, phone, event type, date, guests, message + consent.
+- Add form validation. — Done: native HTML5 validation (required fields, email/date/number types).
+- Add success and error states. — Done: submitting / success / error / mailto-fallback states with an `aria-live` status region.
+- Decide form backend. — Done: Web3Forms (works on static GitHub Pages; access key is safe to commit).
+- Build Contact page. — A Contact section already exists on the single page.
 
-Possible form backend options:
+### Enabling the enquiry form (the one remaining step)
 
-- Netlify Forms if deployment changes.
+The form is wired to Web3Forms but ships with a placeholder key, so it currently falls back
+to opening the visitor's email client. To make online submissions live:
+
+1. Go to https://web3forms.com, enter the club's destination email address, and copy the
+   access key they send you (the key is safe to commit — it only allows sending to that email).
+2. In `src/data.js`, set `enquiry.accessKey` to that key (replacing `YOUR_WEB3FORMS_ACCESS_KEY`).
+3. Rebuild/redeploy. The "isn't switched on yet" notice disappears automatically and submissions
+   POST to Web3Forms, which emails the club. Spam is mitigated by a honeypot field; optionally add
+   hCaptcha via Web3Forms if needed.
+
+The CSP (`index.html`) and privacy notice (`public/privacy.html`) are already updated for this.
+
+Possible form backend options (for reference):
+
+- Web3Forms (chosen).
 - Formspree.
 - Basin.
-- Serverless function.
-- Email link fallback for MVP.
+- Serverless function (Azure Functions / Cloudflare Worker).
+- Email link fallback for MVP (currently used until the key is set).
 
 Deliverables:
 
-- Venue Hire page.
-- Contact page.
-- Working or clearly staged enquiry flow.
+- Venue Hire section.
+- Enquiry form with staged/working submission.
 
 Acceptance criteria:
 
-- A visitor can provide event type, date, guest count and contact details.
-- The page reduces basic back-and-forth questions.
-- Spam and privacy implications are considered before launch.
+- A visitor can provide event type, date, guest count and contact details. — Met.
+- The page reduces basic back-and-forth questions. — Met.
+- Spam and privacy implications are considered before launch. — Met (honeypot + consent + privacy notice).
 
 ## Sprint 4: Events, news and activity
 
