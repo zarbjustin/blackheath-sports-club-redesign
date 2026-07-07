@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
-  motion,
+  LazyMotion,
+  domAnimation,
+  m,
   MotionConfig,
   useReducedMotion,
   useScroll,
@@ -39,10 +41,7 @@ import {
 import { RugbyIcon, CricketIcon, TennisIcon, SquashIcon } from "./icons.jsx";
 
 import "@fontsource-variable/fraunces";
-import "@fontsource/inter/400.css";
-import "@fontsource/inter/500.css";
-import "@fontsource/inter/700.css";
-import "@fontsource/inter/900.css";
+import "@fontsource-variable/inter";
 import "./styles.css";
 
 import {
@@ -89,7 +88,7 @@ const staggerItem = {
 };
 
 function Reveal({ as = "section", className, children, ...rest }) {
-  const MotionTag = motion[as] ?? motion.section;
+  const MotionTag = m[as] ?? m.section;
   return (
     <MotionTag
       className={className}
@@ -107,14 +106,21 @@ function Reveal({ as = "section", className, children, ...rest }) {
 function Hero() {
   const reduceMotion = useReducedMotion();
   const [loaded, setLoaded] = useState(false);
+  const imgRef = useRef(null);
   const { scrollY } = useScroll();
   const rawY = useTransform(scrollY, [0, 700], [0, 120]);
   const parallaxY = reduceMotion ? 0 : rawY;
 
+  useEffect(() => {
+    // If the image is served from cache, onLoad may fire before hydration.
+    if (imgRef.current?.complete) setLoaded(true);
+  }, []);
+
   return (
     <section className="hero" aria-label={`${club.name} at ${club.address.line1}`}>
-      <motion.div className="hero-media" style={{ y: parallaxY }}>
+      <m.div className="hero-media" style={{ y: parallaxY }}>
         <img
+          ref={imgRef}
           className={loaded ? "hero-img is-loaded" : "hero-img"}
           style={{ backgroundImage: `url(${heroBlur})` }}
           src={hero1440}
@@ -124,32 +130,31 @@ function Hero() {
           height={941}
           alt="The Rectory Field, home of Blackheath Sports Club"
           fetchpriority="high"
-          decoding="async"
           onLoad={() => setLoaded(true)}
         />
-      </motion.div>
+      </m.div>
       <div className="hero-scrim" aria-hidden="true" />
 
-      <motion.div className="hero-content" variants={staggerContainer} initial="hidden" animate="show">
-        <motion.p className="eyebrow" variants={staggerItem}>
+      <m.div className="hero-content" variants={staggerContainer} initial="hidden" animate="show">
+        <m.p className="eyebrow" variants={staggerItem}>
           The Rectory Field, Blackheath · Est. {club.established}
-        </motion.p>
-        <motion.h1 variants={staggerItem}>{club.name}</motion.h1>
-        <motion.p className="hero-copy" variants={staggerItem}>
+        </m.p>
+        <m.h1 variants={staggerItem}>{club.name}</m.h1>
+        <m.p className="hero-copy" variants={staggerItem}>
           {club.slogan}. A historic South East London home for rugby, cricket, tennis and
           squash — a family members' club with coaching for all ages, venue hire and more.
-        </motion.p>
-        <motion.div className="hero-actions" variants={staggerItem}>
+        </m.p>
+        <m.div className="hero-actions" variants={staggerItem}>
           <a className="button primary" href="#membership">
             Become a member <ArrowRight size={18} />
           </a>
           <a className="button ghost" href="#hire">
             Hire the venue <CalendarDays size={18} />
           </a>
-        </motion.div>
-      </motion.div>
+        </m.div>
+      </m.div>
 
-      <motion.div
+      <m.div
         className="hero-panel"
         aria-label="Club highlights"
         initial={{ opacity: 0, y: 18 }}
@@ -159,7 +164,7 @@ function Hero() {
         <span><MapPin size={17} /> Charlton Road, {club.address.postcode}</span>
         <span><Users size={17} /> Four sports, one club</span>
         <span><Clock size={17} /> Bar open 7 days</span>
-      </motion.div>
+      </m.div>
     </section>
   );
 }
@@ -191,7 +196,7 @@ function Welcome() {
             <p>{club.dogNotice}</p>
           </div>
         </div>
-        <motion.ul
+        <m.ul
           className="fact-list"
           variants={staggerContainer}
           initial="hidden"
@@ -201,13 +206,13 @@ function Welcome() {
           {facts.map((f) => {
             const Icon = f.icon;
             return (
-              <motion.li key={f.label} variants={staggerItem}>
+              <m.li key={f.label} variants={staggerItem}>
                 <Icon size={20} />
                 {f.label}
-              </motion.li>
+              </m.li>
             );
           })}
-        </motion.ul>
+        </m.ul>
       </div>
     </Reveal>
   );
@@ -220,7 +225,7 @@ function Sports() {
         <p className="eyebrow">Sports at the Rectory Field</p>
         <h2>Four clubs, one home</h2>
       </div>
-      <motion.div
+      <m.div
         className="sport-grid"
         variants={staggerContainer}
         initial="hidden"
@@ -230,7 +235,7 @@ function Sports() {
         {sports.map((sport) => {
           const Icon = sportIcons[sport.key];
           return (
-            <motion.a
+            <m.a
               className="sport-card"
               key={sport.key}
               style={{ "--accent": sport.accent }}
@@ -240,7 +245,7 @@ function Sports() {
               variants={staggerItem}
             >
               <div className="sport-media">
-                <img src={sport.image} alt={`${sport.key} at Blackheath Sports Club`} loading="lazy" />
+                <img src={sport.image} alt={`${sport.key} at Blackheath Sports Club`} width={900} height={360} loading="lazy" decoding="async" />
                 <span className="sport-badge"><Icon size={22} /></span>
               </div>
               <div className="sport-body">
@@ -250,10 +255,10 @@ function Sports() {
                   Visit {sport.site} <ExternalLink size={15} />
                 </span>
               </div>
-            </motion.a>
+            </m.a>
           );
         })}
-      </motion.div>
+      </m.div>
     </Reveal>
   );
 }
@@ -265,7 +270,7 @@ function OtherFacilities() {
         <p className="eyebrow">Also at the Rectory Field</p>
         <h2>More than four sports</h2>
       </div>
-      <motion.div
+      <m.div
         className="facility-grid"
         variants={staggerContainer}
         initial="hidden"
@@ -275,7 +280,7 @@ function OtherFacilities() {
         {otherFacilities.map((f) => {
           const Icon = lucide[f.icon] ?? Sparkles;
           return (
-            <motion.a
+            <m.a
               className="facility-card"
               key={f.name}
               href={f.url}
@@ -292,10 +297,10 @@ function OtherFacilities() {
               <span className="facility-link">
                 {f.site} <ArrowUpRight size={16} />
               </span>
-            </motion.a>
+            </m.a>
           );
         })}
-      </motion.div>
+      </m.div>
     </Reveal>
   );
 }
@@ -321,7 +326,7 @@ function Membership() {
             Start an enquiry <MessageCircle size={18} />
           </a>
         </div>
-        <motion.div
+        <m.div
           className="pathways"
           aria-label="Membership pathways"
           variants={staggerContainer}
@@ -330,9 +335,9 @@ function Membership() {
           viewport={{ once: true, amount: 0.3 }}
         >
           {["Junior sport", "Adult teams", "Casual play", "Coaching", "Social membership", "Club events"].map((p) => (
-            <motion.span key={p} variants={staggerItem}>{p}</motion.span>
+            <m.span key={p} variants={staggerItem}>{p}</m.span>
           ))}
-        </motion.div>
+        </m.div>
       </div>
     </Reveal>
   );
@@ -370,7 +375,7 @@ function VenueHire() {
           </div>
         </div>
         <figure className="hire-media">
-          <img src={venueImage} alt="The clubhouse bar at Blackheath Sports Club" loading="lazy" />
+          <img src={venueImage} alt="The clubhouse bar at Blackheath Sports Club" width={900} height={360} loading="lazy" decoding="async" />
         </figure>
       </div>
     </Reveal>
@@ -399,11 +404,11 @@ function Heritage() {
         </div>
         <div className="heritage-media">
           <figure className="heritage-main">
-            <img src={heritage.images.team} alt={heritage.images.teamAlt} loading="lazy" />
+            <img src={heritage.images.team} alt={heritage.images.teamAlt} width={700} height={474} loading="lazy" decoding="async" />
             <figcaption>{heritage.images.teamAlt}</figcaption>
           </figure>
           <figure className="heritage-portrait">
-            <img src={heritage.images.carpmael} alt={heritage.images.carpmaelAlt} loading="lazy" />
+            <img src={heritage.images.carpmael} alt={heritage.images.carpmaelAlt} width={216} height={285} loading="lazy" decoding="async" />
             <figcaption>{heritage.images.carpmaelAlt}</figcaption>
           </figure>
         </div>
@@ -419,7 +424,7 @@ function Gallery() {
         <p className="eyebrow">Gallery</p>
         <h2>Life at the Rectory Field</h2>
       </div>
-      <motion.div
+      <m.div
         className="gallery-grid"
         variants={staggerContainer}
         initial="hidden"
@@ -427,12 +432,12 @@ function Gallery() {
         viewport={{ once: true, amount: 0.05 }}
       >
         {gallery.map((g) => (
-          <motion.figure className="gallery-item" key={g.caption} variants={staggerItem}>
-            <img src={g.src} alt={g.caption} loading="lazy" />
+          <m.figure className="gallery-item" key={g.caption} variants={staggerItem}>
+            <img src={g.src} alt={g.caption} width={900} height={360} loading="lazy" decoding="async" />
             <figcaption>{g.caption}</figcaption>
-          </motion.figure>
+          </m.figure>
         ))}
-      </motion.div>
+      </m.div>
     </Reveal>
   );
 }
@@ -464,7 +469,8 @@ function Visit() {
             title="Map to Blackheath Sports Club"
             src={club.mapEmbed}
             loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
+            referrerPolicy="strict-origin-when-cross-origin"
+            sandbox="allow-scripts allow-same-origin allow-popups"
           ></iframe>
         </div>
       </Reveal>
@@ -476,7 +482,7 @@ function Visit() {
         </div>
         <div className="grounds-grid">
           <figure className="grounds-map">
-            <img src={groundsMap.image} alt="Map of the Blackheath Sports Club grounds" loading="lazy" />
+            <img src={groundsMap.image} alt="Map of the Blackheath Sports Club grounds" width={675} height={785} loading="lazy" decoding="async" />
           </figure>
           <ul className="grounds-legend">
             {groundsMap.legend.map((item) => (
@@ -538,7 +544,17 @@ function App() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    let ticking = false;
+    const update = () => {
+      setScrolled(window.scrollY > 24);
+      ticking = false;
+    };
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -554,6 +570,7 @@ function App() {
 
   return (
     <MotionConfig reducedMotion="user">
+      <LazyMotion features={domAnimation}>
       <header className={scrolled ? "site-header is-scrolled" : "site-header"}>
         <a className="brand" href="#top" aria-label={`${club.name} home`}>
           <span className="brand-mark">BSC</span>
@@ -606,6 +623,7 @@ function App() {
           </a>
         </div>
       </footer>
+      </LazyMotion>
     </MotionConfig>
   );
 }
