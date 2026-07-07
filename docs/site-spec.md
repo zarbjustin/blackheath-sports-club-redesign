@@ -6,9 +6,34 @@ Build a modern public website for Blackheath Sports Club that makes the club fee
 
 This document is the working specification. It should evolve as the club supplies confirmed copy, photography, videos, booking links, membership details and operational policies.
 
-For implementation handover, see `docs/ai-handover.md`. For the tactical sprint backlog, see `docs/sprint-plan.md`.
+For implementation handover, see `docs/ai-handover.md`. For the ranked next-work roadmap, see `docs/backlog.md`.
 
-## Current concept status
+## As-built status (updated 2026-07-07)
+
+The repo is no longer a first-pass concept — it is a feature-rich single-page site grounded in the
+real club's facts (validated against the live blackheathsportsclub.co.uk). The sections below marked
+"What I would improve next" are the ORIGINAL concept plan and are kept for reference; several items are
+now delivered. The authoritative list of remaining work is `docs/backlog.md`.
+
+Delivered so far:
+
+- Real, fact-grounded content across all sections (address, phone, bar hours, £50 social membership,
+  no-dogs rule, 1883/1885/1937 heritage), structured in `src/data.js`.
+- Real club photography optimised to WebP; responsive hero with blur-up; custom per-sport SVG icons.
+- Correct external links to each sport's official site + Gym and Day Nursery.
+- Venue-hire section, membership, heritage timeline, gallery, click-to-load Google Map, grounds map.
+- Motion/UX polish (Framer Motion via LazyMotion, variable fonts, no CLS).
+- Security: CSP + referrer meta, sandboxed/consent-gated map, pinned Actions + Dependabot, safe links.
+- SEO: JSON-LD SportsClub, sitemap.xml, robots.txt, canonical, Open Graph + Twitter + OG image.
+- Accessibility: axe WCAG 2.1 A/AA 0 violations; reduced-motion support.
+- Venue-hire enquiry form (Web3Forms) with validation, consent, honeypot, success/error and mailto
+  fallback — awaiting the club's access key to go live.
+
+Still outstanding (see `docs/backlog.md` for the ranked plan): analytics, custom domain + real
+security headers, governance/safeguarding pages, deeper manual a11y, CI quality gates, local SEO,
+volunteer CMS, fixtures/events, media pipeline, PWA. Plus club sign-off on prices/media/booking links.
+
+## Current concept status (historical — original plan)
 
 The current repo contains a first-pass static concept site. It establishes the visual direction, public information architecture and core journeys, but it is not yet a production-ready replacement for the live club website.
 

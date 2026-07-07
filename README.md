@@ -59,4 +59,4 @@ npm run build
 
 The current improvement plan, sprint structure and acceptance criteria live in [`docs/site-spec.md`](docs/site-spec.md).
 
-For another AI/LLM taking over the work, start with [`docs/ai-handover.md`](docs/ai-handover.md), then use [`docs/sprint-plan.md`](docs/sprint-plan.md) as the execution backlog.
+For another AI/LLM or developer taking over the work, start with [`docs/ai-handover.md`](docs/ai-handover.md) (current state, architecture, build/deploy gotchas), then [`docs/backlog.md`](docs/backlog.md) for the ranked next-work roadmap.
