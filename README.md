@@ -8,6 +8,7 @@ Modern website concept for Blackheath Sports Club at Rectory Field.
 - A generated concept hero image at `src/assets/rectory-field-concept.png`.
 - A GitHub Pages workflow in `.github/workflows/deploy.yml`.
 - A review-led information architecture for the club's next public website.
+- A working website specification and sprint roadmap in `docs/site-spec.md`.
 
 ## Review summary
 
@@ -51,3 +52,7 @@ npm run build
 - Confirmed booking links for courts, clubhouse hire and sports sections.
 - Real photography and video of Rectory Field, clubhouse interiors, match days and juniors.
 - Sponsor list, safeguarding information, accessibility guidance and privacy/legal pages.
+
+## Product specification
+
+The current improvement plan, sprint structure and acceptance criteria live in [`docs/site-spec.md`](docs/site-spec.md).
