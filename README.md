@@ -5,7 +5,7 @@ Modern website concept for Blackheath Sports Club at Rectory Field.
 ## What this repo contains
 
 - A Vite and React static website.
-- A generated concept hero image at `public/images/rectory-field-concept.png`.
+- A generated concept hero image at `src/assets/rectory-field-concept.png`.
 - A GitHub Pages workflow in `.github/workflows/deploy.yml`.
 - A review-led information architecture for the club's next public website.
 

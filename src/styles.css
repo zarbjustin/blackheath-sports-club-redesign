@@ -131,7 +131,7 @@ a {
   background:
     linear-gradient(90deg, rgba(10, 22, 20, 0.88), rgba(10, 22, 20, 0.44) 48%, rgba(10, 22, 20, 0.28)),
     linear-gradient(0deg, rgba(10, 22, 20, 0.78), rgba(10, 22, 20, 0.02) 58%),
-    url("/images/rectory-field-concept.png") center / cover;
+    url("./assets/rectory-field-concept.png") center / cover;
   transform: scale(1.015);
 }
 
