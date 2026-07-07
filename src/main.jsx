@@ -12,18 +12,15 @@ import {
   CalendarDays,
   ChevronRight,
   Clock,
-  Dumbbell,
-  Goal,
   Handshake,
   MapPin,
   Menu,
   MessageCircle,
-  Shield,
   Sparkles,
-  Trophy,
   Users,
   X,
 } from "lucide-react";
+import { RugbyIcon, CricketIcon, TennisIcon, SquashIcon } from "./icons.jsx";
 
 import "@fontsource-variable/fraunces";
 import "@fontsource/inter/400.css";
@@ -42,28 +39,28 @@ const sports = [
   {
     name: "Rugby",
     detail: "A proud Rectory Field tradition with match-day energy and club pathways.",
-    icon: Shield,
+    icon: RugbyIcon,
     accent: "var(--brick)",
     action: "View fixtures",
   },
   {
     name: "Cricket",
     detail: "Summer cricket, junior development, social fixtures, and green space at the heart of the club.",
-    icon: Trophy,
+    icon: CricketIcon,
     accent: "var(--gold)",
     action: "Join the season",
   },
   {
     name: "Tennis",
     detail: "All-year tennis access with coaching, teams, casual play, and a welcoming club culture.",
-    icon: Goal,
+    icon: TennisIcon,
     accent: "var(--blue)",
     action: "Book a court",
   },
   {
     name: "Squash",
     detail: "Indoor court sport for members, teams, leagues, coaching, and evening play.",
-    icon: Dumbbell,
+    icon: SquashIcon,
     accent: "var(--forest)",
     action: "Find a game",
   },
