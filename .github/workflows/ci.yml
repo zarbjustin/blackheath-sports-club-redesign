@@ -34,7 +34,7 @@ jobs:
         run: npx --yes @lhci/cli@0.14.x autorun
 
       - name: Link check
-        uses: lycheeverse/lychee-action@7da8a613a1b6197acb9f4f85a6a1baaba9ea2cef # v2.4.1
+        uses: lycheeverse/lychee-action@8646ba30535128ac92d33dfc9133794bfdd9b411 # v2.8.0
         with:
           # Check the built HTML for broken external links.
           # Social platforms and Google Maps frequently block bot requests — excluded to avoid
