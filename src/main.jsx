@@ -22,7 +22,6 @@ import {
   Car,
   Dumbbell,
   ExternalLink,
-  Facebook,
   Handshake,
   Landmark,
   Mail,
@@ -37,12 +36,23 @@ import {
   Sparkles,
   TriangleAlert,
   Tv,
-  Twitter,
   Users,
   Utensils,
   X,
 } from "lucide-react";
 import { RugbyIcon, CricketIcon, TennisIcon, SquashIcon } from "./icons.jsx";
+
+const XTwitterIcon = ({ size = 24 }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+  </svg>
+);
+
+const FacebookIcon = ({ size = 24 }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+  </svg>
+);
 
 import "@fontsource-variable/fraunces";
 import "@fontsource-variable/inter";
@@ -787,7 +797,7 @@ function Contact() {
             aria-label="Facebook"
             onClick={() => trackOutbound("social", "Facebook", club.social.facebook)}
           >
-            <Facebook size={20} />
+            <FacebookIcon size={20} />
           </a>
           <a
             href={club.social.twitter}
@@ -796,7 +806,7 @@ function Contact() {
             aria-label="Twitter / X"
             onClick={() => trackOutbound("social", "Twitter / X", club.social.twitter)}
           >
-            <Twitter size={20} />
+            <XTwitterIcon size={20} />
           </a>
         </div>
       </div>
@@ -932,10 +942,10 @@ function App() {
         </nav>
         <div className="footer-social">
           <a href={club.social.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-            <Facebook size={18} />
+            <FacebookIcon size={18} />
           </a>
           <a href={club.social.twitter} target="_blank" rel="noopener noreferrer" aria-label="Twitter / X">
-            <Twitter size={18} />
+            <XTwitterIcon size={18} />
           </a>
         </div>
       </footer>
