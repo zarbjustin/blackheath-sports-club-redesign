@@ -9,10 +9,10 @@ Read this first, then `docs/site-spec.md` (product spec) and `docs/backlog.md` (
 - **Live site:** https://blackheath-sports-club-redesign.pages.dev/
 - **GitHub Pages mirror:** https://zarbjustin.github.io/blackheath-sports-club-redesign/
 - **Branch:** `main` (deploys automatically via Cloudflare Pages and GitHub Pages)
-- **Stack:** Vite + React 19 (single-page, plain CSS), Framer Motion (via LazyMotion), lucide-react icons, self-hosted variable fonts (Inter + Fraunces), `sharp` for build-time image optimisation.
+- **Stack:** Vite 8 + React 19 (single-page, plain CSS), Framer Motion (via LazyMotion), lucide-react 1.23 icons, self-hosted variable fonts (Inter + Fraunces), `sharp` for build-time image optimisation.
 - **Hosting:** Cloudflare Pages primary, GitHub Pages mirror (static; no backend, no database, no auth).
 - **Status:** Feature-rich concept, grounded in the real club's facts. Not yet the club's official production site (needs club sign-off on prices/media/booking links + the enquiry form access key).
-- **Last verified commit:** `17f53c9` (`Add PWA offline support`) on 2026-07-08. Cloudflare Pages and GitHub Pages both deployed this commit successfully.
+- **Last verified commit:** `1184fbb` (`Upgrade vite 8, @vitejs/plugin-react 6, lucide-react 1.23`) on 2026-07-08. Cloudflare Pages and GitHub Pages both deploy from `main` automatically.
 
 ## Delivered Sprint Snapshot
 
@@ -22,6 +22,10 @@ Read this first, then `docs/site-spec.md` (product spec) and `docs/backlog.md` (
 - Deeper accessibility: delivered; rerun screen-reader/axe passes after major UI changes.
 - Local SEO expansion: delivered against the current Pages URL; update canonical/sitemap/OG URLs when the real domain is connected.
 - PWA/offline: delivered; retest installability, service-worker scope and offline fallback when the real club domain replaces the temporary Pages URL.
+- **Dependency maintenance (2026-07-08):** all Dependabot PRs resolved; repo has 0 open PRs and 0 stale branches.
+  - GitHub Actions pinned: `actions/checkout` 4→7, `actions/setup-node` 4→6, `actions/deploy-pages` 4→5, `actions/upload-pages-artifact` 3→5.
+  - npm major upgrades: `vite` 7→8.1.3, `@vitejs/plugin-react` 5→6.0.3 (coupled), `lucide-react` 0.468→1.23.0.
+  - **Breaking change handled:** lucide-react v1 dropped all social/brand icons. `Twitter` and `Facebook` lucide imports replaced with inline SVG components (`XTwitterIcon`, `FacebookIcon` in `src/main.jsx`) using official brand SVG paths. Site appearance is unchanged.
 
 ## What is built (as-built)
 
@@ -46,7 +50,7 @@ Standalone pages in `public/`: `privacy.html`, `offline.html`, `robots.txt`, `si
 ## Architecture & file map
 
 - `index.html` — head: CSP + referrer meta, Cloudflare canonical, Open Graph/Twitter, PWA/Apple install metadata, local SEO geo meta, JSON-LD `@graph` (`SportsClub`, `LocalBusiness`, `SportsActivityLocation`, `WebSite`, `BreadcrumbList`), inline SVG favicon.
-- `src/main.jsx` — the whole app: section components + `Hero`, `MapEmbed` (click-to-load), `Enquiry` (form), `App` (header/nav/footer). Motion via `LazyMotion features={domAnimation}` + `m.*` components; `Reveal` wrapper does scroll-in animations. Header includes skip link, mobile focus trap and Escape-to-close.
+- `src/main.jsx` — the whole app: section components + `Hero`, `MapEmbed` (click-to-load), `Enquiry` (form), `App` (header/nav/footer). Motion via `LazyMotion features={domAnimation}` + `m.*` components; `Reveal` wrapper does scroll-in animations. Header includes skip link, mobile focus trap and Escape-to-close. Also defines `XTwitterIcon` and `FacebookIcon` — inline SVG social brand icons (lucide-react v1 dropped brand icons, so these are baked directly into the file).
 - `src/data.js` — **all site content** (club facts, local SEO facts, contact, sports + URLs, facilities, gym/nursery, venue facilities, heritage timeline, gallery, grounds map, the `enquiry` config and analytics config). Edit content HERE, not in JSX.
 - `src/analytics.js` — opt-in privacy-friendly analytics loader and conversion-event helper. Cloudflare Web Analytics is off until `VITE_CLOUDFLARE_WEB_ANALYTICS_TOKEN` is configured or Cloudflare Pages Web Analytics is enabled in the dashboard.
 - `src/icons.jsx` — custom SVG sport icons (lucide-styled).

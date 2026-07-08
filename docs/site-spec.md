@@ -32,6 +32,10 @@ Delivered so far:
   worker, cached static shell and offline fallback with visit/contact details.
 - Venue-hire enquiry form (Web3Forms) with validation, consent, honeypot, success/error and mailto
   fallback — awaiting the club's access key to go live.
+- **Dependency maintenance (2026-07-08):** all Dependabot PRs resolved, 0 open PRs, 0 stale branches.
+  Stack is now Vite 8 + @vitejs/plugin-react 6 + lucide-react 1.23; GitHub Actions pinned to latest
+  stable versions. Social brand icons (Twitter/X, Facebook) implemented as inline SVG components in
+  `src/main.jsx` since lucide-react v1 dropped brand icons.
 
 Still outstanding (see `docs/backlog.md` for the ranked plan): custom domain + real security headers,
 governance/safeguarding pages, CI quality gates, volunteer CMS, fixtures/events and media pipeline.
