@@ -699,6 +699,9 @@ function Visit() {
             In the heart of South East London, close to local public transport with extensive
             on-site parking and wheelchair access throughout.
           </p>
+          <p className="local-areas" aria-label="Nearby areas served">
+            Serving {club.localAreas.join(", ")}.
+          </p>
           <a
             className="button primary compact"
             href={club.mapLink}
@@ -801,6 +804,8 @@ function Contact() {
 function App() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const navRef = useRef(null);
+  const toggleRef = useRef(null);
 
   useEffect(() => {
     loadCloudflareAnalytics(analytics);
@@ -823,6 +828,38 @@ function App() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    if (!open) return undefined;
+
+    const firstLink = navRef.current?.querySelector("a");
+    firstLink?.focus();
+
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+        toggleRef.current?.focus();
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+      const focusable = [toggleRef.current, ...(navRef.current?.querySelectorAll("a") ?? [])]
+        .filter(Boolean);
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [open]);
+
   const navItems = [
     ["Sports", "#sports"],
     ["Venue hire", "#hire"],
@@ -834,8 +871,9 @@ function App() {
   return (
     <MotionConfig reducedMotion="user">
       <LazyMotion features={domAnimation}>
+      <a className="skip-link" href="#main-content">Skip to content</a>
       <header className={scrolled ? "site-header is-scrolled" : "site-header"}>
-        <a className="brand" href="#top" aria-label={`${club.name} home`}>
+        <a className="brand" href="#main-content" aria-label={`${club.name} home`}>
           <span className="brand-mark">BSC</span>
           <span>
             Blackheath
@@ -843,15 +881,22 @@ function App() {
           </span>
         </a>
         <button
+          ref={toggleRef}
           className="nav-toggle"
           type="button"
-          aria-label="Open navigation"
+          aria-controls="primary-navigation"
+          aria-label={open ? "Close navigation" : "Open navigation"}
           aria-expanded={open}
           onClick={() => setOpen(!open)}
         >
           {open ? <X size={21} /> : <Menu size={21} />}
         </button>
-        <nav className={open ? "nav-links is-open" : "nav-links"} aria-label="Primary navigation">
+        <nav
+          ref={navRef}
+          id="primary-navigation"
+          className={open ? "nav-links is-open" : "nav-links"}
+          aria-label="Primary navigation"
+        >
           {navItems.map(([label, href]) => (
             <a key={href} href={href} onClick={() => setOpen(false)}>{label}</a>
           ))}
@@ -859,7 +904,7 @@ function App() {
         </nav>
       </header>
 
-      <main id="top">
+      <main id="main-content">
         <Hero />
         <Welcome />
         <Sports />

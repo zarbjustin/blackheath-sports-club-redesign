@@ -22,13 +22,23 @@ export const club = {
   name: "Blackheath Sports Club",
   slogan: "Sporting Excellence in the Community",
   established: 1883,
+  officialSite: "https://www.blackheathsportsclub.co.uk/",
+  canonicalUrl: "https://blackheath-sports-club-redesign.pages.dev/",
+  imageUrl: "https://blackheath-sports-club-redesign.pages.dev/og-image.jpg",
   address: {
     line1: "The Rectory Field",
     line2: "Charlton Road",
     city: "London",
     postcode: "SE3 8SR",
     satnav: "SE7 7EY",
+    region: "Greater London",
+    country: "GB",
   },
+  geo: {
+    latitude: 51.4789,
+    longitude: 0.0274,
+  },
+  localAreas: ["Blackheath", "Charlton", "Greenwich", "Lee", "Kidbrooke", "South East London"],
   contact: {
     email: "bhsportsclub@outlook.com",
     phone: "020 8858 1578",
@@ -44,7 +54,7 @@ export const club = {
   },
   socialMembership: "£50 / year",
   dogNotice:
-    "For the safety of all members and visitors, no dogs (except assistance dogs) are permitted within the grounds. Please respect this rule.",
+    "For the safety of all members and visitors, dogs are not permitted within the grounds. Assistance dogs are welcome.",
   mapEmbed:
     "https://maps.google.com/maps?q=Blackheath%20Sports%20Club%2C%20Rectory%20Field%2C%20Charlton%20Road%2C%20London%20SE3%208SR&z=15&output=embed",
   mapLink:

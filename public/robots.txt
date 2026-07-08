@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://zarbjustin.github.io/blackheath-sports-club-redesign/sitemap.xml
+Sitemap: https://blackheath-sports-club-redesign.pages.dev/sitemap.xml

@@ -8,7 +8,7 @@ This document is the working specification. It should evolve as the club supplie
 
 For implementation handover, see `docs/ai-handover.md`. For the ranked next-work roadmap, see `docs/backlog.md`.
 
-## As-built status (updated 2026-07-07)
+## As-built status (updated 2026-07-08)
 
 The repo is no longer a first-pass concept — it is a feature-rich single-page site grounded in the
 real club's facts (validated against the live blackheathsportsclub.co.uk). The sections below marked
@@ -24,14 +24,16 @@ Delivered so far:
 - Venue-hire section, membership, heritage timeline, gallery, click-to-load Google Map, grounds map.
 - Motion/UX polish (Framer Motion via LazyMotion, variable fonts, no CLS).
 - Security: CSP + referrer meta, sandboxed/consent-gated map, pinned Actions + Dependabot, safe links.
-- SEO: JSON-LD SportsClub, sitemap.xml, robots.txt, canonical, Open Graph + Twitter + OG image.
-- Accessibility: axe WCAG 2.1 A/AA 0 violations; reduced-motion support.
+- SEO: Cloudflare canonical, sitemap.xml, robots.txt, Open Graph + Twitter + OG image, geo meta tags,
+  nearby-area copy, expanded JSON-LD `@graph` for the club, Rectory Field, website and breadcrumb.
+- Accessibility: axe WCAG 2.1 A/AA 0 violations in prior QA; reduced-motion support; skip-to-content
+  link; mobile navigation focus trap and Escape-to-close; clearer assistance-dog wording.
 - Venue-hire enquiry form (Web3Forms) with validation, consent, honeypot, success/error and mailto
   fallback — awaiting the club's access key to go live.
 
-Still outstanding (see `docs/backlog.md` for the ranked plan): analytics, custom domain + real
-security headers, governance/safeguarding pages, deeper manual a11y, CI quality gates, local SEO,
-volunteer CMS, fixtures/events, media pipeline, PWA. Plus club sign-off on prices/media/booking links.
+Still outstanding (see `docs/backlog.md` for the ranked plan): custom domain + real security headers,
+governance/safeguarding pages, CI quality gates, volunteer CMS, fixtures/events, media pipeline, PWA.
+Plus club sign-off on prices/media/booking links and final production-domain/canonical decisions.
 
 ## Current concept status (historical — original plan)
 

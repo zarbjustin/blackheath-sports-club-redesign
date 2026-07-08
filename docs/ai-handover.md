@@ -26,7 +26,7 @@ Single-page site (`src/main.jsx`) with these sections, all content-driven from `
 - **Enquire** — accessible venue-hire enquiry form (see "Enquiry form" below).
 - **Heritage** — 1883/1885/1937 timeline + historic photos (Carpmael/Barbarians).
 - **Gallery** — real club photos.
-- **Visit** — address, Sat-Nav postcode, click-to-load Google Map (GDPR-friendly).
+- **Visit** — address, Sat-Nav postcode, nearby areas served, click-to-load Google Map (GDPR-friendly).
 - **Grounds** — the club's site map image + a modern facilities legend.
 - **Contact** — email, phone, bar hours, social links.
 - **Footer** — brand, copyright, Privacy link, socials.
@@ -35,9 +35,9 @@ Standalone pages in `public/`: `privacy.html`, `robots.txt`, `sitemap.xml`, `og-
 
 ## Architecture & file map
 
-- `index.html` — head: CSP + referrer meta, canonical, Open Graph/Twitter, JSON-LD `SportsClub`, inline SVG favicon.
-- `src/main.jsx` — the whole app: section components + `Hero`, `MapEmbed` (click-to-load), `Enquiry` (form), `App` (header/nav/footer). Motion via `LazyMotion features={domAnimation}` + `m.*` components; `Reveal` wrapper does scroll-in animations.
-- `src/data.js` — **all site content** (club facts, contact, sports + URLs, facilities, gym/nursery, venue facilities, heritage timeline, gallery, grounds map, the `enquiry` config and analytics config). Edit content HERE, not in JSX.
+- `index.html` — head: CSP + referrer meta, Cloudflare canonical, Open Graph/Twitter, local SEO geo meta, JSON-LD `@graph` (`SportsClub`, `LocalBusiness`, `SportsActivityLocation`, `WebSite`, `BreadcrumbList`), inline SVG favicon.
+- `src/main.jsx` — the whole app: section components + `Hero`, `MapEmbed` (click-to-load), `Enquiry` (form), `App` (header/nav/footer). Motion via `LazyMotion features={domAnimation}` + `m.*` components; `Reveal` wrapper does scroll-in animations. Header includes skip link, mobile focus trap and Escape-to-close.
+- `src/data.js` — **all site content** (club facts, local SEO facts, contact, sports + URLs, facilities, gym/nursery, venue facilities, heritage timeline, gallery, grounds map, the `enquiry` config and analytics config). Edit content HERE, not in JSX.
 - `src/analytics.js` — opt-in privacy-friendly analytics loader and conversion-event helper. Cloudflare Web Analytics is off until `VITE_CLOUDFLARE_WEB_ANALYTICS_TOKEN` is configured or Cloudflare Pages Web Analytics is enabled in the dashboard.
 - `src/icons.jsx` — custom SVG sport icons (lucide-styled).
 - `src/styles.css` — design tokens (colours, radii, fonts, easing) + all component styles + responsive + `prefers-reduced-motion`.
@@ -94,8 +94,8 @@ Analytics is opt-in:
 
 ## SEO & accessibility (done)
 
-- JSON-LD `SportsClub`, `sitemap.xml`, `robots.txt`, canonical, Open Graph + Twitter card + generated 1200×630 OG image.
-- axe-core WCAG 2.1 A/AA: **0 violations** (verified). Reduced-motion respected. Images have intrinsic `width`/`height` (no CLS).
+- Expanded local SEO: Cloudflare canonical/sitemap/robots, geo meta tags, area-served copy, and JSON-LD `@graph` linking the club, Rectory Field, website and breadcrumb entities. NAP checked against the current club website/public listings on 2026-07-08.
+- Accessibility: skip-to-content link, mobile-menu focus trap, Escape-to-close, improved menu labelling, clearer assistance-dog wording, reduced-motion respected, images have intrinsic `width`/`height` (no CLS). Previous axe-core WCAG 2.1 A/AA pass had **0 violations**; rerun axe after major UI changes.
 - Measured on the built site: FCP ~388 ms, ~10 requests, ~409 KB initial transfer; JS ~101 KB gzip.
 
 ## Enquiry form (Web3Forms) — how to go live
@@ -112,7 +112,7 @@ CSP and the privacy notice are already prepared for this.
 
 - **Content sign-off:** confirmed membership prices, confirmed booking/fixture links, real photography/video (the club's promo video `Lxx-1.mp4` could be added), sponsor list.
 - **Enquiry form access key** (above).
-- **Custom domain** decision (would enable real security headers + better SEO).
+- **Custom domain** decision (would enable real security headers and replace the temporary Cloudflare Pages canonical with the club domain).
 - Safeguarding/welfare/policy content and named contacts.
 
 ## Where the next work is planned
