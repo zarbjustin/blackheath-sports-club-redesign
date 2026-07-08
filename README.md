@@ -2,11 +2,17 @@
 
 Modern website concept for Blackheath Sports Club at Rectory Field.
 
+Live deployments:
+
+- Cloudflare Pages: https://blackheath-sports-club-redesign.pages.dev/
+- GitHub Pages mirror: https://zarbjustin.github.io/blackheath-sports-club-redesign/
+
 ## What this repo contains
 
 - A Vite and React static website.
 - A generated concept hero image at `src/assets/rectory-field-concept.png`.
 - A GitHub Pages workflow in `.github/workflows/deploy.yml`.
+- Cloudflare Pages deployment connected to `main`.
 - A review-led information architecture for the club's next public website.
 - A working website specification and sprint roadmap in `docs/site-spec.md`.
 - AI handover notes in `docs/ai-handover.md`.

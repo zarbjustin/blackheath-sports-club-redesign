@@ -6,10 +6,11 @@ Read this first, then `docs/site-spec.md` (product spec) and `docs/backlog.md` (
 ## Snapshot
 
 - **Repository:** `zarbjustin/blackheath-sports-club-redesign`
-- **Live site:** https://zarbjustin.github.io/blackheath-sports-club-redesign/
-- **Branch:** `main` (deploys automatically via GitHub Pages)
+- **Live site:** https://blackheath-sports-club-redesign.pages.dev/
+- **GitHub Pages mirror:** https://zarbjustin.github.io/blackheath-sports-club-redesign/
+- **Branch:** `main` (deploys automatically via Cloudflare Pages and GitHub Pages)
 - **Stack:** Vite + React 19 (single-page, plain CSS), Framer Motion (via LazyMotion), lucide-react icons, self-hosted variable fonts (Inter + Fraunces), `sharp` for build-time image optimisation.
-- **Hosting:** GitHub Pages (static; no backend, no database, no auth).
+- **Hosting:** Cloudflare Pages primary, GitHub Pages mirror (static; no backend, no database, no auth).
 - **Status:** Feature-rich concept, grounded in the real club's facts. Not yet the club's official production site (needs club sign-off on prices/media/booking links + the enquiry form access key).
 
 ## What is built (as-built)
@@ -57,7 +58,14 @@ npm run optimize:og      # regenerate public/og-image.jpg
 node scripts/import-club-media.mjs   # re-optimise club photos from _clubmedia/ (git-ignored)
 ```
 
-Deploy is automatic: push to `main` → GitHub Actions builds and deploys to Pages.
+Deploy is automatic:
+
+- Cloudflare Pages project: `blackheath-sports-club-redesign`
+  - Source: `zarbjustin/blackheath-sports-club-redesign`
+  - Production branch: `main`
+  - Build command: `npm ci && npm run build`
+  - Output directory: `dist`
+- GitHub Pages mirror: push to `main` → GitHub Actions builds and deploys to GitHub Pages.
 
 ## Environment gotchas (important)
 
