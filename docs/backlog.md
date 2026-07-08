@@ -53,9 +53,11 @@ Delivered: skip-to-content link, mobile-menu focus trap, Esc to close, improved 
 and clearer assistance-dog wording. Remaining future check: rerun a full screen-reader walkthrough
 after any major navigation/content changes, and verify reduced-motion again if video is added.
 
-### 6. CI quality gates + 404
-Broken-link checker (e.g. lychee) for the external sport links; Lighthouse-CI budgets on PRs;
-axe-in-CI; a Playwright smoke test of the enquiry flow; `npm audit`; a branded `public/404.html`.
+### 6. CI quality gates + 404 (delivered)
+`.github/workflows/ci.yml` — build, `npm audit`, Lighthouse-CI (`lhci autorun`), lychee broken-link
+check (social/maps excluded). `.lighthouserc.json` — a11y ≥ 0.95 hard fail, perf/best-practices/SEO
+≥ 0.90 warn. `public/404.html` — branded 404 matching `offline.html` style.
+**CI fix 2026-07-08:** lychee-action SHA corrected to real v2.8.0 (`8646ba30...`).
 
 ### 7. Local SEO expansion
 Delivered: NAP checked against the current club website/public listings, Cloudflare canonical/sitemap

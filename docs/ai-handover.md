@@ -12,7 +12,7 @@ Read this first, then `docs/site-spec.md` (product spec) and `docs/backlog.md` (
 - **Stack:** Vite 8 + React 19 (single-page, plain CSS), Framer Motion (via LazyMotion), lucide-react 1.23 icons, self-hosted variable fonts (Inter + Fraunces), `sharp` for build-time image optimisation.
 - **Hosting:** Cloudflare Pages primary, GitHub Pages mirror (static; no backend, no database, no auth).
 - **Status:** Feature-rich concept, grounded in the real club's facts. Not yet the club's official production site (needs club sign-off on prices/media/booking links + the enquiry form access key).
-- **Last verified commit:** `1184fbb` (`Upgrade vite 8, @vitejs/plugin-react 6, lucide-react 1.23`) on 2026-07-08. Cloudflare Pages and GitHub Pages both deploy from `main` automatically.
+- **Last verified commit:** `a8ce938` (`feat(gallery): replace cinderford photo with Age Grade Rugby image`) on 2026-07-08. Cloudflare Pages and GitHub Pages both deploy from `main` automatically.
 
 ## Delivered Sprint Snapshot
 
@@ -26,6 +26,11 @@ Read this first, then `docs/site-spec.md` (product spec) and `docs/backlog.md` (
   - GitHub Actions pinned: `actions/checkout` 4→7, `actions/setup-node` 4→6, `actions/deploy-pages` 4→5, `actions/upload-pages-artifact` 3→5.
   - npm major upgrades: `vite` 7→8.1.3, `@vitejs/plugin-react` 5→6.0.3 (coupled), `lucide-react` 0.468→1.23.0.
   - **Breaking change handled:** lucide-react v1 dropped all social/brand icons. `Twitter` and `Facebook` lucide imports replaced with inline SVG components (`XTwitterIcon`, `FacebookIcon` in `src/main.jsx`) using official brand SVG paths. Site appearance is unchanged.
+- **CI fix (2026-07-08):** `lycheeverse/lychee-action` SHA in `.github/workflows/ci.yml` was invalid (fabricated). Corrected to real v2.8.0 SHA `8646ba30...` (commit `101ede3`).
+- **Image updates (2026-07-08):**
+  - `src/assets/club/sitemap.webp` — replaced with new professionally branded grounds map using club red/dark-navy colour scheme, 1149×1369px, 193 KB WebP (commits `682db08`, `7741c31`).
+  - `src/assets/club/gallery-juniors.webp` — replaced with new junior players action photo, 1200×904px, 277 KB WebP (commit `a40e6eb`).
+  - `src/assets/club/gallery-rugby-cinderford.webp` — replaced with Age Grade Rugby action photo, 1200×800px, 109 KB WebP; caption updated from "Rugby v Cinderford" to "Age Grade Rugby" in `src/data.js` (commit `a8ce938`).
 
 ## What is built (as-built)
 
@@ -149,4 +154,4 @@ See **`docs/backlog.md`** — a ranked roadmap produced from a multi-model analy
 - Read `docs/ai-handover.md` (this), `docs/site-spec.md`, `docs/backlog.md`.
 - `npm install --registry https://registry.npmjs.org/`, then `npm run build`.
 - To push: switch `gh` to `zarbjustin`, push, switch back.
-- Content edits go in `src/data.js`; image changes go through the `scripts/*` pipelines.
+- Content edits go in `src/data.js`; image changes: replace the WebP in `src/assets/club/` using `node -e "require('sharp')(...).webp({quality:85}).resize({width:1200}).toFile(...)"` (sharp is already a devDep), then `npm run build` to verify, then commit.
