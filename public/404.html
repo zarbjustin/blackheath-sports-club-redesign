@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'"
+    />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#0b5c43" />
+    <title>Page not found | Blackheath Sports Club</title>
+    <style>
+      :root {
+        color: #10201c;
+        background: #fbfaf6;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100svh;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+      }
+
+      main {
+        width: min(100%, 560px);
+        padding: 28px;
+        border: 1px solid rgba(16, 32, 28, 0.14);
+        border-radius: 16px;
+        background: white;
+        box-shadow: 0 20px 55px rgba(16, 32, 28, 0.12);
+      }
+
+      /* TODO: replace .mark with <img src="/icons/pwa-icon-192.png" alt="Blackheath Sports Club" ...>
+         once the club logo/branding is confirmed */
+      .mark {
+        width: 54px;
+        height: 54px;
+        display: grid;
+        place-items: center;
+        border-radius: 12px;
+        background: #0b5c43;
+        color: white;
+        font-weight: 900;
+        letter-spacing: -0.5px;
+        margin-bottom: 20px;
+        font-size: 13px;
+      }
+
+      .code {
+        display: inline-block;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #56645f;
+        margin-bottom: 10px;
+      }
+
+      h1 {
+        margin: 0 0 12px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(1.9rem, 7vw, 2.8rem);
+        line-height: 1.1;
+      }
+
+      p {
+        margin: 0 0 20px;
+        color: #56645f;
+        line-height: 1.65;
+      }
+
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 24px;
+      }
+
+      nav a {
+        display: inline-block;
+        padding: 8px 16px;
+        border-radius: 999px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 0.15s, color 0.15s;
+      }
+
+      nav a.primary {
+        background: #0b5c43;
+        color: white;
+      }
+
+      nav a.primary:hover {
+        background: #08432f;
+      }
+
+      nav a.secondary {
+        background: rgba(16, 32, 28, 0.07);
+        color: #10201c;
+      }
+
+      nav a.secondary:hover {
+        background: rgba(16, 32, 28, 0.13);
+      }
+
+      hr {
+        border: none;
+        border-top: 1px solid rgba(16, 32, 28, 0.12);
+        margin: 0 0 18px;
+      }
+
+      .contact {
+        margin: 0;
+        padding-left: 20px;
+        line-height: 1.75;
+        color: #56645f;
+        font-size: 0.9rem;
+      }
+
+      .contact a {
+        color: #0b5c43;
+        font-weight: 700;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="mark" aria-hidden="true">BSC</div>
+      <span class="code">404</span>
+      <h1>Page not found</h1>
+      <p>
+        Sorry, that page doesn't exist or may have moved. Try one of the links
+        below to find what you're looking for at Blackheath Sports Club.
+      </p>
+      <nav aria-label="Site navigation">
+        <a class="primary" href="https://blackheath-sports-club-redesign.pages.dev/">Home</a>
+        <a class="secondary" href="https://blackheath-sports-club-redesign.pages.dev/#sports">Sports</a>
+        <a class="secondary" href="https://blackheath-sports-club-redesign.pages.dev/#membership">Membership</a>
+        <a class="secondary" href="https://blackheath-sports-club-redesign.pages.dev/#hire">Venue Hire</a>
+        <a class="secondary" href="https://blackheath-sports-club-redesign.pages.dev/#contact">Contact</a>
+      </nav>
+      <hr />
+      <ul class="contact">
+        <li>The Rectory Field, Charlton Road, London SE3 8SR</li>
+        <li>Telephone: <a href="tel:+442088581578">020 8858 1578</a></li>
+        <li>Email: <a href="mailto:bhsportsclub@outlook.com">bhsportsclub@outlook.com</a></li>
+      </ul>
+    </main>
+  </body>
+</html>
