@@ -74,9 +74,11 @@ Repeat-visit driver. A build-time Node script fetches each club's iCal/RSS → s
 `public/fixtures.json`; an "Upcoming at Rectory Field" component; a scheduled GitHub Action redeploys
 nightly; empty/stale states. Needs stable feed URLs from each sport section.
 
-### 10. Media pipeline + engagement
-Build-time WebP/AVIF auto-optimisation (e.g. `vite-plugin-image-optimizer`) so volunteer uploads
-can't bloat the site; gallery lightbox; optional reduced-motion hero video (the club has a promo clip).
+### 10. Media pipeline + engagement (partly delivered)
+The site now has a media section with a video-ready poster slot and guidance for future promo clips.
+Remaining work: build-time WebP/AVIF auto-optimisation (e.g. `vite-plugin-image-optimizer`) so
+volunteer uploads can't bloat the site; gallery lightbox; optional reduced-motion hero video (the
+club has a promo clip).
 
 ### 11. PWA / offline
 Delivered: `vite-plugin-pwa` manifest, generated service worker, app icons, Apple touch icon, cached

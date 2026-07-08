@@ -923,6 +923,123 @@ h2 {
   transform: translateY(0);
 }
 
+/* Media ------------------------------------------------------------------ */
+.media-grid {
+  display: grid;
+  grid-template-columns: 1fr 0.95fr;
+  gap: 24px;
+  align-items: center;
+}
+
+.media-copy {
+  display: grid;
+  gap: 16px;
+}
+
+.media-lead {
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.media-guidance {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.media-guidance li {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 12px;
+  align-items: start;
+  padding: 16px 18px;
+  border-radius: var(--r-md);
+  background: white;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-sm);
+  line-height: 1.45;
+}
+
+.media-guidance svg {
+  color: var(--forest);
+  margin-top: 2px;
+}
+
+.media-note {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+  font-size: 0.93rem;
+}
+
+.media-card {
+  position: relative;
+  margin: 0;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: white;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+.media-card img,
+.media-card video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: #0f1f1c;
+}
+
+.media-card figcaption {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 12px;
+  padding: 18px 20px;
+  background: rgba(16, 32, 28, 0.04);
+}
+
+.media-card figcaption svg {
+  color: var(--forest);
+  margin-top: 2px;
+}
+
+.media-card strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 1.08rem;
+}
+
+.media-card span {
+  color: var(--muted);
+  line-height: 1.55;
+  font-size: 0.95rem;
+}
+
+.media-badge {
+  position: absolute;
+  z-index: 1;
+  top: 16px;
+  left: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--forest);
+  box-shadow: var(--shadow-sm);
+  font-size: 0.84rem;
+  font-weight: 800;
+  backdrop-filter: blur(10px);
+}
+
 /* Visit ------------------------------------------------------------------- */
 .visit {
   display: grid;
@@ -1478,6 +1595,7 @@ footer {
   .membership-layout,
   .hire-grid,
   .heritage-grid,
+  .media-grid,
   .visit,
   .grounds-grid {
     grid-template-columns: 1fr;

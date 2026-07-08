@@ -21,7 +21,8 @@ Delivered so far:
   no-dogs rule, 1883/1885/1937 heritage), structured in `src/data.js`.
 - Real club photography optimised to WebP; responsive hero with blur-up; custom per-sport SVG icons.
 - Correct external links to each sport's official site + Gym and Day Nursery.
-- Venue-hire section, membership, heritage timeline, gallery, click-to-load Google Map, grounds map.
+- Venue-hire section, membership, heritage timeline, gallery, media/video-ready section,
+  click-to-load Google Map, grounds map.
 - Motion/UX polish (Framer Motion via LazyMotion, variable fonts, no CLS).
 - Security: CSP + referrer meta, sandboxed/consent-gated map, pinned Actions + Dependabot, safe links.
 - SEO: Cloudflare canonical, sitemap.xml, robots.txt, Open Graph + Twitter + OG image, geo meta tags,

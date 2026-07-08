@@ -67,6 +67,7 @@ import {
   gallery,
   groundsMap,
   venueImage,
+  media,
   enquiry,
   ENQUIRY_PLACEHOLDER_KEY,
   analytics,
@@ -662,6 +663,73 @@ function Gallery() {
   );
 }
 
+function Media() {
+  const video = media.video;
+  const hasVideo = Boolean(video.source);
+
+  return (
+    <Reveal className="media band" id="media">
+      <div className="section-heading">
+        <p className="eyebrow">Media</p>
+        <h2>Photos now, video-ready when the club has the clip</h2>
+      </div>
+      <div className="media-grid">
+        <div className="media-copy">
+          <p className="media-lead">
+            The site is already set up for a club promo video, short event reel or seasonal
+            campaign clip. When you share the file, we can drop it in without redesigning the
+            page.
+          </p>
+          <ul className="media-guidance">
+            {video.guidance.map((item) => (
+              <li key={item}>
+                <CircleCheckBig size={18} />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="media-note">
+            {video.duration} · {video.summary}
+          </p>
+        </div>
+        <figure className="media-card">
+          <span className="media-badge">
+            <Tv size={15} />
+            Video slot ready
+          </span>
+          {hasVideo ? (
+            <video
+              controls
+              playsInline
+              preload="metadata"
+              poster={video.poster}
+              aria-label={video.title}
+            >
+              <source src={video.source} type={video.type} />
+            </video>
+          ) : (
+            <img
+              src={video.poster}
+              alt={video.posterAlt}
+              width={900}
+              height={675}
+              loading="lazy"
+              decoding="async"
+            />
+          )}
+          <figcaption>
+            <Tv size={18} />
+            <div>
+              <strong>{video.title}</strong>
+              <span>{video.summary}</span>
+            </div>
+          </figcaption>
+        </figure>
+      </div>
+    </Reveal>
+  );
+}
+
 function MapEmbed() {
   const [show, setShow] = useState(false);
 
@@ -878,6 +946,7 @@ function App() {
     ["Venue hire", "#hire"],
     ["Membership", "#membership"],
     ["Heritage", "#heritage"],
+    ["Media", "#media"],
     ["Visit", "#visit"],
   ];
 
@@ -927,6 +996,7 @@ function App() {
         <Enquiry />
         <Heritage />
         <Gallery />
+        <Media />
         <Visit />
         <Contact />
       </main>

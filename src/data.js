@@ -176,6 +176,23 @@ export const groundsMap = {
 
 export const venueImage = venueBarImg;
 
+export const media = {
+  video: {
+    title: "Club promo video",
+    summary: "Ready for a short club-approved clip once supplied — ideal for a muted hero reel or a seasonal campaign cut.",
+    poster: venueBarImg,
+    posterAlt: "The clubhouse bar at Blackheath Sports Club",
+    source: null,
+    type: "video/mp4",
+    duration: "8–15 seconds",
+    guidance: [
+      "Keep clips short, muted and captioned.",
+      "Prefer MP4 or WebM with a poster frame.",
+      "Use reduced-motion-friendly defaults so the page stays calm.",
+    ],
+  },
+};
+
 // Venue-hire enquiry form (Web3Forms).
 // TO GO LIVE: create a free access key at https://web3forms.com (enter the club's
 // destination email; the key is emailed to you and is safe to commit), then replace

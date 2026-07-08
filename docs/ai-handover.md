@@ -40,6 +40,7 @@ Single-page site (`src/main.jsx`) with these sections, all content-driven from `
 - **Enquire** — accessible venue-hire enquiry form (see "Enquiry form" below).
 - **Heritage** — 1883/1885/1937 timeline + historic photos (Carpmael/Barbarians).
 - **Gallery** — real club photos.
+- **Media** — video-ready poster slot and guidance for future club promo clips.
 - **Visit** — address, Sat-Nav postcode, nearby areas served, click-to-load Google Map (GDPR-friendly).
 - **Grounds** — the club's site map image + a modern facilities legend.
 - **Contact** — email, phone, bar hours, social links.
@@ -50,8 +51,8 @@ Standalone pages in `public/`: `privacy.html`, `offline.html`, `robots.txt`, `si
 ## Architecture & file map
 
 - `index.html` — head: CSP + referrer meta, Cloudflare canonical, Open Graph/Twitter, PWA/Apple install metadata, local SEO geo meta, JSON-LD `@graph` (`SportsClub`, `LocalBusiness`, `SportsActivityLocation`, `WebSite`, `BreadcrumbList`), inline SVG favicon.
-- `src/main.jsx` — the whole app: section components + `Hero`, `MapEmbed` (click-to-load), `Enquiry` (form), `App` (header/nav/footer). Motion via `LazyMotion features={domAnimation}` + `m.*` components; `Reveal` wrapper does scroll-in animations. Header includes skip link, mobile focus trap and Escape-to-close. Also defines `XTwitterIcon` and `FacebookIcon` — inline SVG social brand icons (lucide-react v1 dropped brand icons, so these are baked directly into the file).
-- `src/data.js` — **all site content** (club facts, local SEO facts, contact, sports + URLs, facilities, gym/nursery, venue facilities, heritage timeline, gallery, grounds map, the `enquiry` config and analytics config). Edit content HERE, not in JSX.
+- `src/main.jsx` — the whole app: section components + `Hero`, `MapEmbed` (click-to-load), `Enquiry` (form), `Media`, `App` (header/nav/footer). Motion via `LazyMotion features={domAnimation}` + `m.*` components; `Reveal` wrapper does scroll-in animations. Header includes skip link, mobile focus trap and Escape-to-close. Also defines `XTwitterIcon` and `FacebookIcon` — inline SVG social brand icons (lucide-react v1 dropped brand icons, so these are baked directly into the file).
+- `src/data.js` — **all site content** (club facts, local SEO facts, contact, sports + URLs, facilities, gym/nursery, venue facilities, heritage timeline, gallery, media/video config, grounds map, the `enquiry` config and analytics config). Edit content HERE, not in JSX.
 - `src/analytics.js` — opt-in privacy-friendly analytics loader and conversion-event helper. Cloudflare Web Analytics is off until `VITE_CLOUDFLARE_WEB_ANALYTICS_TOKEN` is configured or Cloudflare Pages Web Analytics is enabled in the dashboard.
 - `src/icons.jsx` — custom SVG sport icons (lucide-styled).
 - `src/styles.css` — design tokens (colours, radii, fonts, easing) + all component styles + responsive + `prefers-reduced-motion`.
