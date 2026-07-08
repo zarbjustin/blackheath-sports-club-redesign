@@ -154,7 +154,7 @@ export const gallery = [
   { src: gCricket1stXi, caption: "Cricket 1st XI at the Rectory Field" },
   { src: gWomensXv, caption: "Women's XV" },
   { src: gJuniors, caption: "Junior rugby" },
-  { src: gCinderford, caption: "Rugby v Cinderford" },
+  { src: gCinderford, caption: "Age Grade Rugby" },
   { src: gTennisDoubles, caption: "Tennis doubles" },
   { src: gSquash, caption: "Squash at the club" },
   { src: gTennis, caption: "Tennis at the Rectory Field" },
