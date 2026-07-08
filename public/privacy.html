@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'"
+      content="default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://cloudflareinsights.com; base-uri 'self'; form-action 'self'; object-src 'none'"
     />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta name="robots" content="index, follow" />
@@ -63,8 +63,15 @@
 
       <h2>Information we collect</h2>
       <p>
-        This website does not run analytics, advertising or tracking, and it does not set any
-        cookies of its own.
+        This website may use Cloudflare Web Analytics to understand aggregate page views,
+        referrals and performance. Cloudflare Web Analytics does not use cookies and does not
+        track people across websites. It collects limited performance and request information so
+        we can understand whether the website is useful and reliable.
+      </p>
+      <p>
+        The site may also record aggregate conversion events, such as selecting a sport website
+        link, choosing to load the map, or starting an enquiry. These events do not include the
+        details you type into the enquiry form.
       </p>
       <p>
         If you use the enquiry form, the details you provide (such as your name, email, phone

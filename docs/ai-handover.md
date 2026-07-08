@@ -37,7 +37,8 @@ Standalone pages in `public/`: `privacy.html`, `robots.txt`, `sitemap.xml`, `og-
 
 - `index.html` — head: CSP + referrer meta, canonical, Open Graph/Twitter, JSON-LD `SportsClub`, inline SVG favicon.
 - `src/main.jsx` — the whole app: section components + `Hero`, `MapEmbed` (click-to-load), `Enquiry` (form), `App` (header/nav/footer). Motion via `LazyMotion features={domAnimation}` + `m.*` components; `Reveal` wrapper does scroll-in animations.
-- `src/data.js` — **all site content** (club facts, contact, sports + URLs, facilities, gym/nursery, venue facilities, heritage timeline, gallery, grounds map, and the `enquiry` config). Edit content HERE, not in JSX.
+- `src/data.js` — **all site content** (club facts, contact, sports + URLs, facilities, gym/nursery, venue facilities, heritage timeline, gallery, grounds map, the `enquiry` config and analytics config). Edit content HERE, not in JSX.
+- `src/analytics.js` — opt-in privacy-friendly analytics loader and conversion-event helper. Cloudflare Web Analytics is off until `VITE_CLOUDFLARE_WEB_ANALYTICS_TOKEN` is configured or Cloudflare Pages Web Analytics is enabled in the dashboard.
 - `src/icons.jsx` — custom SVG sport icons (lucide-styled).
 - `src/styles.css` — design tokens (colours, radii, fonts, easing) + all component styles + responsive + `prefers-reduced-motion`.
 - `src/assets/` — hero WebP set + `hero-blur.js`; `src/assets/club/` — optimised club photos (WebP).
@@ -66,6 +67,13 @@ Deploy is automatic:
   - Build command: `npm ci && npm run build`
   - Output directory: `dist`
 - GitHub Pages mirror: push to `main` → GitHub Actions builds and deploys to GitHub Pages.
+
+Analytics is opt-in:
+
+- Cloudflare Pages dashboard path: Workers & Pages → `blackheath-sports-club-redesign` → Metrics → Enable Web Analytics.
+- Manual snippet path: set `VITE_CLOUDFLARE_WEB_ANALYTICS_TOKEN` in the build environment. The app loads `https://static.cloudflareinsights.com/beacon.min.js` only when that token is present.
+- Conversion hooks are already instrumented in code. They call `zaraz.track`, `plausible`, or `goatcounter` if one of those event-capable providers is later enabled; otherwise they no-op.
+- Monthly reporting template: `docs/monthly-analytics-report.md`.
 
 ## Environment gotchas (important)
 

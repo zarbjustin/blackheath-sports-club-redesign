@@ -58,7 +58,9 @@ import {
   venueImage,
   enquiry,
   ENQUIRY_PLACEHOLDER_KEY,
+  analytics,
 } from "./data.js";
+import { loadCloudflareAnalytics, trackEvent, trackOutbound } from "./analytics.js";
 
 import hero640 from "./assets/rectory-field-640.webp";
 import hero1024 from "./assets/rectory-field-1024.webp";
@@ -150,10 +152,18 @@ function Hero() {
           squash — a family members' club with coaching for all ages, venue hire and more.
         </m.p>
         <m.div className="hero-actions" variants={staggerItem}>
-          <a className="button primary" href="#membership">
+          <a
+            className="button primary"
+            href="#membership"
+            onClick={() => trackEvent("membership_cta_click", { location: "hero" })}
+          >
             Become a member <ArrowRight size={18} />
           </a>
-          <a className="button ghost" href="#hire">
+          <a
+            className="button ghost"
+            href="#hire"
+            onClick={() => trackEvent("venue_hire_cta_click", { location: "hero" })}
+          >
             Hire the venue <CalendarDays size={18} />
           </a>
         </m.div>
@@ -247,6 +257,7 @@ function Sports() {
               href={sport.url}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackOutbound("sport", sport.key, sport.url)}
               variants={staggerItem}
             >
               <div className="sport-media">
@@ -291,6 +302,7 @@ function OtherFacilities() {
               href={f.url}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackOutbound("facility", f.name, f.url)}
               variants={staggerItem}
             >
               <span className="facility-icon"><Icon size={26} /></span>
@@ -327,7 +339,11 @@ function Membership() {
             <span className="price">{club.socialMembership}</span>
             <span>Social membership, giving full use of the bar facilities.</span>
           </div>
-          <a className="button primary compact" href="#enquire">
+          <a
+            className="button primary compact"
+            href="#enquire"
+            onClick={() => trackEvent("membership_enquiry_click", { location: "membership" })}
+          >
             Start an enquiry <MessageCircle size={18} />
           </a>
         </div>
@@ -355,6 +371,7 @@ function Enquiry() {
 
   async function onSubmit(e) {
     e.preventDefault();
+    trackEvent("enquiry_form_start", { configured: configured ? "true" : "false" });
     const formEl = e.currentTarget;
     const fd = new FormData(formEl);
     if ((fd.get("botcheck") || "").toString()) return; // honeypot tripped — silently drop
@@ -376,6 +393,7 @@ function Enquiry() {
       );
       window.location.href = `mailto:${club.contact.email}?subject=${encodeURIComponent(enquiry.subject)}&body=${body}`;
       setStatus("mailto");
+      trackEvent("enquiry_form_mailto_fallback", { configured: "false" });
       return;
     }
 
@@ -403,13 +421,16 @@ function Enquiry() {
       if (data.success) {
         setStatus("success");
         formEl.reset();
+        trackEvent("enquiry_form_success", { event_type: val("event_type") || "not_set" });
       } else {
         setStatus("error");
         setErrorMsg(data.message || "Something went wrong. Please try again or email us directly.");
+        trackEvent("enquiry_form_error", { reason: "provider_response" });
       }
     } catch {
       setStatus("error");
       setErrorMsg("We couldn't send that right now. Please try again, or email us directly.");
+      trackEvent("enquiry_form_error", { reason: "network" });
     }
   }
 
@@ -544,10 +565,18 @@ function VenueHire() {
             })}
           </ul>
           <div className="hire-actions">
-            <a className="button light" href="#enquire">
+            <a
+              className="button light"
+              href="#enquire"
+              onClick={() => trackEvent("venue_hire_enquiry_click", { location: "venue_hire" })}
+            >
               Make an enquiry <ArrowRight size={18} />
             </a>
-            <a className="button ghost light-ghost" href={club.contact.phoneHref}>
+            <a
+              className="button ghost light-ghost"
+              href={club.contact.phoneHref}
+              onClick={() => trackEvent("phone_click", { location: "venue_hire" })}
+            >
               {club.contact.phone} <Phone size={18} />
             </a>
           </div>
@@ -636,7 +665,14 @@ function MapEmbed() {
   }
 
   return (
-    <button type="button" className="map-consent" onClick={() => setShow(true)}>
+    <button
+      type="button"
+      className="map-consent"
+      onClick={() => {
+        trackEvent("map_load_click", { location: "visit" });
+        setShow(true);
+      }}
+    >
       <MapPin size={30} />
       <strong>Load interactive map</strong>
       <span>Loads Google Maps, which may set cookies. See our privacy notice.</span>
@@ -663,7 +699,13 @@ function Visit() {
             In the heart of South East London, close to local public transport with extensive
             on-site parking and wheelchair access throughout.
           </p>
-          <a className="button primary compact" href={club.mapLink} target="_blank" rel="noopener noreferrer">
+          <a
+            className="button primary compact"
+            href={club.mapLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => trackOutbound("map", "Google Maps", club.mapLink)}
+          >
             Open in maps <ArrowUpRight size={18} />
           </a>
         </div>
@@ -700,12 +742,20 @@ function Contact() {
         <h2>Bar & venue enquiries</h2>
       </div>
       <div className="contact-grid">
-        <a className="contact-card" href={`mailto:${club.contact.email}`}>
+        <a
+          className="contact-card"
+          href={`mailto:${club.contact.email}`}
+          onClick={() => trackEvent("email_click", { location: "contact" })}
+        >
           <Mail size={22} />
           <span className="contact-label">Email</span>
           <span className="contact-value">{club.contact.email}</span>
         </a>
-        <a className="contact-card" href={club.contact.phoneHref}>
+        <a
+          className="contact-card"
+          href={club.contact.phoneHref}
+          onClick={() => trackEvent("phone_click", { location: "contact" })}
+        >
           <Phone size={22} />
           <span className="contact-label">Telephone</span>
           <span className="contact-value">{club.contact.phone}</span>
@@ -724,10 +774,22 @@ function Contact() {
           their website above.
         </p>
         <div className="socials">
-          <a href={club.social.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <a
+            href={club.social.facebook}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Facebook"
+            onClick={() => trackOutbound("social", "Facebook", club.social.facebook)}
+          >
             <Facebook size={20} />
           </a>
-          <a href={club.social.twitter} target="_blank" rel="noopener noreferrer" aria-label="Twitter / X">
+          <a
+            href={club.social.twitter}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Twitter / X"
+            onClick={() => trackOutbound("social", "Twitter / X", club.social.twitter)}
+          >
             <Twitter size={20} />
           </a>
         </div>
@@ -739,6 +801,10 @@ function Contact() {
 function App() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    loadCloudflareAnalytics(analytics);
+  }, []);
 
   useEffect(() => {
     let ticking = false;

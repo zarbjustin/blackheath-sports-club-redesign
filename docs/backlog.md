@@ -6,14 +6,15 @@ Ranking weights **user-impact + security**, with effort as a tie-breaker.
 
 For current state and architecture see `docs/ai-handover.md`. Items already delivered
 (animations, real content, WebP media, custom icons, CSP + hardening, JSON-LD/sitemap/OG,
-axe-clean a11y, Web3Forms enquiry form) are **not** repeated here.
+axe-clean a11y, Web3Forms enquiry form, Cloudflare deployment, analytics scaffold and conversion
+hooks) are **not** repeated here.
 
 ## Ranked roadmap
 
 | # | Sprint | Impact | Security | Effort | Blocked on club? |
 |---|--------|:--:|:--:|:--:|:--|
 | 1 | Launch gating | 5 | 4 | 4 | Yes (form key, content) |
-| 2 | Privacy-friendly analytics | 4 | 5 | 5 | Approval only |
+| 2 | Privacy-friendly analytics | 4 | 5 | 5 | Part-built; enable provider |
 | 3 | Custom domain + Cloudflare edge security | 3 | 5 | 4 | Yes (DNS) |
 | 4 | UK governance & safeguarding pages | 4 | 5 | 4 | Yes (policy docs) |
 | 5 | Deeper accessibility | 4 | 2 | 4 | No |
@@ -30,10 +31,11 @@ booking/fixture links and public contacts; drop "concept redesign" wording; deci
 update canonical/sitemap/robots/OG URLs; write a volunteer go-live checklist.
 
 ### 2. Privacy-friendly analytics
-Cookieless analytics (Cloudflare Web Analytics / Plausible / GoatCounter) — no cookie banner needed.
-Track outbound clicks to each sport site, membership clicks, map loads and form submissions. Update
-CSP and the privacy notice. Add a monthly volunteer report template. **Can scaffold behind a config
-flag now (like the form key).**
+Part-built. The code now includes an opt-in Cloudflare Web Analytics loader, CSP/privacy updates,
+conversion-event hooks, and `docs/monthly-analytics-report.md`. Remaining step: enable Cloudflare
+Web Analytics in the Pages dashboard or set `VITE_CLOUDFLARE_WEB_ANALYTICS_TOKEN` in the build
+environment. For custom conversion-event collection, enable Zaraz, Plausible, GoatCounter or another
+event-capable privacy-friendly provider.
 
 ### 3. Custom domain + Cloudflare edge security
 The one real security gap left: a `<meta>` CSP can't set HSTS, `frame-ancestors`,

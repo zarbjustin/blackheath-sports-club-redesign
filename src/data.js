@@ -186,3 +186,17 @@ export const enquiry = {
 
 export const ENQUIRY_PLACEHOLDER_KEY = "YOUR_WEB3FORMS_ACCESS_KEY";
 
+export const analytics = {
+  provider: "cloudflare-web-analytics",
+  enabled: Boolean(import.meta.env.VITE_CLOUDFLARE_WEB_ANALYTICS_TOKEN),
+  siteToken: import.meta.env.VITE_CLOUDFLARE_WEB_ANALYTICS_TOKEN || "",
+  trackedConversions: [
+    "sport outbound clicks",
+    "venue-hire enquiry clicks",
+    "membership enquiry clicks",
+    "enquiry form starts",
+    "enquiry form submissions",
+    "map loads",
+    "phone/email clicks",
+  ],
+};
