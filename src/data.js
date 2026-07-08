@@ -199,7 +199,7 @@ export const media = {
 // the placeholder below. Until then the form gracefully falls back to a mailto link.
 export const enquiry = {
   endpoint: "https://api.web3forms.com/submit",
-  accessKey: "YOUR_WEB3FORMS_ACCESS_KEY",
+  accessKey: "475ec55f-f5d0-403b-957d-6c761a29f0f9",
   subject: "New venue-hire enquiry — Blackheath Sports Club",
   eventTypes: [
     "Wedding",
