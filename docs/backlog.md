@@ -16,7 +16,7 @@ hooks, deeper a11y controls, local SEO expansion, PWA/offline shell) are **not**
 | 1 | Launch gating | 5 | 4 | 4 | Yes (form key, content) |
 | 2 | Privacy-friendly analytics | 4 | 5 | 5 | Part-built; enable provider |
 | 3 | Custom domain + Cloudflare edge security | 3 | 5 | 4 | Yes (DNS) |
-| 4 | UK governance & safeguarding pages | 4 | 5 | 4 | Yes (policy docs) |
+| 4 | UK governance & safeguarding pages (parked) | 1 | 1 | 2 | No public owner yet |
 | 5 | Deeper accessibility | 4 | 2 | 4 | Delivered |
 | 6 | CI quality gates + 404 page | 3 | 4 | 3 | No |
 | 7 | Local SEO expansion | 4 | 2 | 4 | Delivered; GBP access still useful |
@@ -43,10 +43,10 @@ The one real security gap left: a `<meta>` CSP can't set HSTS, `frame-ancestors`
 `blackheathsportsclub.co.uk`) behind Cloudflare's free tier → migrate CSP to a real response header,
 enable HSTS + WAF, add Subresource Integrity in the Vite build. Also improves SEO, caching and trust.
 
-### 4. UK governance & safeguarding
-For a club with juniors and families: Safeguarding, Welfare (named contacts), Policies and an
-Accessibility statement; footer governance links; list third-party processors (Web3Forms, Google
-Maps, GitHub Pages) in the privacy notice.
+### 4. UK governance & safeguarding (parked)
+Not a public club-wide roadmap item for now. If the club later wants public Safeguarding, Welfare
+(named contacts), Policies, or an Accessibility statement, they need explicit owner approval and
+final wording first. Keep this parked until the club decides it should be public-facing.
 
 ### 5. Deeper accessibility (beyond automated axe)
 Delivered: skip-to-content link, mobile-menu focus trap, Esc to close, improved menu labelling,
