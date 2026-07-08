@@ -12,7 +12,7 @@ Read this first, then `docs/site-spec.md` (product spec) and `docs/backlog.md` (
 - **Stack:** Vite 8 + React 19 (single-page, plain CSS), Framer Motion (via LazyMotion), lucide-react 1.23 icons, self-hosted variable fonts (Inter + Fraunces), `sharp` for build-time image optimisation.
 - **Hosting:** Cloudflare Pages primary, GitHub Pages mirror (static; no backend, no database, no auth).
 - **Status:** Feature-rich concept, grounded in the real club's facts. Not yet the club's official production site (needs club sign-off on prices/media/booking links + the enquiry form access key).
-- **Last verified commit:** `a8ce938` (`feat(gallery): replace cinderford photo with Age Grade Rugby image`) on 2026-07-08. Cloudflare Pages and GitHub Pages both deploy from `main` automatically.
+- **Last verified commit:** `81995dd` (`feat(nav): reorder items, hide Media until video exists, fix dead zone`) on 2026-07-08. Cloudflare Pages and GitHub Pages both deploy from `main` automatically.
 
 ## Delivered Sprint Snapshot
 
@@ -31,6 +31,8 @@ Read this first, then `docs/site-spec.md` (product spec) and `docs/backlog.md` (
   - `src/assets/club/sitemap.webp` — replaced with new professionally branded grounds map using club red/dark-navy colour scheme, 1149×1369px, 193 KB WebP (commits `682db08`, `7741c31`).
   - `src/assets/club/gallery-juniors.webp` — replaced with new junior players action photo, 1200×904px, 277 KB WebP (commit `a40e6eb`).
   - `src/assets/club/gallery-rugby-cinderford.webp` — replaced with Age Grade Rugby action photo, 1200×800px, 109 KB WebP; caption updated from "Rugby v Cinderford" to "Age Grade Rugby" in `src/data.js` (commit `a8ce938`).
+- **Enquiry form live (2026-07-08):** Web3Forms access key set for `bhsportsclub@outlook.com` — form now POSTs submissions directly. Honeypot anti-spam in place (commit `ba04212`).
+- **Nav improvements (2026-07-08):** Reordered to Sports → Membership → Venue hire → Heritage → Visit. Media nav item + section hidden until `media.video.source` is set in `data.js` (auto-reveals when video is supplied). Removed `justify-content: space-between` dead zone; nav sits flush right via `margin-left: auto` (commit `81995dd`).
 
 ## What is built (as-built)
 
@@ -140,8 +142,8 @@ CSP and the privacy notice are already prepared for this.
 
 ## Open items (need club input)
 
-- **Content sign-off:** confirmed membership prices, confirmed booking/fixture links, real photography/video (the club's promo video `Lxx-1.mp4` could be added), sponsor list.
-- **Enquiry form access key** (above).
+- **Content sign-off:** confirmed membership prices, confirmed booking/fixture links, real photography/video (the club's promo video `Lxx-1.mp4` — set `media.video.source` in `src/data.js` to enable the Media section).
+- **Enquiry form** ✅ live — submissions go to `bhsportsclub@outlook.com` via Web3Forms.
 - **Custom domain** decision (would enable real security headers and replace the temporary Cloudflare Pages canonical with the club domain).
 - Safeguarding/welfare/policy content and named contacts.
 

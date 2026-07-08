@@ -26,9 +26,9 @@ hooks, deeper a11y controls, local SEO expansion, PWA/offline shell) are **not**
 | 11 | PWA / offline | 3 | 2 | 3 | Delivered; retest on custom domain |
 
 ### 1. Launch gating
-Turn the concept into a public candidate. Tasks: paste the Web3Forms access key; confirm prices,
-booking/fixture links and public contacts; drop "concept redesign" wording; decide the domain and
-update canonical/sitemap/robots/OG URLs; write a volunteer go-live checklist.
+Turn the concept into a public candidate. **Enquiry form is now live** (Web3Forms, `bhsportsclub@outlook.com`).
+Remaining tasks: confirm prices, booking/fixture links and public contacts; drop "concept redesign"
+wording; decide the domain and update canonical/sitemap/robots/OG URLs; write a volunteer go-live checklist.
 
 ### 2. Privacy-friendly analytics
 Part-built. The code now includes an opt-in Cloudflare Web Analytics loader, CSP/privacy updates,
