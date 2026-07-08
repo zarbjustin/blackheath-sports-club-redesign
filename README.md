@@ -17,6 +17,8 @@ Live deployments:
 - A working website specification and sprint roadmap in `docs/site-spec.md`.
 - AI handover notes in `docs/ai-handover.md`.
 - A sprint execution plan in `docs/sprint-plan.md`.
+- PWA/offline support with installable app metadata, generated icons and an offline visit/contact page.
+- Privacy-friendly analytics scaffolding and conversion hooks ready for the Cloudflare Web Analytics/dashboard setup.
 
 ## Review summary
 
@@ -34,11 +36,11 @@ Research was based on the current club website and public search results for:
 
 - Blackheath Sports Club: https://www.blackheathsportsclub.co.uk/
 - Rectory Field location and club context: https://www.blackheathsportsclub.co.uk/
-- Blackheath Lawn Tennis Club: https://blackheathlawntennisclub.com/
-- Blackheath Squash Club: https://www.blackheathsquashclub.com/
+- Blackheath Lawn Tennis Club: https://www.blackheathlawntennisclub.org.uk/
+- Blackheath Squash Club: https://www.blackheathsquashclub.co.uk/
 - Blackheath Cricket Club public listings and Rectory Field references.
 
-Some live pages were protected by a browser verification layer during automated review, so the design deliberately avoids hard-coding unverified operational claims beyond high-confidence club structure and location context.
+The current site is fact-grounded against public club sources, but it remains a concept until the club signs off operational details, media rights, the enquiry form key and the production domain.
 
 ## Local development
 
@@ -53,13 +55,22 @@ npm run dev
 npm run build
 ```
 
+Useful maintenance scripts:
+
+```bash
+npm run optimize:hero
+npm run optimize:og
+npm run optimize:pwa-icons
+```
+
 ## Content still needed from the club
 
-- Confirmed contact addresses and telephone numbers.
+- Final club sign-off on contact/address/telephone details.
 - Current membership categories and prices.
 - Confirmed booking links for courts, clubhouse hire and sports sections.
 - Real photography and video of Rectory Field, clubhouse interiors, match days and juniors.
 - Sponsor list, safeguarding information, accessibility guidance and privacy/legal pages.
+- Production domain connection; when that happens, update canonical/sitemap/OG URLs and retest PWA service-worker scope/installability.
 
 ## Product specification
 

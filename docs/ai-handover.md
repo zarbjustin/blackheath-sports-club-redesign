@@ -12,6 +12,16 @@ Read this first, then `docs/site-spec.md` (product spec) and `docs/backlog.md` (
 - **Stack:** Vite + React 19 (single-page, plain CSS), Framer Motion (via LazyMotion), lucide-react icons, self-hosted variable fonts (Inter + Fraunces), `sharp` for build-time image optimisation.
 - **Hosting:** Cloudflare Pages primary, GitHub Pages mirror (static; no backend, no database, no auth).
 - **Status:** Feature-rich concept, grounded in the real club's facts. Not yet the club's official production site (needs club sign-off on prices/media/booking links + the enquiry form access key).
+- **Last verified commit:** `17f53c9` (`Add PWA offline support`) on 2026-07-08. Cloudflare Pages and GitHub Pages both deployed this commit successfully.
+
+## Delivered Sprint Snapshot
+
+- Core redesign/spec/handover: delivered.
+- Cloudflare Pages deployment: delivered.
+- Privacy-friendly analytics scaffold and conversion hooks: delivered; Cloudflare Web Analytics provider enablement is managed in the Cloudflare dashboard/build env.
+- Deeper accessibility: delivered; rerun screen-reader/axe passes after major UI changes.
+- Local SEO expansion: delivered against the current Pages URL; update canonical/sitemap/OG URLs when the real domain is connected.
+- PWA/offline: delivered; retest installability, service-worker scope and offline fallback when the real club domain replaces the temporary Pages URL.
 
 ## What is built (as-built)
 
