@@ -943,11 +943,11 @@ function App() {
 
   const navItems = [
     ["Sports", "#sports"],
-    ["Venue hire", "#hire"],
     ["Membership", "#membership"],
+    ["Venue hire", "#hire"],
     ["Heritage", "#heritage"],
-    ["Media", "#media"],
     ["Visit", "#visit"],
+    ...(media.video.source ? [["Media", "#media"]] : []),
   ];
 
   return (
@@ -996,7 +996,7 @@ function App() {
         <Enquiry />
         <Heritage />
         <Gallery />
-        <Media />
+        {media.video.source && <Media />}
         <Visit />
         <Contact />
       </main>
