@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
+import { registerSW } from "virtual:pwa-register";
 import {
   LazyMotion,
   domAnimation,
@@ -67,6 +68,8 @@ import hero1024 from "./assets/rectory-field-1024.webp";
 import hero1440 from "./assets/rectory-field-1440.webp";
 import hero1920 from "./assets/rectory-field-1920.webp";
 import { heroBlur } from "./assets/hero-blur.js";
+
+registerSW({ immediate: true });
 
 const sportIcons = {
   Rugby: RugbyIcon,

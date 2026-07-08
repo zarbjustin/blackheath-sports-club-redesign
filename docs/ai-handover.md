@@ -31,19 +31,20 @@ Single-page site (`src/main.jsx`) with these sections, all content-driven from `
 - **Contact** — email, phone, bar hours, social links.
 - **Footer** — brand, copyright, Privacy link, socials.
 
-Standalone pages in `public/`: `privacy.html`, `robots.txt`, `sitemap.xml`, `og-image.jpg`.
+Standalone pages in `public/`: `privacy.html`, `offline.html`, `robots.txt`, `sitemap.xml`, `og-image.jpg`, PWA icons in `public/icons/`.
 
 ## Architecture & file map
 
-- `index.html` — head: CSP + referrer meta, Cloudflare canonical, Open Graph/Twitter, local SEO geo meta, JSON-LD `@graph` (`SportsClub`, `LocalBusiness`, `SportsActivityLocation`, `WebSite`, `BreadcrumbList`), inline SVG favicon.
+- `index.html` — head: CSP + referrer meta, Cloudflare canonical, Open Graph/Twitter, PWA/Apple install metadata, local SEO geo meta, JSON-LD `@graph` (`SportsClub`, `LocalBusiness`, `SportsActivityLocation`, `WebSite`, `BreadcrumbList`), inline SVG favicon.
 - `src/main.jsx` — the whole app: section components + `Hero`, `MapEmbed` (click-to-load), `Enquiry` (form), `App` (header/nav/footer). Motion via `LazyMotion features={domAnimation}` + `m.*` components; `Reveal` wrapper does scroll-in animations. Header includes skip link, mobile focus trap and Escape-to-close.
 - `src/data.js` — **all site content** (club facts, local SEO facts, contact, sports + URLs, facilities, gym/nursery, venue facilities, heritage timeline, gallery, grounds map, the `enquiry` config and analytics config). Edit content HERE, not in JSX.
 - `src/analytics.js` — opt-in privacy-friendly analytics loader and conversion-event helper. Cloudflare Web Analytics is off until `VITE_CLOUDFLARE_WEB_ANALYTICS_TOKEN` is configured or Cloudflare Pages Web Analytics is enabled in the dashboard.
 - `src/icons.jsx` — custom SVG sport icons (lucide-styled).
 - `src/styles.css` — design tokens (colours, radii, fonts, easing) + all component styles + responsive + `prefers-reduced-motion`.
 - `src/assets/` — hero WebP set + `hero-blur.js`; `src/assets/club/` — optimised club photos (WebP).
-- `public/` — copied to site root (robots, sitemap, privacy, og-image).
-- `scripts/` — build-time helpers: `optimize-hero.mjs`, `import-club-media.mjs`, `make-og-image.mjs`.
+- `public/` — copied to site root (robots, sitemap, privacy, offline fallback, og-image, PWA icons).
+- `scripts/` — build-time helpers: `optimize-hero.mjs`, `import-club-media.mjs`, `make-og-image.mjs`, `generate-pwa-icons.mjs`.
+- `vite.config.js` — Vite + React + `vite-plugin-pwa`; manifest uses relative `start_url` and `scope` so it works on the current Pages URL and GitHub Pages mirror.
 - `.github/workflows/deploy.yml` — Pages build/deploy (actions pinned to SHAs). `.github/dependabot.yml` — weekly npm + actions updates.
 - `docs/` — `ai-handover.md` (this), `site-spec.md` (product spec), `sprint-plan.md`, `backlog.md` (ranked next work).
 
@@ -56,6 +57,7 @@ npm run build      # production build to dist/
 npm run preview    # serve the built dist/ (base path is "/", NOT the repo subpath)
 npm run optimize:hero    # regenerate hero WebP set (needs src/assets/rectory-field-concept.png)
 npm run optimize:og      # regenerate public/og-image.jpg
+npm run optimize:pwa-icons    # regenerate public/icons/*.png
 node scripts/import-club-media.mjs   # re-optimise club photos from _clubmedia/ (git-ignored)
 ```
 
@@ -75,12 +77,19 @@ Analytics is opt-in:
 - Conversion hooks are already instrumented in code. They call `zaraz.track`, `plausible`, or `goatcounter` if one of those event-capable providers is later enabled; otherwise they no-op.
 - Monthly reporting template: `docs/monthly-analytics-report.md`.
 
+PWA/offline:
+
+- `vite-plugin-pwa` generates `manifest.webmanifest`, `sw.js` and Workbox assets during `npm run build`.
+- The service worker precaches the static shell/assets and uses a network-first same-origin page cache with `offline.html` as the fallback only when navigation is offline.
+- Manifest `start_url` and `scope` are relative (`"."`) to support both the current Cloudflare Pages root and the GitHub Pages subpath mirror.
+- **When the real club domain is connected:** retest installability, service-worker scope, offline fallback and app icons on that domain. Also update canonical/sitemap/OG URLs as part of launch/custom-domain work.
+
 ## Environment gotchas (important)
 
 1. **npm registry:** the global npm config points at an internal Microsoft proxy that fails auth on this machine. Always install with `--registry https://registry.npmjs.org/`.
 2. **git push permissions:** the repo belongs to GitHub account `zarbjustin`, but the machine's active `gh` account may be `jzarb_microsoft` (no write access → 403). To push:
    `gh auth switch --user zarbjustin` → `git push origin main` → `gh auth switch --user jzarb_microsoft`.
-3. **Vite `base: "./"`:** assets are relative so Pages works under the repo subpath. But `npm run preview` serves at `http://127.0.0.1:4173/` (root), NOT `/blackheath-sports-club-redesign/`.
+3. **Vite `base: "./"`:** assets are relative so Pages works under the repo subpath and the PWA manifest can stay domain-neutral. But `npm run preview` serves at `http://127.0.0.1:4173/` (root), NOT `/blackheath-sports-club-redesign/`.
 4. **Visual/QA is done with Playwright via system Edge** (`chromium.launch({ channel: "msedge" })`) to avoid a Chromium download. Playwright + `@axe-core/playwright` are installed only temporarily for QA and uninstalled afterwards — they are NOT project dependencies. Full-page screenshots need a scroll pass first, or the `whileInView` reveals stay at opacity 0.
 5. **Framer Motion:** uses `LazyMotion` + `m` (not `motion`) to keep the bundle small. Keep using `m.*`.
 
@@ -96,6 +105,7 @@ Analytics is opt-in:
 
 - Expanded local SEO: Cloudflare canonical/sitemap/robots, geo meta tags, area-served copy, and JSON-LD `@graph` linking the club, Rectory Field, website and breadcrumb entities. NAP checked against the current club website/public listings on 2026-07-08.
 - Accessibility: skip-to-content link, mobile-menu focus trap, Escape-to-close, improved menu labelling, clearer assistance-dog wording, reduced-motion respected, images have intrinsic `width`/`height` (no CLS). Previous axe-core WCAG 2.1 A/AA pass had **0 violations**; rerun axe after major UI changes.
+- PWA: installable manifest, generated app icons, Apple touch icon, auto-updating service worker and offline fallback with visit/contact details.
 - Measured on the built site: FCP ~388 ms, ~10 requests, ~409 KB initial transfer; JS ~101 KB gzip.
 
 ## Enquiry form (Web3Forms) — how to go live

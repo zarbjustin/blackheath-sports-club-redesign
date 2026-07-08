@@ -28,12 +28,15 @@ Delivered so far:
   nearby-area copy, expanded JSON-LD `@graph` for the club, Rectory Field, website and breadcrumb.
 - Accessibility: axe WCAG 2.1 A/AA 0 violations in prior QA; reduced-motion support; skip-to-content
   link; mobile navigation focus trap and Escape-to-close; clearer assistance-dog wording.
+- PWA/offline: installable manifest, generated app icons, Apple touch icon, auto-updating service
+  worker, cached static shell and offline fallback with visit/contact details.
 - Venue-hire enquiry form (Web3Forms) with validation, consent, honeypot, success/error and mailto
   fallback — awaiting the club's access key to go live.
 
 Still outstanding (see `docs/backlog.md` for the ranked plan): custom domain + real security headers,
-governance/safeguarding pages, CI quality gates, volunteer CMS, fixtures/events, media pipeline, PWA.
-Plus club sign-off on prices/media/booking links and final production-domain/canonical decisions.
+governance/safeguarding pages, CI quality gates, volunteer CMS, fixtures/events and media pipeline.
+Plus club sign-off on prices/media/booking links and final production-domain/canonical/PWA-scope
+decisions.
 
 ## Current concept status (historical — original plan)
 

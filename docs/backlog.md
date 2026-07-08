@@ -7,7 +7,7 @@ Ranking weights **user-impact + security**, with effort as a tie-breaker.
 For current state and architecture see `docs/ai-handover.md`. Items already delivered
 (animations, real content, WebP media, custom icons, CSP + hardening, JSON-LD/sitemap/OG,
 axe-clean a11y, Web3Forms enquiry form, Cloudflare deployment, analytics scaffold and conversion
-hooks, deeper a11y controls, local SEO expansion) are **not** repeated here.
+hooks, deeper a11y controls, local SEO expansion, PWA/offline shell) are **not** repeated here.
 
 ## Ranked roadmap
 
@@ -23,7 +23,7 @@ hooks, deeper a11y controls, local SEO expansion) are **not** repeated here.
 | 8 | Volunteer CMS (Decap) | 4 | 3 | 2 | Who maintains it |
 | 9 | Fixtures / events / news | 5 | 2 | 3 | Yes (feed URLs) |
 | 10 | Media pipeline + engagement | 4 | 3 | 3 | Assets/consent |
-| 11 | PWA / offline | 3 | 2 | 3 | No |
+| 11 | PWA / offline | 3 | 2 | 3 | Delivered; retest on custom domain |
 
 ### 1. Launch gating
 Turn the concept into a public candidate. Tasks: paste the Web3Forms access key; confirm prices,
@@ -79,8 +79,10 @@ Build-time WebP/AVIF auto-optimisation (e.g. `vite-plugin-image-optimizer`) so v
 can't bloat the site; gallery lightbox; optional reduced-motion hero video (the club has a promo clip).
 
 ### 11. PWA / offline
-`vite-plugin-pwa` manifest + service worker; cache the shell plus visit/contact and the grounds map
-for match-day low-signal use; offline fallback page. Test service-worker scope on Pages carefully.
+Delivered: `vite-plugin-pwa` manifest, generated service worker, app icons, Apple touch icon, cached
+static shell, network-first page cache and `offline.html` with match-day visit/contact essentials.
+When the real club domain is connected, retest manifest `start_url`/`scope`, service-worker
+registration, installability and offline fallback on that domain.
 
 ## The two lenses
 
