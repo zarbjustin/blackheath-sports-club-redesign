@@ -63,6 +63,7 @@ try {
     const scores = Object.fromEntries(categories.map((category) => [category, []]));
 
     for (let run = 1; run <= target.runs; run += 1) {
+      console.log(`Running Lighthouse for ${target.name} (${run}/${target.runs})`);
       const result = await lighthouse(
         `${origin}${target.path}`,
         {
@@ -71,6 +72,8 @@ try {
           logLevel: "error",
           onlyCategories: categories,
           throttlingMethod: "simulate",
+          maxWaitForFcp: 10_000,
+          maxWaitForLoad: 15_000,
         },
       );
       if (!result?.lhr) throw new Error(`Lighthouse did not return a report for ${target.name}`);

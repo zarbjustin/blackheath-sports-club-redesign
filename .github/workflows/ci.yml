@@ -42,6 +42,7 @@ jobs:
         run: npm run test:e2e
 
       - name: Lighthouse quality gate
+        timeout-minutes: 8
         run: npm run lighthouse
 
       - name: Link check
