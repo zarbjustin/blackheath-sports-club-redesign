@@ -15,6 +15,10 @@ real club's facts (validated against the live blackheathsportsclub.co.uk). The s
 "What I would improve next" are the ORIGINAL concept plan and are kept for reference; several items are
 now delivered. The authoritative list of remaining work is `docs/backlog.md`.
 
+Sprints 16-18 added the production quality baseline: Cloudflare response security headers,
+lazy-loaded hCaptcha, protected release checks, shell-only PWA precaching, immutable hashed assets,
+Vitest, Playwright/axe desktop-mobile coverage, offline navigation tests and a three-run Lighthouse gate.
+
 Delivered so far:
 
 - Real, fact-grounded content across all sections (address, phone, bar hours, £50 social membership,
@@ -24,22 +28,24 @@ Delivered so far:
 - Venue-hire section, membership, heritage timeline, gallery, media/video-ready section,
   click-to-load Google Map, grounds map.
 - Motion/UX polish (Framer Motion via LazyMotion, variable fonts, no CLS).
-- Security: CSP + referrer meta, sandboxed/consent-gated map, pinned Actions + Dependabot, safe links.
+- Security: response-header CSP + referrer policy, `frame-ancestors`, Permissions Policy,
+  sandboxed/consent-gated map, hCaptcha, pinned least-privilege Actions + Dependabot, safe links.
 - SEO: Cloudflare canonical, sitemap.xml, robots.txt, Open Graph + Twitter + OG image, geo meta tags,
   nearby-area copy, expanded JSON-LD `@graph` for the club, Rectory Field, website and breadcrumb.
 - Accessibility: axe WCAG 2.1 A/AA 0 violations in prior QA; reduced-motion support; skip-to-content
   link; mobile navigation focus trap and Escape-to-close; clearer assistance-dog wording.
 - PWA/offline: installable manifest, generated app icons, Apple touch icon, auto-updating service
   worker, cached static shell and offline fallback with visit/contact details.
-- Venue-hire enquiry form (Web3Forms) with validation, consent, honeypot, success/error and mailto
-  fallback — awaiting the club's access key to go live.
+- Live venue-hire enquiry form (Web3Forms) with validation, consent, hCaptcha + honeypot,
+  bounded fields, success/error and mailto fallback. The owner must enable hCaptcha server-side in
+  the Web3Forms dashboard.
 - **Dependency maintenance (2026-07-08):** all Dependabot PRs resolved, 0 open PRs, 0 stale branches.
   Stack is now Vite 8 + @vitejs/plugin-react 6 + lucide-react 1.23; GitHub Actions pinned to latest
   stable versions. Social brand icons (Twitter/X, Facebook) implemented as inline SVG components in
   `src/main.jsx` since lucide-react v1 dropped brand icons.
 
-Still outstanding (see `docs/backlog.md` for the ranked plan): custom domain + real security headers,
-governance/safeguarding pages, CI quality gates, volunteer CMS, fixtures/events and media pipeline.
+Still outstanding (see `docs/backlog.md` for the ranked plan): custom domain/canonical migration,
+governance/safeguarding pages, volunteer CMS, fixtures/events and media pipeline.
 Plus club sign-off on prices/media/booking links and final production-domain/canonical/PWA-scope
 decisions.
 

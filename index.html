@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; frame-src https://maps.google.com https://www.google.com; connect-src 'self' https://api.web3forms.com https://cloudflareinsights.com; base-uri 'self'; form-action 'self' https://api.web3forms.com; object-src 'none'"
+      content="default-src 'self'; script-src 'self' https://static.cloudflareinsights.com https://js.hcaptcha.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.hcaptcha.com; font-src 'self'; frame-src https://maps.google.com https://www.google.com https://*.hcaptcha.com; connect-src 'self' https://api.web3forms.com https://cloudflareinsights.com https://*.hcaptcha.com; base-uri 'self'; form-action 'self' https://api.web3forms.com; object-src 'none'"
     />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <link
@@ -34,6 +34,15 @@
     <meta name="apple-mobile-web-app-title" content="BSC" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
+    <link
+      rel="preload"
+      as="image"
+      type="image/webp"
+      href="/src/assets/rectory-field-1440.webp"
+      imagesrcset="/src/assets/rectory-field-640.webp 640w, /src/assets/rectory-field-1024.webp 1024w, /src/assets/rectory-field-1440.webp 1440w, /src/assets/rectory-field-1920.webp 1920w"
+      imagesizes="100vw"
+      fetchpriority="high"
+    />
     <link rel="canonical" href="https://blackheath-sports-club-redesign.pages.dev/" />
     <meta property="og:site_name" content="Blackheath Sports Club" />
     <meta property="og:url" content="https://blackheath-sports-club-redesign.pages.dev/" />

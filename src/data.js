@@ -201,6 +201,11 @@ export const enquiry = {
   endpoint: "https://api.web3forms.com/submit",
   accessKey: "475ec55f-f5d0-403b-957d-6c761a29f0f9",
   subject: "New venue-hire enquiry — Blackheath Sports Club",
+  captcha: {
+    enabled: true,
+    // Web3Forms' shared hCaptcha site key for free plans.
+    siteKey: "50b2fe65-b00b-4b9e-ad62-3ba471098be2",
+  },
   eventTypes: [
     "Wedding",
     "Birthday or celebration",

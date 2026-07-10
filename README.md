@@ -19,6 +19,8 @@ Live deployments:
 - A sprint execution plan in `docs/sprint-plan.md`.
 - PWA/offline support with installable app metadata, generated icons and an offline visit/contact page.
 - Privacy-friendly analytics scaffolding and conversion hooks ready for the Cloudflare Web Analytics/dashboard setup.
+- Cloudflare response security headers, hCaptcha form protection and immutable asset caching.
+- Vitest, Playwright/axe and a locked three-run Lighthouse quality gate.
 
 ## Review summary
 
@@ -40,7 +42,7 @@ Research was based on the current club website and public search results for:
 - Blackheath Squash Club: https://www.blackheathsquashclub.co.uk/
 - Blackheath Cricket Club public listings and Rectory Field references.
 
-The current site is fact-grounded against public club sources, but it remains a concept until the club signs off operational details, media rights, the enquiry form key and the production domain.
+The current site is fact-grounded against public club sources, but it remains a concept until the club signs off operational details, media rights and the production domain.
 
 ## Local development
 
@@ -53,7 +55,13 @@ npm run dev
 
 ```bash
 npm run build
+npm test
+PLAYWRIGHT_CHANNEL=msedge npm run test:e2e
+CHROME_PATH="/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge" npm run lighthouse
 ```
+
+CI installs Chromium automatically; the environment variables above select the system Edge browser
+for local browser and Lighthouse checks.
 
 Useful maintenance scripts:
 

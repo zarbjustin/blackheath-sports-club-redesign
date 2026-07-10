@@ -1417,6 +1417,23 @@ a.contact-card:hover {
   opacity: 0;
 }
 
+.captcha-field {
+  min-height: 78px;
+  overflow: hidden;
+}
+
+.captcha-field iframe {
+  max-width: 100%;
+}
+
+.captcha-placeholder {
+  display: inline-flex;
+  min-height: 78px;
+  align-items: center;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
 .enquiry-note {
   display: flex;
   align-items: flex-start;

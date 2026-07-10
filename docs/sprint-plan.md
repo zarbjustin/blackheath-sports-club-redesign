@@ -121,7 +121,7 @@ Acceptance criteria:
 
 ## Sprint 3: Venue hire and enquiries
 
-Status: Built — awaiting Web3Forms access key (see "Enabling the enquiry form" below).
+Status: Delivered. Web3Forms submissions are live; hCaptcha dashboard enforcement is the owner follow-up.
 
 Goal: Turn venue hire into a high-quality conversion journey.
 
@@ -137,19 +137,12 @@ Tasks:
 - Decide form backend. — Done: Web3Forms (works on static GitHub Pages; access key is safe to commit).
 - Build Contact page. — A Contact section already exists on the single page.
 
-### Enabling the enquiry form (the one remaining step)
+### Enquiry form owner follow-up
 
-The form is wired to Web3Forms but ships with a placeholder key, so it currently falls back
-to opening the visitor's email client. To make online submissions live:
-
-1. Go to https://web3forms.com, enter the club's destination email address, and copy the
-   access key they send you (the key is safe to commit — it only allows sending to that email).
-2. In `src/data.js`, set `enquiry.accessKey` to that key (replacing `YOUR_WEB3FORMS_ACCESS_KEY`).
-3. Rebuild/redeploy. The "isn't switched on yet" notice disappears automatically and submissions
-   POST to Web3Forms, which emails the club. Spam is mitigated by a honeypot field; optionally add
-   hCaptcha via Web3Forms if needed.
-
-The CSP (`index.html`) and privacy notice (`public/privacy.html`) are already updated for this.
+The access key is configured and submissions are live. The owner must select **hCaptcha** as the
+spam-blocking option for this form in the Web3Forms dashboard. The site already lazy-loads the
+widget, requires its token client-side, sends `h-captcha-response`, and includes the necessary CSP
+and privacy disclosure.
 
 Possible form backend options (for reference):
 
@@ -157,7 +150,7 @@ Possible form backend options (for reference):
 - Formspree.
 - Basin.
 - Serverless function (Azure Functions / Cloudflare Worker).
-- Email link fallback for MVP (currently used until the key is set).
+- Email link fallback when a future environment intentionally removes the key.
 
 Deliverables:
 
@@ -256,6 +249,36 @@ Acceptance criteria:
 
 - Maintenance is sustainable for the club.
 - The site can evolve without another full rebuild.
+
+## Sprint 16: Security and repository controls
+
+Status: Delivered.
+
+- Cloudflare response CSP, `frame-ancestors`, Permissions Policy and clickjacking headers.
+- Web3Forms hCaptcha client integration, bounded fields and privacy disclosure.
+- Least-privilege GitHub Actions and locked audit/Lighthouse dependencies.
+- Protected `main`, secret scanning/push protection and Dependabot security alerts.
+
+Owner follow-up: enable hCaptcha for the form in the Web3Forms dashboard.
+
+## Sprint 17: Performance and PWA refinement
+
+Status: Delivered.
+
+- Responsive hero preload and immutable caching for hashed assets.
+- Service worker remains non-cacheable so updates arrive promptly.
+- Large gallery photo reduced from 270 KB to 144 KB.
+- PWA precache reduced from 2.17 MiB to approximately 410 KiB.
+- Three-run homepage baseline: performance 93, accessibility 100, best practices 100, SEO 100.
+
+## Sprint 18: Automated regression testing
+
+Status: Delivered.
+
+- 10 Vitest component/integration tests for forms, analytics, navigation and conditional content.
+- 12 Playwright checks across desktop and mobile Chromium profiles.
+- Automated axe WCAG A/AA, offline fallback, PWA policy and Cloudflare header assertions.
+- Repository-owned Lighthouse runner with hard thresholds and no temporary public reports.
 
 ## Cross-sprint rules
 

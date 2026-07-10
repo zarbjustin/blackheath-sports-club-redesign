@@ -4,6 +4,13 @@ import { VitePWA } from "vite-plugin-pwa";
 
 export default defineConfig({
   base: "./",
+  test: {
+    environment: "jsdom",
+    setupFiles: "./tests/setup.jsx",
+    css: true,
+    restoreMocks: true,
+    exclude: ["tests/e2e/**", "node_modules/**"],
+  },
   plugins: [
     react(),
     VitePWA({
@@ -45,7 +52,9 @@ export default defineConfig({
       workbox: {
         navigateFallback: null,
         cleanupOutdatedCaches: true,
-        globPatterns: ["**/*.{js,css,html,ico,png,svg,jpg,jpeg,webp,woff2,xml,txt}"],
+        // Precache the application shell and icons. Large photos and fonts are fetched
+        // only when used, then retained by the runtime cache below.
+        globPatterns: ["**/*.{js,css,html,ico,png,svg,xml,txt,webmanifest}"],
         runtimeCaching: [
           {
             urlPattern: ({ request, sameOrigin }) =>

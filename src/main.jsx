@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { registerSW } from "virtual:pwa-register";
 import {
   LazyMotion,
@@ -378,9 +379,52 @@ function Membership() {
   );
 }
 
-function Enquiry() {
+function DeferredCaptcha({ captchaRef, onError, onExpire, onVerify }) {
+  const [ready, setReady] = useState(false);
+  const hostRef = useRef(null);
+
+  useEffect(() => {
+    if (!hostRef.current || typeof IntersectionObserver === "undefined") {
+      setReady(true);
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setReady(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "400px 0px" },
+    );
+    observer.observe(hostRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={hostRef} className="captcha-field" role="group" aria-label="Anti-spam verification">
+      {ready ? (
+        <HCaptcha
+          ref={captchaRef}
+          sitekey={enquiry.captcha.siteKey}
+          reCaptchaCompat={false}
+          onVerify={onVerify}
+          onExpire={onExpire}
+          onError={onError}
+        />
+      ) : (
+        <span className="captcha-placeholder">Anti-spam check loads when this form is in view.</span>
+      )}
+    </div>
+  );
+}
+
+export function Enquiry() {
   const [status, setStatus] = useState("idle"); // idle | submitting | success | error | mailto
   const [errorMsg, setErrorMsg] = useState("");
+  const [captchaToken, setCaptchaToken] = useState("");
+  const captchaRef = useRef(null);
   const configured = enquiry.accessKey !== ENQUIRY_PLACEHOLDER_KEY;
 
   async function onSubmit(e) {
@@ -411,6 +455,12 @@ function Enquiry() {
       return;
     }
 
+    if (enquiry.captcha.enabled && !captchaToken) {
+      setStatus("error");
+      setErrorMsg("Please complete the anti-spam check before sending your enquiry.");
+      return;
+    }
+
     setStatus("submitting");
     setErrorMsg("");
     try {
@@ -428,11 +478,12 @@ function Enquiry() {
           preferred_date: val("preferred_date"),
           guests: val("guests"),
           message: val("message"),
+          "h-captcha-response": captchaToken,
           botcheck: false,
         }),
       });
-      const data = await res.json();
-      if (data.success) {
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.success) {
         setStatus("success");
         formEl.reset();
         trackEvent("enquiry_form_success", { event_type: val("event_type") || "not_set" });
@@ -445,6 +496,9 @@ function Enquiry() {
       setStatus("error");
       setErrorMsg("We couldn't send that right now. Please try again, or email us directly.");
       trackEvent("enquiry_form_error", { reason: "network" });
+    } finally {
+      captchaRef.current?.resetCaptcha();
+      setCaptchaToken("");
     }
   }
 
@@ -486,16 +540,16 @@ function Enquiry() {
 
             <div className="field">
               <label htmlFor="q-name">Name <span aria-hidden="true">*</span></label>
-              <input id="q-name" name="name" type="text" required autoComplete="name" />
+              <input id="q-name" name="name" type="text" required maxLength={100} autoComplete="name" />
             </div>
             <div className="field-row">
               <div className="field">
                 <label htmlFor="q-email">Email <span aria-hidden="true">*</span></label>
-                <input id="q-email" name="email" type="email" required autoComplete="email" />
+                <input id="q-email" name="email" type="email" required maxLength={254} autoComplete="email" />
               </div>
               <div className="field">
                 <label htmlFor="q-phone">Phone</label>
-                <input id="q-phone" name="phone" type="tel" autoComplete="tel" />
+                <input id="q-phone" name="phone" type="tel" maxLength={30} autoComplete="tel" />
               </div>
             </div>
             <div className="field-row">
@@ -514,13 +568,25 @@ function Enquiry() {
               </div>
               <div className="field field-narrow">
                 <label htmlFor="q-guests">Guests</label>
-                <input id="q-guests" name="guests" type="number" min="1" inputMode="numeric" />
+                <input id="q-guests" name="guests" type="number" min="1" max="1000" inputMode="numeric" />
               </div>
             </div>
             <div className="field">
               <label htmlFor="q-message">Message <span aria-hidden="true">*</span></label>
-              <textarea id="q-message" name="message" rows={4} required></textarea>
+              <textarea id="q-message" name="message" rows={4} required maxLength={2000}></textarea>
             </div>
+            {configured && enquiry.captcha.enabled && (
+              <DeferredCaptcha
+                captchaRef={captchaRef}
+                onVerify={setCaptchaToken}
+                onExpire={() => setCaptchaToken("")}
+                onError={() => {
+                    setCaptchaToken("");
+                    setStatus("error");
+                    setErrorMsg("The anti-spam check could not load. Please refresh or email us directly.");
+                }}
+              />
+            )}
             <label className="consent">
               <input type="checkbox" name="consent" required />
               <span>
@@ -882,7 +948,7 @@ function Contact() {
   );
 }
 
-function App() {
+export function App() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const navRef = useRef(null);
@@ -955,7 +1021,7 @@ function App() {
       <LazyMotion features={domAnimation}>
       <a className="skip-link" href="#main-content">Skip to content</a>
       <header className={scrolled ? "site-header is-scrolled" : "site-header"}>
-        <a className="brand" href="#main-content" aria-label={`${club.name} home`}>
+        <a className="brand" href="#main-content">
           <span className="brand-mark">BSC</span>
           <span>
             Blackheath
@@ -1024,4 +1090,5 @@ function App() {
   );
 }
 
-createRoot(document.getElementById("root")).render(<App />);
+const rootElement = document.getElementById("root");
+if (rootElement) createRoot(rootElement).render(<App />);
