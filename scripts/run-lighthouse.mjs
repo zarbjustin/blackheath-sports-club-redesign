@@ -45,9 +45,24 @@ function median(values) {
   return sorted[Math.floor(sorted.length / 2)];
 }
 
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function stopPreview(child) {
+  if (child.exitCode !== null) return;
+  child.kill("SIGTERM");
+  await Promise.race([
+    new Promise((resolve) => child.once("exit", resolve)),
+    delay(2_000),
+  ]);
+  if (child.exitCode === null) child.kill("SIGKILL");
+  child.unref();
+}
+
 await mkdir(reportDir, { recursive: true });
 const preview = spawn("npm", ["run", "preview", "--", "--port", String(port)], {
-  stdio: ["ignore", "pipe", "pipe"],
+  stdio: "ignore",
 });
 
 let chrome;
@@ -95,6 +110,15 @@ try {
 
   if (failed) process.exitCode = 1;
 } finally {
-  if (chrome) await chrome.kill();
-  preview.kill("SIGTERM");
+  if (chrome) {
+    await Promise.race([Promise.resolve(chrome.kill()).catch(() => undefined), delay(3_000)]);
+    if (chrome.pid) {
+      try {
+        process.kill(chrome.pid, "SIGKILL");
+      } catch {
+        // Chrome already exited cleanly.
+      }
+    }
+  }
+  await stopPreview(preview);
 }
