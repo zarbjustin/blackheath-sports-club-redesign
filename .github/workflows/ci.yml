@@ -54,7 +54,6 @@ jobs:
           args: >-
             --verbose
             --no-progress
-            --exclude-mail
             --timeout 15
             --max-retries 2
             --exclude "https://twitter\.com"
