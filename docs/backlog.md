@@ -9,11 +9,14 @@ For current state and architecture see `docs/ai-handover.md`. Items already deli
 axe-clean a11y, Web3Forms enquiry form, Cloudflare deployment, analytics scaffold and conversion
 hooks, deeper a11y controls, local SEO expansion, PWA/offline shell) are **not** repeated here.
 
+Sprints 16-18 delivered response security headers, CAPTCHA-ready form protection, least-privilege CI,
+performance/PWA refinement and unit/browser/accessibility/Lighthouse regression coverage.
+
 ## Ranked roadmap
 
 | # | Sprint | Impact | Security | Effort | Blocked on club? |
 |---|--------|:--:|:--:|:--:|:--|
-| 1 | Launch gating | 5 | 4 | 4 | Yes (form key, content) |
+| 1 | Launch gating | 5 | 4 | 4 | Yes (content/domain) |
 | 2 | Privacy-friendly analytics | 4 | 5 | 5 | Part-built; enable provider |
 | 3 | Custom domain + Cloudflare edge security | 3 | 5 | 4 | Yes (DNS) |
 | 4 | UK governance & safeguarding pages (parked) | 1 | 1 | 2 | No public owner yet |
@@ -38,10 +41,9 @@ environment. For custom conversion-event collection, enable Zaraz, Plausible, Go
 event-capable privacy-friendly provider.
 
 ### 3. Custom domain + Cloudflare edge security
-The one real security gap left: a `<meta>` CSP can't set HSTS, `frame-ancestors`,
-`X-Content-Type-Options`, or `Permissions-Policy`. Put the club domain (e.g.
-`blackheathsportsclub.co.uk`) behind Cloudflare's free tier → migrate CSP to a real response header,
-enable HSTS + WAF, add Subresource Integrity in the Vite build. Also improves SEO, caching and trust.
+Part-delivered: `public/_headers` now enforces response CSP, `frame-ancestors`, clickjacking controls,
+`nosniff`, Permissions Policy and immutable hashed-asset caching on Pages. Remaining work is the club
+domain/DNS decision, canonical migration, HSTS/WAF policy and old-domain redirects.
 
 ### 4. UK governance & safeguarding (parked)
 Not a public club-wide roadmap item for now. If the club later wants public Safeguarding, Welfare
@@ -54,9 +56,9 @@ and clearer assistance-dog wording. Remaining future check: rerun a full screen-
 after any major navigation/content changes, and verify reduced-motion again if video is added.
 
 ### 6. CI quality gates + 404 (delivered)
-`.github/workflows/ci.yml` — build, `npm audit`, Lighthouse-CI (`lhci autorun`), lychee broken-link
-check (social/maps excluded). `.lighthouserc.json` — a11y ≥ 0.95 hard fail, perf/best-practices/SEO
-≥ 0.90 warn. `public/404.html` — branded 404 matching `offline.html` style.
+`.github/workflows/ci.yml` runs 10 Vitest tests, build/audit, 12 desktop/mobile Playwright + axe checks,
+a locked three-run Lighthouse gate and lychee links. The repository-owned Lighthouse runner avoids
+mutable `npx` downloads and vulnerable LHCI transitive packages. `public/404.html` remains the branded fallback.
 **CI fix 2026-07-08:** lychee-action SHA corrected to real v2.8.0 (`8646ba30...`).
 
 ### 7. Local SEO expansion
@@ -85,6 +87,8 @@ club has a promo clip).
 ### 11. PWA / offline
 Delivered: `vite-plugin-pwa` manifest, generated service worker, app icons, Apple touch icon, cached
 static shell, network-first page cache and `offline.html` with match-day visit/contact essentials.
+Sprint 17 reduced precache from 2.17 MiB to about 410 KiB by runtime-caching photos/fonts; Sprint 18
+tests a real uncached offline navigation on desktop and mobile.
 When the real club domain is connected, retest manifest `start_url`/`scope`, service-worker
 registration, installability and offline fallback on that domain.
 

@@ -6,6 +6,9 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
   quality:
     name: Build, audit, Lighthouse & links
@@ -23,15 +26,24 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Unit tests
+        run: npm test
+
       - name: Build
         run: npm run build
 
       - name: Security audit
-        # Fail on high or critical vulnerabilities
         run: npm audit --audit-level=high
 
-      - name: Lighthouse CI
-        run: npx --yes @lhci/cli@0.14.x autorun
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Browser and accessibility tests
+        run: npm run test:e2e
+
+      - name: Lighthouse quality gate
+        timeout-minutes: 8
+        run: npm run lighthouse
 
       - name: Link check
         uses: lycheeverse/lychee-action@8646ba30535128ac92d33dfc9133794bfdd9b411 # v2.8.0
@@ -42,7 +54,6 @@ jobs:
           args: >-
             --verbose
             --no-progress
-            --exclude-mail
             --timeout 15
             --max-retries 2
             --exclude "https://twitter\.com"
