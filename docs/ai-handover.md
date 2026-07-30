@@ -55,7 +55,7 @@ These are explicit stakeholder decisions from the latest working session:
 
 - Use the supplied official outlined Blackheath Sports Club crest throughout the design. Preserve every supplied master/original file as a project asset.
 - On desktop, the hero crest should be a confident first-viewport signal (112–150px responsive range), while the compact header and mobile treatments remain restrained.
-- The Cricket card's outbound link label is **"Visit Blackheath Cricket Club"**; it continues to point to the club's Pitchero website.
+- Sports-card outbound links use full club names rather than raw domains: **"Visit Blackheath Cricket Club"**, **"Visit Blackheath Rugby"**, **"Visit Blackheath Lawn Tennis"** and **"Visit Blackheath Squash Club"**. Their existing external destinations remain unchanged.
 - The four constituent clubs must always be presented in the company's registered-name order: **Cricket, Rugby Football, Lawn Tennis, Squash**.
 - Always call the sport **Lawn Tennis**, never just “Tennis”, in visitor-facing copy.
 - The approved positioning copy describes the Rectory Field as the shared home of Cricket, Rugby Football and Lawn Tennis since the late nineteenth century, and Squash since the 1930s; around 1,100 adult and 700 junior playing members; year-round coaching, training and match play; social membership; pavilion bars and terrace; and private hire for birthdays, weddings, funeral wakes and other special events.
