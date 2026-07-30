@@ -5,6 +5,7 @@ import {
   LazyMotion,
   domAnimation,
   m,
+  AnimatePresence,
   MotionConfig,
   useReducedMotion,
   useScroll,
@@ -18,6 +19,8 @@ import {
   Beer,
   CalendarDays,
   CircleCheckBig,
+  ChevronLeft,
+  ChevronRight,
   Clock,
   Car,
   Dumbbell,
@@ -59,7 +62,9 @@ import "@fontsource-variable/inter";
 import "./styles.css";
 
 import {
+  coreMessaging,
   club,
+  membershipBenefits,
   sports,
   otherFacilities,
   venueFacilities,
@@ -79,13 +84,15 @@ import hero1024 from "./assets/rectory-field-1024.webp";
 import hero1440 from "./assets/rectory-field-1440.webp";
 import hero1920 from "./assets/rectory-field-1920.webp";
 import { heroBlur } from "./assets/hero-blur.js";
+import clubCrest from "./assets/brand/bsc-crest.svg";
+import heatherMotif from "./assets/brand/bsc-heather.svg";
 
 registerSW({ immediate: true });
 
 const sportIcons = {
-  Rugby: RugbyIcon,
   Cricket: CricketIcon,
-  Tennis: TennisIcon,
+  "Rugby Football": RugbyIcon,
+  "Lawn Tennis": TennisIcon,
   Squash: SquashIcon,
 };
 
@@ -150,20 +157,27 @@ function Hero() {
           width={1672}
           height={941}
           alt="The Rectory Field, home of Blackheath Sports Club"
-          fetchpriority="high"
+          fetchPriority="high"
           onLoad={() => setLoaded(true)}
         />
       </m.div>
       <div className="hero-scrim" aria-hidden="true" />
 
       <m.div className="hero-content" variants={staggerContainer} initial="hidden" animate="show">
-        <m.p className="eyebrow" variants={staggerItem}>
-          The Rectory Field, Blackheath · Est. {club.established}
-        </m.p>
+        <m.div className="hero-brand-lockup" variants={staggerItem}>
+          <img
+            className="hero-crest"
+            src={clubCrest}
+            alt="Blackheath Sports Club crest"
+            width={1207}
+            height={1207}
+          />
+          <p className="eyebrow">The Rectory Field, Blackheath · Est. {club.established}</p>
+        </m.div>
         <m.h1 variants={staggerItem}>{club.name}</m.h1>
         <m.p className="hero-copy" variants={staggerItem}>
-          {club.slogan}. A historic South East London home for rugby, cricket, tennis and
-          squash — a family members' club with coaching for all ages, venue hire and more.
+          {club.slogan}. The historic shared home of Cricket, Rugby Football, Lawn Tennis
+          and Squash — with year-round sport, social membership and a welcoming venue for hire.
         </m.p>
         <m.div className="hero-actions" variants={staggerItem}>
           <a
@@ -200,10 +214,10 @@ function Hero() {
 
 function Welcome() {
   const facts = [
-    { icon: CalendarDays, label: `Established ${club.established}` },
-    { icon: Users, label: "Four sporting clubs" },
-    { icon: Handshake, label: "Family members' club" },
-    { icon: Sparkles, label: "Coaching for all ages" },
+    { icon: Users, label: coreMessaging.memberCounts.adultPlaying },
+    { icon: Sparkles, label: coreMessaging.memberCounts.juniorPlaying },
+    { icon: Handshake, label: "Four thriving sports clubs" },
+    { icon: CalendarDays, label: "Seven-day, year-round sport" },
   ];
   return (
     <Reveal className="intro band">
@@ -213,13 +227,8 @@ function Welcome() {
       </div>
       <div className="intro-grid">
         <div className="intro-copy">
-          <p>
-            The aim of Blackheath Sports Club is to promote quality sporting activities for
-            our members all year round. Established over a century ago, we are the shared home
-            of four clubs — rugby, cricket, tennis and squash — welcoming everyone from
-            beginners with excellent coaching to teams competing at a high level, and with a
-            strong tradition of sport for children of all ages.
-          </p>
+          <p>{coreMessaging.heritage}</p>
+          <p>{coreMessaging.sportingCommunity}</p>
           <div className="notice">
             <PawPrint size={20} />
             <p>{club.dogNotice}</p>
@@ -346,13 +355,19 @@ function Membership() {
       <div className="membership-layout">
         <div className="membership-copy">
           <p>
-            Each sport runs its own playing membership through its club, while social membership
-            of Blackheath Sports Club gives you the run of the clubhouse and bar seven days a week.
+            Each constituent sports club manages its own playing membership, together serving
+            around 1,100 adult and 700 junior playing members.
           </p>
+          <p>{coreMessaging.socialMembership}</p>
           <div className="membership-price">
             <span className="price">{club.socialMembership}</span>
             <span>Social membership, giving full use of the bar facilities.</span>
           </div>
+          <ul className="membership-benefits" aria-label="Social membership benefits">
+            {membershipBenefits.map((benefit) => (
+              <li key={benefit}><CircleCheckBig size={18} aria-hidden="true" /> {benefit}</li>
+            ))}
+          </ul>
           <a
             className="button primary compact"
             href="#enquire"
@@ -564,8 +579,7 @@ function VenueHire() {
           <p className="eyebrow">Venue hire</p>
           <h2>Clubhouse spaces for celebrations, meetings and events</h2>
           <p className="hire-lead">
-            Members can hire our bar areas and function rooms for occasions large and small,
-            with in-house catering tailored to your event.
+            {coreMessaging.venueHire}
           </p>
           <ul className="facility-list">
             {venueFacilities.map((f) => {
@@ -606,6 +620,11 @@ function VenueHire() {
 function Heritage() {
   return (
     <Reveal className="heritage" id="heritage">
+      <span
+        className="heritage-watermark"
+        aria-hidden="true"
+        style={{ backgroundImage: `url(${heatherMotif})` }}
+      />
       <div className="section-heading">
         <p className="eyebrow">Since {club.established}</p>
         <h2>A home for the history of the game</h2>
@@ -638,7 +657,94 @@ function Heritage() {
   );
 }
 
+function Lightbox({ items, index, onClose, onNavigate }) {
+  const dialogRef = useRef(null);
+  const closeRef = useRef(null);
+  const item = items[index];
+
+  useEffect(() => {
+    closeRef.current?.focus();
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") {
+        onClose();
+      } else if (event.key === "ArrowRight") {
+        onNavigate((index + 1) % items.length);
+      } else if (event.key === "ArrowLeft") {
+        onNavigate((index - 1 + items.length) % items.length);
+      } else if (event.key === "Tab") {
+        const focusable = dialogRef.current?.querySelectorAll("button");
+        if (!focusable?.length) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    const { overflow } = document.body.style;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = overflow;
+    };
+  }, [index, items.length, onClose, onNavigate]);
+
+  return (
+    <m.div
+      className="lightbox"
+      role="dialog"
+      aria-modal="true"
+      aria-label={`Gallery image: ${item.caption}`}
+      ref={dialogRef}
+      onClick={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2, ease: easeOut }}
+    >
+      <button ref={closeRef} className="lightbox-close" type="button" aria-label="Close gallery" onClick={onClose}>
+        <X size={24} />
+      </button>
+      <button
+        className="lightbox-nav prev"
+        type="button"
+        aria-label="Previous image"
+        onClick={() => onNavigate((index - 1 + items.length) % items.length)}
+      >
+        <ChevronLeft size={28} />
+      </button>
+      <figure className="lightbox-figure">
+        <img src={item.src} alt={item.caption} />
+        <figcaption>{item.caption} <span aria-hidden="true">· {index + 1} / {items.length}</span></figcaption>
+      </figure>
+      <button
+        className="lightbox-nav next"
+        type="button"
+        aria-label="Next image"
+        onClick={() => onNavigate((index + 1) % items.length)}
+      >
+        <ChevronRight size={28} />
+      </button>
+    </m.div>
+  );
+}
+
 function Gallery() {
+  const [openIndex, setOpenIndex] = useState(null);
+  const triggerRef = useRef(null);
+
+  const close = () => {
+    setOpenIndex(null);
+    triggerRef.current?.focus();
+  };
+
   return (
     <Reveal className="gallery-section band">
       <div className="section-heading">
@@ -652,13 +758,33 @@ function Gallery() {
         whileInView="show"
         viewport={{ once: true, amount: 0.05 }}
       >
-        {gallery.map((g) => (
+        {gallery.map((g, i) => (
           <m.figure className="gallery-item" key={g.caption} variants={staggerItem}>
-            <img src={g.src} alt={g.caption} width={900} height={360} loading="lazy" decoding="async" />
+            <button
+              type="button"
+              className="gallery-trigger"
+              aria-label={`View larger image: ${g.caption}`}
+              onClick={(event) => {
+                triggerRef.current = event.currentTarget;
+                setOpenIndex(i);
+              }}
+            >
+              <img src={g.src} alt={g.caption} width={900} height={360} loading="lazy" decoding="async" />
+            </button>
             <figcaption>{g.caption}</figcaption>
           </m.figure>
         ))}
       </m.div>
+      <AnimatePresence>
+        {openIndex !== null && (
+          <Lightbox
+            items={gallery}
+            index={openIndex}
+            onClose={close}
+            onNavigate={setOpenIndex}
+          />
+        )}
+      </AnimatePresence>
     </Reveal>
   );
 }
@@ -854,7 +980,7 @@ function Contact() {
       </div>
       <div className="contact-footer">
         <p>
-          For rugby, cricket, tennis or squash enquiries, please contact each club directly via
+          For Cricket, Rugby Football, Lawn Tennis or Squash enquiries, please contact each club directly via
           their website above.
         </p>
         <div className="socials">
@@ -885,6 +1011,7 @@ function Contact() {
 function App() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeId, setActiveId] = useState("");
   const navRef = useRef(null);
   const toggleRef = useRef(null);
 
@@ -907,6 +1034,41 @@ function App() {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const sections = Array.from(
+      document.querySelectorAll("#main-content section[id]")
+    );
+    if (!sections.length || typeof IntersectionObserver === "undefined") {
+      return undefined;
+    }
+
+    const visible = new Map();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            visible.set(entry.target.id, entry.intersectionRatio);
+          } else {
+            visible.delete(entry.target.id);
+          }
+        }
+        let best = "";
+        let bestRatio = 0;
+        for (const [id, ratio] of visible) {
+          if (ratio > bestRatio) {
+            bestRatio = ratio;
+            best = id;
+          }
+        }
+        if (best) setActiveId(best);
+      },
+      { rootMargin: "-45% 0px -45% 0px", threshold: [0, 0.25, 0.5, 1] }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -956,7 +1118,14 @@ function App() {
       <a className="skip-link" href="#main-content">Skip to content</a>
       <header className={scrolled ? "site-header is-scrolled" : "site-header"}>
         <a className="brand" href="#main-content" aria-label={`${club.name} home`}>
-          <span className="brand-mark">BSC</span>
+          <img
+            className="brand-mark"
+            src={clubCrest}
+            alt=""
+            aria-hidden="true"
+            width={1207}
+            height={1207}
+          />
           <span>
             Blackheath
             <strong>Sports Club</strong>
@@ -979,9 +1148,20 @@ function App() {
           className={open ? "nav-links is-open" : "nav-links"}
           aria-label="Primary navigation"
         >
-          {navItems.map(([label, href]) => (
-            <a key={href} href={href} onClick={() => setOpen(false)}>{label}</a>
-          ))}
+          {navItems.map(([label, href]) => {
+            const isActive = href === `#${activeId}`;
+            return (
+              <a
+                key={href}
+                href={href}
+                aria-current={isActive ? "true" : undefined}
+                className={isActive ? "is-active" : undefined}
+                onClick={() => setOpen(false)}
+              >
+                {label}
+              </a>
+            );
+          })}
           <a className="nav-cta" href="#enquire" onClick={() => setOpen(false)}>Enquire</a>
         </nav>
       </header>
@@ -1003,9 +1183,24 @@ function App() {
 
       <footer>
         <div className="footer-brand">
-          <strong>{club.name}</strong>
-          <span>{club.address.line1}, {club.address.line2}, {club.address.city} {club.address.postcode}</span>
-          <span className="footer-copy">© {new Date().getFullYear()} Blackheath Sports Club · Concept redesign</span>
+          <img
+            className="footer-crest"
+            src={clubCrest}
+            alt=""
+            aria-hidden="true"
+            width={1207}
+            height={1207}
+          />
+          <div className="footer-brand-copy">
+            <strong>{club.company.registeredName}</strong>
+            <span className="footer-company-number">Company number {club.company.number}</span>
+            <address className="footer-address">
+              <span>{club.address.line1}</span>
+              <span>{club.address.line2}</span>
+              <span>{club.address.city} {club.address.postcode}</span>
+            </address>
+            <span className="footer-copy">© {new Date().getFullYear()} {club.name}</span>
+          </div>
         </div>
         <nav className="footer-links" aria-label="Footer">
           <a href="privacy.html">Privacy &amp; cookies</a>

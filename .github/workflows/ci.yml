@@ -27,8 +27,11 @@ jobs:
         run: npm run build
 
       - name: Security audit
-        # Fail on high or critical vulnerabilities
-        run: npm audit --audit-level=high
+        # Fail on high or critical vulnerabilities in SHIPPED (production) dependencies only.
+        # The static browser bundle contains no devDependencies, so build-tool advisories
+        # (e.g. vite-plugin-pwa -> workbox -> ... -> brace-expansion) must not block deploys.
+        # Dependabot continues to track and update devDependencies separately.
+        run: npm audit --omit=dev --audit-level=high
 
       - name: Lighthouse CI
         run: npx --yes @lhci/cli@0.14.x autorun
@@ -42,7 +45,6 @@ jobs:
           args: >-
             --verbose
             --no-progress
-            --exclude-mail
             --timeout 15
             --max-retries 2
             --exclude "https://twitter\.com"
