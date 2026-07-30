@@ -5,6 +5,7 @@ import {
   LazyMotion,
   domAnimation,
   m,
+  AnimatePresence,
   MotionConfig,
   useReducedMotion,
   useScroll,
@@ -18,6 +19,8 @@ import {
   Beer,
   CalendarDays,
   CircleCheckBig,
+  ChevronLeft,
+  ChevronRight,
   Clock,
   Car,
   Dumbbell,
@@ -648,7 +651,94 @@ function Heritage() {
   );
 }
 
+function Lightbox({ items, index, onClose, onNavigate }) {
+  const dialogRef = useRef(null);
+  const closeRef = useRef(null);
+  const item = items[index];
+
+  useEffect(() => {
+    closeRef.current?.focus();
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") {
+        onClose();
+      } else if (event.key === "ArrowRight") {
+        onNavigate((index + 1) % items.length);
+      } else if (event.key === "ArrowLeft") {
+        onNavigate((index - 1 + items.length) % items.length);
+      } else if (event.key === "Tab") {
+        const focusable = dialogRef.current?.querySelectorAll("button");
+        if (!focusable?.length) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    const { overflow } = document.body.style;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = overflow;
+    };
+  }, [index, items.length, onClose, onNavigate]);
+
+  return (
+    <m.div
+      className="lightbox"
+      role="dialog"
+      aria-modal="true"
+      aria-label={`Gallery image: ${item.caption}`}
+      ref={dialogRef}
+      onClick={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2, ease: easeOut }}
+    >
+      <button ref={closeRef} className="lightbox-close" type="button" aria-label="Close gallery" onClick={onClose}>
+        <X size={24} />
+      </button>
+      <button
+        className="lightbox-nav prev"
+        type="button"
+        aria-label="Previous image"
+        onClick={() => onNavigate((index - 1 + items.length) % items.length)}
+      >
+        <ChevronLeft size={28} />
+      </button>
+      <figure className="lightbox-figure">
+        <img src={item.src} alt={item.caption} />
+        <figcaption>{item.caption} <span aria-hidden="true">· {index + 1} / {items.length}</span></figcaption>
+      </figure>
+      <button
+        className="lightbox-nav next"
+        type="button"
+        aria-label="Next image"
+        onClick={() => onNavigate((index + 1) % items.length)}
+      >
+        <ChevronRight size={28} />
+      </button>
+    </m.div>
+  );
+}
+
 function Gallery() {
+  const [openIndex, setOpenIndex] = useState(null);
+  const triggerRef = useRef(null);
+
+  const close = () => {
+    setOpenIndex(null);
+    triggerRef.current?.focus();
+  };
+
   return (
     <Reveal className="gallery-section band">
       <div className="section-heading">
@@ -662,13 +752,33 @@ function Gallery() {
         whileInView="show"
         viewport={{ once: true, amount: 0.05 }}
       >
-        {gallery.map((g) => (
+        {gallery.map((g, i) => (
           <m.figure className="gallery-item" key={g.caption} variants={staggerItem}>
-            <img src={g.src} alt={g.caption} width={900} height={360} loading="lazy" decoding="async" />
+            <button
+              type="button"
+              className="gallery-trigger"
+              aria-label={`View larger image: ${g.caption}`}
+              onClick={(event) => {
+                triggerRef.current = event.currentTarget;
+                setOpenIndex(i);
+              }}
+            >
+              <img src={g.src} alt={g.caption} width={900} height={360} loading="lazy" decoding="async" />
+            </button>
             <figcaption>{g.caption}</figcaption>
           </m.figure>
         ))}
       </m.div>
+      <AnimatePresence>
+        {openIndex !== null && (
+          <Lightbox
+            items={gallery}
+            index={openIndex}
+            onClose={close}
+            onNavigate={setOpenIndex}
+          />
+        )}
+      </AnimatePresence>
     </Reveal>
   );
 }
