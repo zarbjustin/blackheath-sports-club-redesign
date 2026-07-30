@@ -399,6 +399,9 @@ Complexity S/M/L/XL. Files are indicative.
 | BL-L | Media | Gallery flat | Lightbox; optional hero video | **P2** | M | `src/main.jsx` |
 | BL-M | Security | No real headers | Custom domain + Cloudflare response headers, HSTS, SRI | **P2** | M | infra + `vite.config.js` |
 | BL-N | Testing | None | Vitest unit + Playwright smoke | **P2** | M | new tests |
+| BL-O | Brand | Raster icons predate the new SVG crest | Regenerate favicon-64/apple-touch/PWA (+maskable) & og-image from `bsc-crest.svg` | **P2** | S | `public/icons/*`, `scripts/*` |
+
+**Status (updated 2026-07-30 PM):** ✅ done — BL-A, BL-C, BL-D, BL-G, BL-L (+ crest→SVG, favicon.svg, heather watermark). ⛔ blocked on npm (org Defender "NPM URL Block", run elsewhere) — BL-E, BL-N. 🔜 open — BL-B, BL-F, BL-H, BL-I, BL-J, BL-K, BL-M, BL-O. Merge gate: confirm PR #20 check green, merge, verify Cloudflare production.
 
 **Acceptance/testing (representative):** BL-A — required check green, prod shows new title/order; BL-B —
 DOM order verified, no duplicate contact region (axe); BL-D — zero hardcoded section paddings, visual diff
@@ -407,6 +410,8 @@ unchanged; BL-F — feed parse handles empty/stale, `aria-live` for updates, Lig
 ---
 
 ## 16. Sprint plan
+
+> **Progress note (2026-07-30 PM):** Sprint 0 is largely done (BL-A applied; direction confirmed) — only the PR #20 merge + prod verification and BL-K remain. Sprint 1 is done (BL-C, BL-G; BL-B still open). Sprint 2's BL-D tokens are done; component split + homepage copy remain. Sprint 3's BL-L lightbox is done. See the revised A–E sprints in `docs/ai-handover.md` for the current hand-off ordering.
 
 - **Sprint 0 — Foundations & unblock:** BL-A (merge PR #20, verify prod), BL-K (analytics on), capture
   Lighthouse/axe baselines, confirm "Heritage Turf" direction.

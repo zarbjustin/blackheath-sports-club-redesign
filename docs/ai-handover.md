@@ -1,7 +1,40 @@
 # AI handover — Blackheath Sports Club website
 
 This document lets any developer or AI pick the project up cold from another machine.
-Read this first, then `docs/site-spec.md` (product spec) and `docs/backlog.md` (ranked next work).
+Read this first, then `docs/design-review-2026-07-30.md` (full review + BL-A…BL-O backlog and sprint plan — the current source of truth for remaining work), then `docs/site-spec.md` (product spec) and `docs/backlog.md` (earlier ranked roadmap).
+
+## Latest session — 2026-07-30 (PM): design review + logo SVG
+
+**Branch `codex/official-logo-copy` HEAD is now `e932d0c`** (PR [#20](https://github.com/zarbjustin/blackheath-sports-club-redesign/pull/20)). On top of `a5ca98a` this session added:
+
+- **`docs/design-review-2026-07-30.md`** — full 18-section multi-model review (Claude Opus 4.8 + GPT-5.6 Sol): scorecard, section-by-section findings, three visual directions (recommended **"Heritage Turf"**), design-system spec, homepage wireframe, WCAG audit, and a prioritised backlog **BL-A…BL-N** + 5-sprint plan. **Use this as the roadmap.**
+- **BL-A (P0) done** — CI audit scoped to `npm audit --omit=dev --audit-level=high`, so PR #20's required check is no longer blocked by dev-only advisories.
+- **BL-C / BL-D / BL-G / BL-L done** — membership benefits list + CTA; `--space-*`/`--fs-*` scale tokens (section padding tokenised); active-nav scroll-spy (`aria-current`); accessible gallery lightbox.
+- **Logo / brand overhaul:**
+  - Official crest is now a **fully-vector `src/assets/brand/bsc-crest.svg`** (18.8 KB gz vs 66 KB WebP), extracted from the outlined `.ai`/PDF master with the Node/`zlib`-only script `scripts/ai2svg.cjs` (offline — no Illustrator/Inkscape/Ghostscript needed). Verified pixel-faithful; used in header/hero/footer.
+  - New **`public/favicon.svg`** (three brand rings + simplified heather glyph) legible at 16px; linked before the PNG fallback.
+  - Dropped the redundant white disc/border on hero+footer crests (the SVG carries its own white field + coloured ring edge); circular drop-shadows; softened header hover (scale, no rotate); one shared `.brand-mark/.hero-crest/.footer-crest` base.
+  - New **heather watermark** in the Heritage section, isolated from the master via `scripts/heather.cjs` → `src/assets/brand/bsc-heather.svg`.
+  - Regenerate either brand SVG anytime with `node scripts/ai2svg.cjs` / `node scripts/heather.cjs` (offline, Node-only + `sharp` for verification).
+
+### What to do next (hand-off for another LLM)
+
+1. **Merge gate (no npm needed):** confirm PR #20's `Build, audit, Lighthouse & links` check is green with the `--omit=dev` audit, merge to `main`, then verify the Cloudflare **production** deploy (title + club order = Cricket, Rugby Football, Lawn Tennis, Squash).
+2. **Blocked on npm — run on a machine WITHOUT the org Defender "NPM URL Block":**
+   - **BL-E** post-build prerender — inject the rendered `#root` HTML into `dist/index.html` (jsdom) so the SPA ships meaningful static HTML for SEO/no-JS. `npm i -D jsdom@^25`.
+   - **BL-N** tests — Vitest + RTL: data integrity (club order, live Web3Forms key), membership benefits, lightbox a11y, nav active logic. `npm i -D vitest@^3 jsdom@^25 @testing-library/react@^16 @testing-library/user-event@^14 @testing-library/jest-dom@^6`.
+3. **Product depth (no npm):** BL-B consolidate the Contact/Enquiry paths; BL-F fixtures/"what's on" (needs the four clubs' fixture feed URLs + a nightly Action); BL-H venue space cards (needs capacities + photos); BL-I testimonials (needs real quotes); BL-J split `src/main.jsx` into `src/sections/*`; apply the homepage order/copy in review §10.
+4. **BL-O (new) — brand raster consistency (no npm; `sharp` is already a devDep):** regenerate `public/icons/*` (favicon-64, apple-touch, PWA 192/512 + a maskable icon) and `public/og-image.jpg` from the **new SVG crest** so every rasterised mark matches. `scripts/generate-pwa-icons.mjs` / `scripts/make-og-image.mjs` take a source raster — first render `bsc-crest.svg` to a high-res PNG with `sharp`, then point the scripts at it.
+5. **Infra:** BL-K enable Cloudflare Web Analytics (dashboard); BL-M custom domain + real response headers (HSTS / `frame-ancestors` / `Permissions-Policy` / SRI) once DNS is decided.
+
+**New sprints for another LLM (supersedes review §16 where items are now done):**
+
+- **Sprint A — Ship it:** merge PR #20, verify prod, BL-K analytics on, capture baseline Lighthouse/axe screenshots. *(no npm)*
+- **Sprint B — Robustness:** BL-E prerender + BL-N test suite. *(needs npm)*
+- **Sprint C — Product depth:** BL-F fixtures, BL-H venue cards, BL-I testimonials, BL-B contact consolidation. *(no npm; needs club data)*
+- **Sprint D — Brand & maintainability:** BL-O regenerate raster icons from the SVG, BL-J split `main.jsx`, homepage §10 order/copy. *(no npm)*
+- **Sprint E — Launch hardening:** BL-M custom domain + edge security headers, cross-browser + reduced-motion re-check. *(needs DNS)*
+
 
 ## Snapshot
 
@@ -9,11 +42,11 @@ Read this first, then `docs/site-spec.md` (product spec) and `docs/backlog.md` (
 - **Live site:** https://blackheath-sports-club-redesign.pages.dev/
 - **GitHub Pages mirror:** https://zarbjustin.github.io/blackheath-sports-club-redesign/
 - **Production branch:** `main` (deploys automatically via Cloudflare Pages and GitHub Pages)
-- **Current work:** `codex/official-logo-copy`, with the verified site implementation at `a5ca98a`, in ready PR [#20](https://github.com/zarbjustin/blackheath-sports-club-redesign/pull/20). Documentation-only handover commits follow it on the same branch. Direct pushes to `main` are blocked by branch protection.
+- **Current work:** `codex/official-logo-copy`, HEAD `e932d0c` (build-verified 2026-07-30 PM — see the “Latest session” banner above), in ready PR [#20](https://github.com/zarbjustin/blackheath-sports-club-redesign/pull/20). The verified base implementation is `a5ca98a`; the design-review, P0/P1 fixes (BL-A/C/D/G/L) and logo-SVG commits follow it on the same branch. Direct pushes to `main` are blocked by branch protection.
 - **Stack:** Vite 8 + React 19 (single-page, plain CSS), Framer Motion (via LazyMotion), lucide-react 1.23 icons, self-hosted variable fonts (Inter + Fraunces), `sharp` for build-time image optimisation.
 - **Hosting:** Cloudflare Pages primary, GitHub Pages mirror (static; no backend, no database, no auth).
 - **Status:** The official-logo redesign and newly approved club copy are complete and verified in a Cloudflare preview. Production is waiting for PR #20's required GitHub security-audit check; see “Current PR and CI handover” below.
-- **Last verified commit:** `a5ca98a` (`feat: apply official club identity`) on 2026-07-30. A clean local build, desktop/mobile visual QA and the Cloudflare Pages preview passed.
+- **Last verified commit:** `e932d0c` (`feat(brand): ship official crest as SVG + logo treatment refinements`) on 2026-07-30 PM — clean local `npm run build`. The base site implementation `a5ca98a` also passed desktop/mobile visual QA and a Cloudflare Pages preview.
 
 ## Conversation memory — 2026-07-30
 
