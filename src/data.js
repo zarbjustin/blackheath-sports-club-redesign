@@ -67,9 +67,11 @@ export const club = {
 
 export const coreMessaging = {
   heritage:
-    "Located at the historic Rectory Field in Blackheath, Blackheath Sports Club has been the shared home of Cricket, Rugby Football and Lawn Tennis since the late 19th century, and Squash since the 1930s.",
+    "Located at the historic Rectory Field in Blackheath. The shared home of Cricket, Rugby Football and Lawn Tennis since the late 19th Century and Squash since the 1930s.",
   sportingCommunity:
-    "With around 1,100 adult and 700 junior playing members, our four constituent sports clubs are thriving. Together, they sustain a seven-day, year-round commitment to excellence in training, coaching and match play for all ages and at every level.",
+    "With around 1100 adult and 700 junior playing members, our four constituent sports clubs are all thriving, and have a seven-day, year-round commitment to excellence in training, coaching and match play for all ages and at all levels.",
+  communityOffer:
+    "We offer non-playing social membership to the local community who can enjoy our popular pavilion bars and terrace and we are a popular venue for private hires including birthday parties, weddings, funeral wakes and other special events.",
   socialMembership:
     "Non-playing social membership is open to the local community, offering a welcoming place to enjoy our popular pavilion bars and terrace throughout the year.",
   venueHire:
