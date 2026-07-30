@@ -9,7 +9,7 @@ Read this first, then `docs/site-spec.md` (product spec) and `docs/backlog.md` (
 - **Live site:** https://blackheath-sports-club-redesign.pages.dev/
 - **GitHub Pages mirror:** https://zarbjustin.github.io/blackheath-sports-club-redesign/
 - **Production branch:** `main` (deploys automatically via Cloudflare Pages and GitHub Pages)
-- **Current work:** `codex/official-logo-copy`, commit `a5ca98a`, in ready PR [#20](https://github.com/zarbjustin/blackheath-sports-club-redesign/pull/20). Direct pushes to `main` are blocked by branch protection.
+- **Current work:** `codex/official-logo-copy`, with the verified site implementation at `a5ca98a`, in ready PR [#20](https://github.com/zarbjustin/blackheath-sports-club-redesign/pull/20). Documentation-only handover commits follow it on the same branch. Direct pushes to `main` are blocked by branch protection.
 - **Stack:** Vite 8 + React 19 (single-page, plain CSS), Framer Motion (via LazyMotion), lucide-react 1.23 icons, self-hosted variable fonts (Inter + Fraunces), `sharp` for build-time image optimisation.
 - **Hosting:** Cloudflare Pages primary, GitHub Pages mirror (static; no backend, no database, no auth).
 - **Status:** The official-logo redesign and newly approved club copy are complete and verified in a Cloudflare preview. Production is waiting for PR #20's required GitHub security-audit check; see “Current PR and CI handover” below.
@@ -119,7 +119,7 @@ Branch protection requires changes to reach `main` through a pull request with t
 ## Current PR and CI handover
 
 - Ready PR: [#20 — Apply the official Blackheath Sports Club identity](https://github.com/zarbjustin/blackheath-sports-club-redesign/pull/20)
-- Head branch/commit: `codex/official-logo-copy` at `a5ca98a`
+- Head branch: `codex/official-logo-copy`; verified site implementation commit: `a5ca98a` (followed by documentation-only handover commits).
 - Cloudflare Pages preview: passed, deployment ID `5a2e779f-17cd-4532-af06-1e4689bfd029`.
 - Required GitHub Actions run: [30561106721](https://github.com/zarbjustin/blackheath-sports-club-redesign/actions/runs/30561106721)
 - Failure is isolated to `npm audit --audit-level=high`: eight high-severity reports come from the nested build-tool chain `vite-plugin-pwa → workbox-build → @trickfilm400/... → ejs → jake → filelist → minimatch → brace-expansion@2.1.2`.
