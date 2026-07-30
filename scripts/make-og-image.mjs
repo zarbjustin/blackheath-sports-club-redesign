@@ -6,6 +6,7 @@ import { dirname, resolve } from "node:path";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const src = resolve(here, "../src/assets/rectory-field-concept.png");
+const logoSrc = resolve(here, "../src/assets/brand/source/bsc-logo-outlined.png");
 const out = resolve(here, "../public/og-image.jpg");
 
 const W = 1200;
@@ -21,15 +22,23 @@ const overlay = Buffer.from(`
     </linearGradient>
   </defs>
   <rect width="${W}" height="${H}" fill="url(#scrim)"/>
-  <text x="72" y="150" font-family="Georgia, 'Times New Roman', serif" font-size="30" fill="#cf993d" font-weight="700" letter-spacing="3">THE RECTORY FIELD · EST. 1883</text>
+  <text x="205" y="118" font-family="Georgia, 'Times New Roman', serif" font-size="27" fill="#b8cf00" font-weight="700" letter-spacing="3">THE RECTORY FIELD · EST. 1883</text>
   <text x="68" y="300" font-family="Georgia, 'Times New Roman', serif" font-size="104" fill="#ffffff" font-weight="700">Blackheath</text>
   <text x="68" y="410" font-family="Georgia, 'Times New Roman', serif" font-size="104" fill="#ffffff" font-weight="700">Sports Club</text>
-  <text x="72" y="500" font-family="Arial, sans-serif" font-size="34" fill="rgba(255,255,255,0.9)">Rugby · Cricket · Tennis · Squash · Venue hire</text>
+  <text x="72" y="500" font-family="Arial, sans-serif" font-size="27" fill="rgba(255,255,255,0.9)">Cricket · Rugby Football · Lawn Tennis · Squash · Venue hire</text>
 </svg>`);
+
+const logo = await sharp(logoSrc)
+  .resize({ width: 112, height: 112, fit: "contain" })
+  .png()
+  .toBuffer();
 
 await sharp(src)
   .resize({ width: W, height: H, fit: "cover", position: "centre" })
-  .composite([{ input: overlay, top: 0, left: 0 }])
+  .composite([
+    { input: overlay, top: 0, left: 0 },
+    { input: logo, top: 58, left: 72 },
+  ])
   .jpeg({ quality: 82, mozjpeg: true })
   .toFile(out);
 

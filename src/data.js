@@ -22,6 +22,10 @@ export const club = {
   name: "Blackheath Sports Club",
   slogan: "Sporting Excellence in the Community",
   established: 1883,
+  company: {
+    registeredName: "Blackheath Cricket, Football and Lawn Tennis Company Limited",
+    number: "00021418",
+  },
   officialSite: "https://www.blackheathsportsclub.co.uk/",
   canonicalUrl: "https://blackheath-sports-club-redesign.pages.dev/",
   imageUrl: "https://blackheath-sports-club-redesign.pages.dev/og-image.jpg",
@@ -61,30 +65,45 @@ export const club = {
     "https://www.google.com/maps/search/?api=1&query=Blackheath%20Sports%20Club%20Rectory%20Field%20Charlton%20Road%20London%20SE3%208SR",
 };
 
-export const sports = [
-  {
-    key: "Rugby",
-    detail: "Home to one of the world's oldest rugby clubs — a proud Rectory Field tradition of match-day energy, junior pathways and top-class club rugby.",
-    url: "https://www.blackheathrugby.co.uk/",
-    site: "blackheathrugby.co.uk",
-    image: rugbyImg,
-    accent: "var(--brick)",
+export const coreMessaging = {
+  heritage:
+    "Located at the historic Rectory Field in Blackheath, Blackheath Sports Club has been the shared home of Cricket, Rugby Football and Lawn Tennis since the late 19th century, and Squash since the 1930s.",
+  sportingCommunity:
+    "With around 1,100 adult and 700 junior playing members, our four constituent sports clubs are thriving. Together, they sustain a seven-day, year-round commitment to excellence in training, coaching and match play for all ages and at every level.",
+  socialMembership:
+    "Non-playing social membership is open to the local community, offering a welcoming place to enjoy our popular pavilion bars and terrace throughout the year.",
+  venueHire:
+    "Our pavilion bars, terrace and function spaces are a popular choice for private hire, including birthday parties, weddings, funeral wakes and other special events.",
+  memberCounts: {
+    adultPlaying: "Around 1,100 adult players",
+    juniorPlaying: "Around 700 junior players",
   },
+};
+
+export const sports = [
   {
     key: "Cricket",
     detail: "Played at the Rectory Field since 1885 — summer fixtures, junior development and a green heart to the club.",
     url: "https://www.pitchero.com/clubs/blackheathcricketclub",
     site: "pitchero.com",
     image: cricketImg,
-    accent: "var(--gold)",
+    accent: "var(--club-red)",
   },
   {
-    key: "Tennis",
-    detail: "Lawn tennis, one of the club's founding sports — all-year coaching, teams, casual play and a welcoming culture.",
+    key: "Rugby Football",
+    detail: "Home to one of the world's oldest rugby clubs — a proud Rectory Field tradition of match-day energy, junior pathways and top-class club rugby.",
+    url: "https://www.blackheathrugby.co.uk/",
+    site: "blackheathrugby.co.uk",
+    image: rugbyImg,
+    accent: "var(--club-black)",
+  },
+  {
+    key: "Lawn Tennis",
+    detail: "Lawn Tennis, one of the club's founding sports — all-year coaching, teams, casual play and a welcoming culture.",
     url: "https://www.blackheathlawntennisclub.org.uk/",
     site: "blackheathlawntennisclub.org.uk",
     image: tennisImg,
-    accent: "var(--blue)",
+    accent: "var(--club-lime-ink)",
   },
   {
     key: "Squash",
@@ -92,7 +111,7 @@ export const sports = [
     url: "https://www.blackheathsquashclub.co.uk/",
     site: "blackheathsquashclub.co.uk",
     image: squashImg,
-    accent: "var(--forest)",
+    accent: "var(--club-green)",
   },
 ];
 
@@ -155,18 +174,18 @@ export const gallery = [
   { src: gWomensXv, caption: "Women's XV" },
   { src: gJuniors, caption: "Junior rugby" },
   { src: gCinderford, caption: "Age Grade Rugby" },
-  { src: gTennisDoubles, caption: "Tennis doubles" },
+  { src: gTennisDoubles, caption: "Lawn Tennis doubles" },
   { src: gSquash, caption: "Squash at the club" },
-  { src: gTennis, caption: "Tennis at the Rectory Field" },
+  { src: gTennis, caption: "Lawn Tennis at the Rectory Field" },
   { src: venueBarImg, caption: "The clubhouse bar" },
 ];
 
 export const groundsMap = {
   image: sitemapImg,
   legend: [
-    "Rugby pitches",
     "Cricket square & outfield",
-    "Tennis courts",
+    "Rugby pitches",
+    "Lawn Tennis courts",
     "Squash courts",
     "Clubhouse & bars",
     "Gym & day nursery",

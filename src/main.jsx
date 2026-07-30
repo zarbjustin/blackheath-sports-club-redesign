@@ -59,6 +59,7 @@ import "@fontsource-variable/inter";
 import "./styles.css";
 
 import {
+  coreMessaging,
   club,
   sports,
   otherFacilities,
@@ -79,13 +80,14 @@ import hero1024 from "./assets/rectory-field-1024.webp";
 import hero1440 from "./assets/rectory-field-1440.webp";
 import hero1920 from "./assets/rectory-field-1920.webp";
 import { heroBlur } from "./assets/hero-blur.js";
+import clubCrest from "./assets/brand/bsc-logo-outlined-512.webp";
 
 registerSW({ immediate: true });
 
 const sportIcons = {
-  Rugby: RugbyIcon,
   Cricket: CricketIcon,
-  Tennis: TennisIcon,
+  "Rugby Football": RugbyIcon,
+  "Lawn Tennis": TennisIcon,
   Squash: SquashIcon,
 };
 
@@ -150,20 +152,27 @@ function Hero() {
           width={1672}
           height={941}
           alt="The Rectory Field, home of Blackheath Sports Club"
-          fetchpriority="high"
+          fetchPriority="high"
           onLoad={() => setLoaded(true)}
         />
       </m.div>
       <div className="hero-scrim" aria-hidden="true" />
 
       <m.div className="hero-content" variants={staggerContainer} initial="hidden" animate="show">
-        <m.p className="eyebrow" variants={staggerItem}>
-          The Rectory Field, Blackheath · Est. {club.established}
-        </m.p>
+        <m.div className="hero-brand-lockup" variants={staggerItem}>
+          <img
+            className="hero-crest"
+            src={clubCrest}
+            alt="Blackheath Sports Club crest"
+            width={1207}
+            height={1207}
+          />
+          <p className="eyebrow">The Rectory Field, Blackheath · Est. {club.established}</p>
+        </m.div>
         <m.h1 variants={staggerItem}>{club.name}</m.h1>
         <m.p className="hero-copy" variants={staggerItem}>
-          {club.slogan}. A historic South East London home for rugby, cricket, tennis and
-          squash — a family members' club with coaching for all ages, venue hire and more.
+          {club.slogan}. The historic shared home of Cricket, Rugby Football, Lawn Tennis
+          and Squash — with year-round sport, social membership and a welcoming venue for hire.
         </m.p>
         <m.div className="hero-actions" variants={staggerItem}>
           <a
@@ -200,10 +209,10 @@ function Hero() {
 
 function Welcome() {
   const facts = [
-    { icon: CalendarDays, label: `Established ${club.established}` },
-    { icon: Users, label: "Four sporting clubs" },
-    { icon: Handshake, label: "Family members' club" },
-    { icon: Sparkles, label: "Coaching for all ages" },
+    { icon: Users, label: coreMessaging.memberCounts.adultPlaying },
+    { icon: Sparkles, label: coreMessaging.memberCounts.juniorPlaying },
+    { icon: Handshake, label: "Four thriving sports clubs" },
+    { icon: CalendarDays, label: "Seven-day, year-round sport" },
   ];
   return (
     <Reveal className="intro band">
@@ -213,13 +222,8 @@ function Welcome() {
       </div>
       <div className="intro-grid">
         <div className="intro-copy">
-          <p>
-            The aim of Blackheath Sports Club is to promote quality sporting activities for
-            our members all year round. Established over a century ago, we are the shared home
-            of four clubs — rugby, cricket, tennis and squash — welcoming everyone from
-            beginners with excellent coaching to teams competing at a high level, and with a
-            strong tradition of sport for children of all ages.
-          </p>
+          <p>{coreMessaging.heritage}</p>
+          <p>{coreMessaging.sportingCommunity}</p>
           <div className="notice">
             <PawPrint size={20} />
             <p>{club.dogNotice}</p>
@@ -346,9 +350,10 @@ function Membership() {
       <div className="membership-layout">
         <div className="membership-copy">
           <p>
-            Each sport runs its own playing membership through its club, while social membership
-            of Blackheath Sports Club gives you the run of the clubhouse and bar seven days a week.
+            Each constituent sports club manages its own playing membership, together serving
+            around 1,100 adult and 700 junior playing members.
           </p>
+          <p>{coreMessaging.socialMembership}</p>
           <div className="membership-price">
             <span className="price">{club.socialMembership}</span>
             <span>Social membership, giving full use of the bar facilities.</span>
@@ -564,8 +569,7 @@ function VenueHire() {
           <p className="eyebrow">Venue hire</p>
           <h2>Clubhouse spaces for celebrations, meetings and events</h2>
           <p className="hire-lead">
-            Members can hire our bar areas and function rooms for occasions large and small,
-            with in-house catering tailored to your event.
+            {coreMessaging.venueHire}
           </p>
           <ul className="facility-list">
             {venueFacilities.map((f) => {
@@ -854,7 +858,7 @@ function Contact() {
       </div>
       <div className="contact-footer">
         <p>
-          For rugby, cricket, tennis or squash enquiries, please contact each club directly via
+          For Cricket, Rugby Football, Lawn Tennis or Squash enquiries, please contact each club directly via
           their website above.
         </p>
         <div className="socials">
@@ -956,7 +960,14 @@ function App() {
       <a className="skip-link" href="#main-content">Skip to content</a>
       <header className={scrolled ? "site-header is-scrolled" : "site-header"}>
         <a className="brand" href="#main-content" aria-label={`${club.name} home`}>
-          <span className="brand-mark">BSC</span>
+          <img
+            className="brand-mark"
+            src={clubCrest}
+            alt=""
+            aria-hidden="true"
+            width={1207}
+            height={1207}
+          />
           <span>
             Blackheath
             <strong>Sports Club</strong>
@@ -1003,9 +1014,24 @@ function App() {
 
       <footer>
         <div className="footer-brand">
-          <strong>{club.name}</strong>
-          <span>{club.address.line1}, {club.address.line2}, {club.address.city} {club.address.postcode}</span>
-          <span className="footer-copy">© {new Date().getFullYear()} Blackheath Sports Club · Concept redesign</span>
+          <img
+            className="footer-crest"
+            src={clubCrest}
+            alt=""
+            aria-hidden="true"
+            width={1207}
+            height={1207}
+          />
+          <div className="footer-brand-copy">
+            <strong>{club.company.registeredName}</strong>
+            <span className="footer-company-number">Company number {club.company.number}</span>
+            <address className="footer-address">
+              <span>{club.address.line1}</span>
+              <span>{club.address.line2}</span>
+              <span>{club.address.city} {club.address.postcode}</span>
+            </address>
+            <span className="footer-copy">© {new Date().getFullYear()} {club.name}</span>
+          </div>
         </div>
         <nav className="footer-links" aria-label="Footer">
           <a href="privacy.html">Privacy &amp; cookies</a>
