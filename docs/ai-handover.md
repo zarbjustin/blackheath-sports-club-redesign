@@ -8,11 +8,24 @@ Read this first, then `docs/site-spec.md` (product spec) and `docs/backlog.md` (
 - **Repository:** `zarbjustin/blackheath-sports-club-redesign`
 - **Live site:** https://blackheath-sports-club-redesign.pages.dev/
 - **GitHub Pages mirror:** https://zarbjustin.github.io/blackheath-sports-club-redesign/
-- **Branch:** `main` (deploys automatically via Cloudflare Pages and GitHub Pages)
+- **Production branch:** `main` (deploys automatically via Cloudflare Pages and GitHub Pages)
+- **Current work:** `codex/official-logo-copy`, commit `a5ca98a`, in ready PR [#20](https://github.com/zarbjustin/blackheath-sports-club-redesign/pull/20). Direct pushes to `main` are blocked by branch protection.
 - **Stack:** Vite 8 + React 19 (single-page, plain CSS), Framer Motion (via LazyMotion), lucide-react 1.23 icons, self-hosted variable fonts (Inter + Fraunces), `sharp` for build-time image optimisation.
 - **Hosting:** Cloudflare Pages primary, GitHub Pages mirror (static; no backend, no database, no auth).
-- **Status:** Feature-rich concept, grounded in the real club's facts. Not yet the club's official production site (needs club sign-off on prices/media/booking links + the enquiry form access key).
-- **Last verified commit:** `81995dd` (`feat(nav): reorder items, hide Media until video exists, fix dead zone`) on 2026-07-08. Cloudflare Pages and GitHub Pages both deploy from `main` automatically.
+- **Status:** The official-logo redesign and newly approved club copy are complete and verified in a Cloudflare preview. Production is waiting for PR #20's required GitHub security-audit check; see “Current PR and CI handover” below.
+- **Last verified commit:** `a5ca98a` (`feat: apply official club identity`) on 2026-07-30. A clean local build, desktop/mobile visual QA and the Cloudflare Pages preview passed.
+
+## Conversation memory — 2026-07-30
+
+These are explicit stakeholder decisions from the latest working session:
+
+- Use the supplied official outlined Blackheath Sports Club crest throughout the design. Preserve every supplied master/original file as a project asset.
+- The four constituent clubs must always be presented in the company's registered-name order: **Cricket, Rugby Football, Lawn Tennis, Squash**.
+- Always call the sport **Lawn Tennis**, never just “Tennis”, in visitor-facing copy.
+- The approved positioning copy describes the Rectory Field as the shared home of Cricket, Rugby Football and Lawn Tennis since the late nineteenth century, and Squash since the 1930s; around 1,100 adult and 700 junior playing members; year-round coaching, training and match play; social membership; pavilion bars and terrace; and private hire for birthdays, weddings, funeral wakes and other special events.
+- The corporate footer must identify **Blackheath Cricket, Football and Lawn Tennis Company Limited**, company number **00021418**, at **The Rectory Field, Charlton Road, London SE3 8SR**.
+- The local working copy requested by the stakeholder is `C:\Users\jzarb\blackheath-sports-club-redesign`.
+- Do not make additional npm registry/audit/install requests without first discussing them with the stakeholder. Microsoft Defender displayed organisational “NPM URL Block” alerts during registry access in this session.
 
 ## Delivered Sprint Snapshot
 
@@ -33,6 +46,15 @@ Read this first, then `docs/site-spec.md` (product spec) and `docs/backlog.md` (
   - `src/assets/club/gallery-rugby-cinderford.webp` — replaced with Age Grade Rugby action photo, 1200×800px, 109 KB WebP; caption updated from "Rugby v Cinderford" to "Age Grade Rugby" in `src/data.js` (commit `a8ce938`).
 - **Enquiry form live (2026-07-08):** Web3Forms access key set for `bhsportsclub@outlook.com` — form now POSTs submissions directly. Honeypot anti-spam in place (commit `ba04212`).
 - **Nav improvements (2026-07-08):** Reordered to Sports → Membership → Venue hire → Heritage → Visit. Media nav item + section hidden until `media.video.source` is set in `data.js` (auto-reveals when video is supplied). Removed `justify-content: space-between` dead zone; nav sits flush right via `margin-left: auto` (commit `81995dd`).
+- **Official identity and copy (2026-07-30):**
+  - Preserved the supplied `.ai`, `.eps`, `.jpg` and `.png` masters in `src/assets/brand/source/`.
+  - Added `src/assets/brand/bsc-logo-outlined-512.webp` as the optimised live crest and incorporated it into the header, hero and corporate footer.
+  - Regenerated the favicon, Apple/PWA icons and social sharing image from the official crest.
+  - Reworked the visual system around the crest colours: red `#e30613`, lime `#b8cf00`, green `#1f5736`, black and white. Refined Fraunces headings, Inter body copy, section rules, cards and calls to action.
+  - Centralised the approved stakeholder wording in `coreMessaging`.
+  - Standardised the four clubs and external links in this exact order: Cricket, Rugby Football, Lawn Tennis, Squash.
+  - Replaced visitor-facing “Tennis” labels with “Lawn Tennis”.
+  - Added the exact legal company name, number and postal address to the corporate footer.
 
 ## What is built (as-built)
 
@@ -40,7 +62,7 @@ Single-page site (`src/main.jsx`) with these sections, all content-driven from `
 
 - **Hero** — responsive WebP image with blur-up + subtle parallax; staggered load animation.
 - **Welcome** — real club intro copy, fact chips, no-dogs notice.
-- **Sports** — Rugby/Cricket/Tennis/Squash cards with real club photos and custom SVG sport icons (`src/icons.jsx`); each links out to that club's official site (correct URLs).
+- **Sports** — Cricket/Rugby Football/Lawn Tennis/Squash cards, in that order, with real club photos and custom SVG sport icons (`src/icons.jsx`); each links out to that club's official site (correct URLs).
 - **Also at the Rectory Field** — Gym (Better Body) and Day Nursery cards linking externally.
 - **Membership** — social membership £50/year, pathway chips.
 - **Venue hire** — real facilities list + clubhouse bar photo; CTA to the enquiry form.
@@ -51,7 +73,7 @@ Single-page site (`src/main.jsx`) with these sections, all content-driven from `
 - **Visit** — address, Sat-Nav postcode, nearby areas served, click-to-load Google Map (GDPR-friendly).
 - **Grounds** — the club's site map image + a modern facilities legend.
 - **Contact** — email, phone, bar hours, social links.
-- **Footer** — brand, copyright, Privacy link, socials.
+- **Footer** — official crest, corporate company details and address, copyright, Privacy link and socials.
 
 Standalone pages in `public/`: `privacy.html`, `offline.html`, `robots.txt`, `sitemap.xml`, `og-image.jpg`, PWA icons in `public/icons/`.
 
@@ -63,7 +85,7 @@ Standalone pages in `public/`: `privacy.html`, `offline.html`, `robots.txt`, `si
 - `src/analytics.js` — opt-in privacy-friendly analytics loader and conversion-event helper. Cloudflare Web Analytics is off until `VITE_CLOUDFLARE_WEB_ANALYTICS_TOKEN` is configured or Cloudflare Pages Web Analytics is enabled in the dashboard.
 - `src/icons.jsx` — custom SVG sport icons (lucide-styled).
 - `src/styles.css` — design tokens (colours, radii, fonts, easing) + all component styles + responsive + `prefers-reduced-motion`.
-- `src/assets/` — hero WebP set + `hero-blur.js`; `src/assets/club/` — optimised club photos (WebP).
+- `src/assets/` — hero WebP set + `hero-blur.js`; `src/assets/club/` — optimised club photos (WebP); `src/assets/brand/` — the optimised live crest plus preserved source masters in `src/assets/brand/source/`.
 - `public/` — copied to site root (robots, sitemap, privacy, offline fallback, og-image, PWA icons).
 - `scripts/` — build-time helpers: `optimize-hero.mjs`, `import-club-media.mjs`, `make-og-image.mjs`, `generate-pwa-icons.mjs`.
 - `vite.config.js` — Vite + React + `vite-plugin-pwa`; manifest uses relative `start_url` and `scope` so it works on the current Pages URL and GitHub Pages mirror.
@@ -92,6 +114,19 @@ Deploy is automatic:
   - Output directory: `dist`
 - GitHub Pages mirror: push to `main` → GitHub Actions builds and deploys to GitHub Pages.
 
+Branch protection requires changes to reach `main` through a pull request with the required `Build, audit, Lighthouse & links` check passing. Do not attempt to bypass this with a direct push.
+
+## Current PR and CI handover
+
+- Ready PR: [#20 — Apply the official Blackheath Sports Club identity](https://github.com/zarbjustin/blackheath-sports-club-redesign/pull/20)
+- Head branch/commit: `codex/official-logo-copy` at `a5ca98a`
+- Cloudflare Pages preview: passed, deployment ID `5a2e779f-17cd-4532-af06-1e4689bfd029`.
+- Required GitHub Actions run: [30561106721](https://github.com/zarbjustin/blackheath-sports-club-redesign/actions/runs/30561106721)
+- Failure is isolated to `npm audit --audit-level=high`: eight high-severity reports come from the nested build-tool chain `vite-plugin-pwa → workbox-build → @trickfilm400/... → ejs → jake → filelist → minimatch → brace-expansion@2.1.2`.
+- The affected packages are development/build tooling and are not shipped in the static browser bundle. A forced `vite-plugin-pwa` downgrade was deliberately avoided.
+- A focused candidate fix is to make CI audit deployed dependencies with `npm audit --omit=dev --audit-level=high`, while Dependabot continues tracking development dependencies. This has **not** been implemented and should be confirmed with the stakeholder first.
+- Once the required check passes, merge PR #20 into `main` and verify the resulting Cloudflare **production** deployment. The successful PR preview is not yet the production release.
+
 Analytics is opt-in:
 
 - Cloudflare Pages dashboard path: Workers & Pages → `blackheath-sports-club-redesign` → Metrics → Enable Web Analytics.
@@ -108,9 +143,8 @@ PWA/offline:
 
 ## Environment gotchas (important)
 
-1. **npm registry:** the global npm config points at an internal Microsoft proxy that fails auth on this machine. Always install with `--registry https://registry.npmjs.org/`.
-2. **git push permissions:** the repo belongs to GitHub account `zarbjustin`, but the machine's active `gh` account may be `jzarb_microsoft` (no write access → 403). To push:
-   `gh auth switch --user zarbjustin` → `git push origin main` → `gh auth switch --user jzarb_microsoft`.
+1. **npm registry and Defender:** the global npm config points at an internal Microsoft proxy that may fail auth. Public npm registry requests made during this session also triggered organisational Microsoft Defender “NPM URL Block” alerts. Dependencies are already present locally; prefer non-networked build/inspection commands and get stakeholder confirmation before any further npm install, audit or registry request.
+2. **git push permissions:** the repo belongs to GitHub account `zarbjustin`, but the machine's active `gh` account may be `jzarb_microsoft` (no write access → 403). For an approved branch push, switch to `zarbjustin`, push the feature branch, then switch back to the prior account. `main` is protected and must be updated through a passing PR.
 3. **Vite `base: "./"`:** assets are relative so Pages works under the repo subpath and the PWA manifest can stay domain-neutral. But `npm run preview` serves at `http://127.0.0.1:4173/` (root), NOT `/blackheath-sports-club-redesign/`.
 4. **Visual/QA is done with Playwright via system Edge** (`chromium.launch({ channel: "msedge" })`) to avoid a Chromium download. Playwright + `@axe-core/playwright` are installed only temporarily for QA and uninstalled afterwards — they are NOT project dependencies. Full-page screenshots need a scroll pass first, or the `whileInView` reveals stay at opacity 0.
 5. **Framer Motion:** uses `LazyMotion` + `m` (not `motion`) to keep the bundle small. Keep using `m.*`.
@@ -154,6 +188,8 @@ See **`docs/backlog.md`** — a ranked roadmap produced from a multi-model analy
 ## Resume checklist
 
 - Read `docs/ai-handover.md` (this), `docs/site-spec.md`, `docs/backlog.md`.
-- `npm install --registry https://registry.npmjs.org/`, then `npm run build`.
-- To push: switch `gh` to `zarbjustin`, push, switch back.
+- Start in `C:\Users\jzarb\blackheath-sports-club-redesign` and inspect `git status`, the current branch and PR #20 checks.
+- Do not start with `npm install` or `npm audit`; registry access triggered organisational Defender alerts. Existing dependencies and the production build were already verified for commit `a5ca98a`.
+- Ask the stakeholder before applying the proposed CI audit-scope change. If approved, commit it to `codex/official-logo-copy`, push the branch, watch the required check, merge PR #20 only when green, and verify Cloudflare production.
+- To push an approved branch: switch `gh` to `zarbjustin`, push the feature branch, then switch back to the prior account.
 - Content edits go in `src/data.js`; image changes: replace the WebP in `src/assets/club/` using `node -e "require('sharp')(...).webp({quality:85}).resize({width:1200}).toFile(...)"` (sharp is already a devDep), then `npm run build` to verify, then commit.
