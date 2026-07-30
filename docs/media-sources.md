@@ -3,30 +3,31 @@
 This register records third-party media used by the site. Club-supplied media remains
 documented separately in the handover and source folders.
 
-## Sports-card action photography
+## Sports-card action imagery
 
-The following images are used as interim homepage sports-card photography. Each source
-page identifies the image as free to use under the Pexels licence. Pexels permits website
-use and modification without required attribution; credit is retained here for provenance.
+The following images are custom AI-generated concept assets created with OpenAI ImageGen
+on 2026-07-31. They intentionally use generic, unbranded sportswear and close
+equipment-led action so the four cards read as one visual set. They are not photographs
+of Blackheath players, teams or Rectory Field.
 
-| Sport | Photographer | Source | Optimised asset |
-| --- | --- | --- | --- |
-| Cricket | Anil Sharma | [Cricket match action with batsman and wicketkeeper](https://www.pexels.com/photo/cricket-match-action-with-batsman-and-wicketkeeper-30671896/) | `src/assets/club/cricket-action.webp` |
-| Rugby Football | Patrick Case | [Men playing rugby](https://www.pexels.com/photo/men-playing-rugby-3631109/) | `src/assets/club/rugby-action.webp` |
-| Lawn Tennis | Ridwan Nugraha | [Tennis player in action on outdoor court](https://www.pexels.com/photo/tennis-player-in-action-on-outdoor-court-35214639/) | `src/assets/club/tennis-action.webp` |
-| Squash | Artem Podrez | [Man playing squash](https://www.pexels.com/photo/man-playing-squash-7648084/) | `src/assets/club/squash-action.webp` |
+| Sport | Visual direction | Optimised asset |
+| --- | --- | --- |
+| Cricket | Close batting contact with bat, red ball, pads and stumps | `src/assets/club/cricket-action.webp` |
+| Rugby Football | Close ball-carrying action through a tackle | `src/assets/club/rugby-action.webp` |
+| Lawn Tennis | Close racket-and-ball contact on a grass court | `src/assets/club/tennis-action.webp` |
+| Squash | Close racket-and-ball action inside a traditional court | `src/assets/club/squash-action.webp` |
 
-- Licence checked: 2026-07-31.
-- Licence: [Pexels licence](https://www.pexels.com/license/).
-- Source files were downloaded at 2400 px and cropped to the card's 16:11 aspect ratio.
-- Production files are 1600 x 1100 WebP at quality 82.
+- Generation model: OpenAI ImageGen.
+- Shared direction: photorealistic British community sport, natural light, shallow depth
+  of field, tight action crop, plain kit, no logos, sponsors, text or club branding.
+- Production files are 1600 x 1100 WebP at quality 84.
 - The original club card images remain in `src/assets/club/` for rollback and comparison.
 
 ## Replacement guidance
 
-These stock images solve the immediate resolution and consistency problem, but they should
-not be presented as photographs of Blackheath players or Rectory Field. Replace them when
-the club supplies approved high-resolution action photography.
+These generated images solve the immediate resolution and consistency problem, but they
+must not be presented as documentary photography. Replace them when the club supplies
+approved high-resolution action photography.
 
 Preferred replacement files should:
 

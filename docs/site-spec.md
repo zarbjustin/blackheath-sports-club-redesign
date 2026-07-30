@@ -20,8 +20,8 @@ Delivered so far:
 - Real, fact-grounded content across all sections (address, phone, bar hours, £50 social membership,
   no-dogs rule, 1883/1885/1937 heritage), structured in `src/data.js`.
 - Real club photography optimised to WebP; responsive hero with blur-up; custom per-sport SVG icons.
-- Homepage sports cards use a reviewable interim set of licensed, high-resolution Pexels
-  action images at 1600 x 1100. Sources are recorded in `docs/media-sources.md`; approved
+- Homepage sports cards use a reviewable interim set of custom, generic AI-generated
+  action images at 1600 x 1100. Provenance is recorded in `docs/media-sources.md`; approved
   Blackheath action photography remains the production preference.
 - Correct external links to each sport's official site + Gym and Day Nursery.
 - Venue-hire section, membership, heritage timeline, gallery, media/video-ready section,

@@ -1,7 +1,7 @@
 // Structured content for Blackheath Sports Club, validated against the live site
 // https://www.blackheathsportsclub.co.uk/ (home, facilities, history, contact, map).
 // Most photos are © Blackheath Sports Club, optimized via scripts/import-club-media.mjs.
-// Sports-card action photos are licensed Pexels images; see docs/media-sources.md.
+// Sports-card action images are generated concept assets; see docs/media-sources.md.
 
 import rugbyImg from "./assets/club/rugby-action.webp";
 import cricketImg from "./assets/club/cricket-action.webp";

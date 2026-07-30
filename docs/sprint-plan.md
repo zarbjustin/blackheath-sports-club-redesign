@@ -11,16 +11,16 @@ Delivered:
 - Replaced the four low-resolution sports-card references with consistently styled action
   photography for Cricket, Rugby Football, Lawn Tennis and Squash.
 - Produced 1600 x 1100 WebP card crops that match the card's 16:11 display ratio.
-- Recorded source pages, photographers, licence and replacement guidance in
+- Recorded generation provenance, visual direction and replacement guidance in
   `docs/media-sources.md`.
 - Preserved the previous club images for rollback.
 
 Remaining acceptance:
 
 - Review all four cards at desktop and mobile widths.
-- Confirm that interim stock photography is acceptable until approved Blackheath images
+- Confirm that interim generated concept imagery is acceptable until approved Blackheath images
   are supplied.
-- Replace stock assets later without changing the card layout or data model.
+- Replace concept assets later without changing the card layout or data model.
 
 ## Sprint 0: Discovery and confirmation
 
