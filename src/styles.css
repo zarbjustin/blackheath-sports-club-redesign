@@ -354,6 +354,24 @@ img {
   line-height: 1.5;
 }
 
+@media (min-width: 961px) {
+  .hero-brand-lockup {
+    gap: 22px;
+    margin-bottom: 20px;
+  }
+
+  .hero-crest {
+    width: clamp(112px, 10vw, 150px);
+    filter: drop-shadow(0 18px 38px rgba(0, 0, 0, 0.42));
+  }
+
+  .hero-brand-lockup .eyebrow {
+    max-width: 26ch;
+    font-size: 0.82rem;
+    line-height: 1.45;
+  }
+}
+
 .eyebrow {
   margin: 0 0 14px;
   color: var(--gold-ink);
