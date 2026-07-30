@@ -4,7 +4,7 @@ This is the execution backlog for turning the current concept into a production-
 
 ## Visual media refresh: sports-card action photography
 
-Status: In review on `codex/high-resolution-sports-action-images`.
+Status: Delivered on `main` through PR #28 at commit `2d18400`.
 
 Delivered:
 
@@ -17,10 +17,9 @@ Delivered:
   Grade Rugby photograph in the club's red-and-black strip.
 - Preserved the previous club images for rollback.
 
-Remaining acceptance:
+Follow-up acceptance:
 
-- Review all four cards at desktop and mobile widths.
-- Confirm that the three interim generated concepts are acceptable until approved
+- Continue stakeholder review of the three interim generated concepts until approved
   Blackheath Cricket, Lawn Tennis and Squash images are supplied.
 - Replace concept assets later without changing the card layout or data model.
 

@@ -3,19 +3,25 @@
 This document lets any developer or AI pick the project up cold from another machine.
 Read this first, then `docs/design-review-2026-07-30.md` (full review + BL-A…BL-O backlog and sprint plan — the current source of truth for remaining work), then `docs/site-spec.md` (product spec) and `docs/backlog.md` (earlier ranked roadmap).
 
-## Current review branch — 2026-07-31: sports-card action photography
+## Latest release — 2026-07-31: sports-card action photography
 
-Branch `codex/high-resolution-sports-action-images` replaces the four low-resolution
+PR [#28](https://github.com/zarbjustin/blackheath-sports-club-redesign/pull/28)
+merged into `main` at commit `2d18400`. It replaces the four low-resolution
 `900 x 360` sports-card images with consistently cropped `1600 x 1100` action photography.
 The current revision uses an authentic Blackheath Age Grade Rugby photograph alongside
 custom, generic AI-generated concept imagery for Cricket, Lawn Tennis and Squash. All
 provenance is recorded in `docs/media-sources.md`.
-The previous club images remain in `src/assets/club/` and this branch should be visually
-reviewed before merge. The three concept images are an interim quality improvement, not
+The previous club images remain in `src/assets/club/`. The three concept images are an
+interim quality improvement, not
 representations of Blackheath players or Rectory Field; approved club photography remains
 the preferred long-term replacement for those cards.
 
-## Latest release — 2026-07-30: official identity + hero crest refinement
+Cloudflare Pages production deployment `3d02d93f-e91f-4110-9821-bb04e2d10116`
+succeeded. GitHub CI, security audit, Lighthouse, link checking and the GitHub Pages
+mirror passed after merge. The canonical Pages URL and `new.blackheathsportsclub.co.uk`
+were verified with HTTP 200, and the production bundle references the new Rugby asset.
+
+## Prior release — 2026-07-30: official identity + hero crest refinement
 
 The official identity work shipped to `main` through PR [#20](https://github.com/zarbjustin/blackheath-sports-club-redesign/pull/20) at production commit `c3ed531`. GitHub CI passed and Cloudflare Pages production deployment `e3c4604a-3c9c-40cf-a306-ee1b9c9dec7a` completed successfully.
 
