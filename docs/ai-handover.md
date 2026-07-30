@@ -3,6 +3,16 @@
 This document lets any developer or AI pick the project up cold from another machine.
 Read this first, then `docs/design-review-2026-07-30.md` (full review + BL-A…BL-O backlog and sprint plan — the current source of truth for remaining work), then `docs/site-spec.md` (product spec) and `docs/backlog.md` (earlier ranked roadmap).
 
+## Current review branch — 2026-07-31: sports-card action photography
+
+Branch `codex/high-resolution-sports-action-images` replaces the four low-resolution
+`900 x 360` sports-card images with consistently cropped `1600 x 1100` action photography.
+The images are licensed from Pexels and fully recorded in `docs/media-sources.md`.
+The previous club images remain in `src/assets/club/` and this branch should be visually
+reviewed before merge. These stock photographs are an interim quality improvement, not
+representations of Blackheath players or Rectory Field; approved club photography remains
+the preferred long-term replacement.
+
 ## Latest release — 2026-07-30: official identity + hero crest refinement
 
 The official identity work shipped to `main` through PR [#20](https://github.com/zarbjustin/blackheath-sports-club-redesign/pull/20) at production commit `c3ed531`. GitHub CI passed and Cloudflare Pages production deployment `e3c4604a-3c9c-40cf-a306-ee1b9c9dec7a` completed successfully.
@@ -60,6 +70,7 @@ These are explicit stakeholder decisions from the latest working session:
 - Always call the sport **Lawn Tennis**, never just “Tennis”, in visitor-facing copy.
 - The Welcome section must retain all three stakeholder-approved positioning paragraphs: **"Located at the historic Rectory Field in Blackheath. The shared home of Cricket, Rugby Football and Lawn Tennis since the late 19th Century and Squash since the 1930s."**, **"With around 1100 adult and 700 junior playing members, our four constituent sports clubs are all thriving, and have a seven-day, year-round commitment to excellence in training, coaching and match play for all ages and at all levels."**, and **"We offer non-playing social membership to the local community who can enjoy our popular pavilion bars and terrace and we are a popular venue for private hires including birthday parties, weddings, funeral wakes and other special events."**
 - The compact header wordmark keeps **Blackheath** in readable title case and **SPORTS CLUB** in red uppercase, with the lower line optically matched to the width of the name. The hero heading deliberately retains its heritage serif rather than copying the compact sans-serif lettering drawn around the circular crest.
+- Interim stock photography may be used to improve sports-card resolution, but it must have a traceable licence and must not be described as Blackheath players or Rectory Field. Replace it with approved, high-resolution club action photography when supplied.
 - The corporate footer must identify **Blackheath Cricket, Football and Lawn Tennis Company Limited**, company number **00021418**, at **The Rectory Field, Charlton Road, London SE3 8SR**.
 - The local working copy requested by the stakeholder is `C:\Users\jzarb\blackheath-sports-club-redesign`.
 - Do not make additional npm registry/audit/install requests without first discussing them with the stakeholder. Microsoft Defender displayed organisational “NPM URL Block” alerts during registry access in this session.
