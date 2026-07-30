@@ -189,20 +189,27 @@ img {
   text-transform: uppercase;
 }
 
-.brand-mark {
-  width: 48px;
-  height: 48px;
+/* Club crest — the SVG carries its own white field + coloured outer ring,
+   so no extra white disc or border is needed. Keep a min render size of ~40px
+   (below that the circular ring text becomes noise). */
+.brand-mark,
+.hero-crest,
+.footer-crest {
   flex: 0 0 auto;
   object-fit: contain;
   border-radius: 50%;
-  background: white;
-  filter: drop-shadow(0 4px 8px rgba(16, 32, 28, 0.12));
+  filter: drop-shadow(0 4px 10px rgba(16, 32, 28, 0.16));
+}
+
+.brand-mark {
+  width: 48px;
+  height: 48px;
   transition: transform 0.35s var(--ease), filter 0.35s var(--ease);
 }
 
 .brand:hover .brand-mark {
-  transform: rotate(-4deg) scale(1.05);
-  filter: drop-shadow(0 6px 12px rgba(16, 32, 28, 0.2));
+  transform: scale(1.06);
+  filter: drop-shadow(0 6px 14px rgba(16, 32, 28, 0.24));
 }
 
 .nav-links {
@@ -338,11 +345,7 @@ img {
 .hero-crest {
   width: clamp(76px, 7vw, 108px);
   height: auto;
-  flex: 0 0 auto;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.94);
-  border: 3px solid rgba(255, 255, 255, 0.92);
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.28);
+  filter: drop-shadow(0 14px 30px rgba(0, 0, 0, 0.35));
 }
 
 .hero-brand-lockup .eyebrow {
@@ -934,6 +937,32 @@ h2 {
 }
 
 /* Heritage ---------------------------------------------------------------- */
+.heritage {
+  position: relative;
+  overflow: hidden;
+}
+
+.heritage-watermark {
+  position: absolute;
+  right: -60px;
+  bottom: -40px;
+  width: clamp(220px, 26vw, 360px);
+  height: clamp(220px, 26vw, 360px);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 0.05;
+  transform: rotate(8deg);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.heritage .section-heading,
+.heritage-grid {
+  position: relative;
+  z-index: 1;
+}
+
 .heritage-grid {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
@@ -1784,11 +1813,6 @@ footer::before {
 .footer-crest {
   width: 68px;
   height: 68px;
-  flex: 0 0 auto;
-  object-fit: contain;
-  border-radius: 50%;
-  background: white;
-  border: 2px solid rgba(255, 255, 255, 0.88);
 }
 
 .footer-copy {

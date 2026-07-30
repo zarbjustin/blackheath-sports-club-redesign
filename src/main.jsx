@@ -84,7 +84,8 @@ import hero1024 from "./assets/rectory-field-1024.webp";
 import hero1440 from "./assets/rectory-field-1440.webp";
 import hero1920 from "./assets/rectory-field-1920.webp";
 import { heroBlur } from "./assets/hero-blur.js";
-import clubCrest from "./assets/brand/bsc-logo-outlined-512.webp";
+import clubCrest from "./assets/brand/bsc-crest.svg";
+import heatherMotif from "./assets/brand/bsc-heather.svg";
 
 registerSW({ immediate: true });
 
@@ -619,6 +620,11 @@ function VenueHire() {
 function Heritage() {
   return (
     <Reveal className="heritage" id="heritage">
+      <span
+        className="heritage-watermark"
+        aria-hidden="true"
+        style={{ backgroundImage: `url(${heatherMotif})` }}
+      />
       <div className="section-heading">
         <p className="eyebrow">Since {club.established}</p>
         <h2>A home for the history of the game</h2>
