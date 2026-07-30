@@ -80,6 +80,15 @@ export const coreMessaging = {
   },
 };
 
+// Social (non-playing) membership benefits, shown in the Membership section.
+export const membershipBenefits = [
+  "Full use of the pavilion bars and terrace throughout the year",
+  "A warm welcome into the Rectory Field community",
+  "Club social events, quiz nights and match-day atmosphere",
+  "Live sport on Sky, ESPN and TNT Sports, plus free WiFi",
+  "Members' rates and priority when hiring the venue",
+];
+
 export const sports = [
   {
     key: "Cricket",

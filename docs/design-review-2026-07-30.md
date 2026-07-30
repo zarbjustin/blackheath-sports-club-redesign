@@ -25,8 +25,10 @@ The gaps are **not** in polish — they are in **product depth and information a
    club, and the top pattern in competitor research. `[E][I]`
 2. **No online join or pay** — membership is presented as read-only info + an enquiry form; best-in-class
    club sites lead with register-and-pay. `[E][I]`
-3. **The enquiry form (`#enquire`) renders _before_ the venue-hire section (`#hire`) it refers to** —
-   the conversion ask precedes its own context. `[E]`
+3. **The membership journey is thin and contact paths overlap.** The Membership section prices social
+   membership but doesn't *sell* it (no benefits list), and it plus the standalone Contact section both
+   offer overlapping "get in touch" surfaces alongside the Enquiry form. `[E]` *(Note: section render
+   order in `App` is correct — Enquiry follows the Venue-hire explainer.)*
 4. **SEO exposure from client-only rendering** — only `<title>`, meta and JSON-LD are in the static
    HTML; all body content is injected by React into an empty `#root`. The live production title still
    reads the *old* "Rugby, Cricket, Tennis & Squash" ordering, confirming PR #20 is unmerged. `[E]`
@@ -121,13 +123,13 @@ motif beyond the crest.
 ### 4.2 User experience `[E][I]`
 Navigation is a fixed glass bar collapsing to a dropdown panel < 960 px with a real focus trap and
 Escape-to-close — good. **Friction points:**
-- **IA ordering:** DOM order is Hero → Welcome → Sports → Other facilities → Membership → **Enquiry
-  (`#enquire`)** → **Venue hire (`#hire`)** → Heritage → Gallery → Media → Visit → Grounds → Contact.
-  The enquiry **form** sits above the venue-hire **explainer**, and nav "Venue hire" jumps past the form. `[E]`
+- **IA ordering (verified OK):** DOM render order in `App` is Hero → Welcome → Sports → Other facilities
+  → Membership → **Venue hire (`#hire`)** → **Enquiry (`#enquire`)** → Heritage → Gallery → Media → Visit
+  → Contact — so the enquiry form correctly follows the venue-hire context. `[E]`
 - **Duplicate contact paths:** an Enquiry section (with its own contacts list) *and* a separate Contact
   section — two overlapping "get in touch" surfaces. `[E]`
-- **Dead-end membership CTA:** hero "Become a member" → `#membership`, which is informational only; there's
-  no join action, only the shared enquiry form. `[E]`
+- **Thin membership CTA:** hero "Become a member" → `#membership`, which prices social membership and links
+  to the enquiry form but doesn't list what the £50 actually gets you. `[E]`
 - **No fixtures/what's-on**, so no reason to return between visits. `[E][I]`
 
 ### 4.3 Content & messaging `[E][I]`
@@ -156,9 +158,9 @@ The product is one page; "pages" = sections. Priority: P0 critical → P3 low.
 | **Welcome** | Orient: one club, four sports | Real copy, fact chips, dog notice | Slightly long before first "what can I do" | P2 |
 | **Sports** | Route to 4 clubs | Real photos, custom SVG icons, correct order, outbound links | Cards don't hint "you'll leave this site"; no season/what's-on hook | P1 |
 | **Other facilities** | Gym + nursery | Honest, useful | Visually competes with the 4 core sports | P3 |
-| **Membership** (`#membership`) | Explain joining | Price + pathways | No benefits list, no join/pay, dead-ends into enquiry | P1 |
-| **Enquiry** (`#enquire`) | Capture leads | Accessible, honeypot, Web3Forms live, graceful mailto fallback | **Renders before the venue-hire context**; overlaps Contact | P1 |
-| **Venue hire** (`#hire`) | Sell the space | Facilities list, bar photo, CTA | Sits after the form; no capacities/pricing-from/gallery | P1 |
+| **Membership** (`#membership`) | Explain joining | Price + pathways | No benefits list; links to enquiry rather than a join action | P1 |
+| **Enquiry** (`#enquire`) | Capture leads | Accessible, honeypot, Web3Forms live, graceful mailto fallback | Correctly follows venue-hire; overlaps Contact | P1 |
+| **Venue hire** (`#hire`) | Sell the space | Facilities list, bar photo, CTA | Renders before the form (good); no capacities/pricing-from/gallery | P1 |
 | **Heritage** | Trust via history | 1883/1885/1937 timeline, Carpmael note, historic imagery | Could carry a stronger "why it matters today" line | P2 |
 | **Gallery** | Life at the club | Real photos, responsive grid | No lightbox; captions only | P2 |
 | **Media** | Video-ready slot | Auto-hides until a clip is set | Placeholder value until asset supplied | P3 |
@@ -384,7 +386,7 @@ Complexity S/M/L/XL. Files are indicative.
 | ID | Epic | Problem | Recommendation | Pri | Cplx | Files |
 |---|---|---|---|:--:|:--:|---|
 | BL-A | Launch | PR #20 blocked by dev-only audit noise | Apply `npm audit --omit=dev --audit-level=high`; merge; verify prod | **P0** | S | `.github/workflows/*.yml` |
-| BL-B | IA | Enquiry precedes its venue-hire context; dual contact paths | Re-order Enquiry after Venue hire; merge Contact into enquiry | **P1** | S | `src/main.jsx` |
+| BL-B | IA | Contact section overlaps the Enquiry contact list | Consolidate to one clearly-labelled "get in touch" path | **P2** | S | `src/main.jsx` |
 | BL-C | Conversion | "Become a member" dead-ends into info | Membership section with benefits + real join CTA | **P1** | M | `src/main.jsx`, `src/data.js` |
 | BL-D | Design system | No spacing/type tokens; magic numbers | Add `--space-*`/`--fs-*`; refactor CSS incrementally | **P1** | M | `src/styles.css` |
 | BL-E | SEO/robustness | Client-only rendering | Prerender the single route to static HTML | **P1** | M | `vite.config.js`, build |
@@ -408,7 +410,7 @@ unchanged; BL-F — feed parse handles empty/stale, `aria-live` for updates, Lig
 
 - **Sprint 0 — Foundations & unblock:** BL-A (merge PR #20, verify prod), BL-K (analytics on), capture
   Lighthouse/axe baselines, confirm "Heritage Turf" direction.
-- **Sprint 1 — Critical UX & a11y:** BL-B (IA re-order), BL-C (membership CTA), BL-G (contrast/active-nav).
+- **Sprint 1 — Critical UX & a11y:** BL-C (membership benefits), BL-B (consolidate contact paths), BL-G (contrast/active-nav).
 - **Sprint 2 — Design system & homepage:** BL-D (tokens), BL-J (component split), homepage §10 order/copy.
 - **Sprint 3 — Product depth:** BL-F (fixtures/what's-on), BL-H (venue space cards + imagery), BL-I (testimonials), BL-L (lightbox).
 - **Sprint 4 — Robustness, SEO & polish:** BL-E (prerender), BL-M (domain + headers), BL-N (tests), cross-browser + reduced-motion re-check.
@@ -435,8 +437,9 @@ sprints above. The build quality, brand and accessibility base are genuinely goo
 highest in **information architecture, a real membership CTA, a fixtures/what's-on aggregator, and finishing
 the token system** — all incremental within the current stack.
 
-**Top five problems:** (1) enquiry-before-context IA; (2) dead-end membership CTA; (3) no fixtures/return-visit
-driver; (4) client-only rendering SEO exposure; (5) incomplete token system.
+**Top five problems:** (1) thin membership journey (priced but not sold; no benefits list); (2) overlapping
+Contact/Enquiry paths; (3) no fixtures/return-visit driver; (4) client-only rendering SEO exposure; (5)
+incomplete token system.
 **Top five opportunities:** (1) own the two journeys the club sites don't (membership + venue hire);
 (2) aggregate "Upcoming at Rectory Field"; (3) venue space cards + testimonials to convert; (4) prerender for
 SEO/robustness; (5) formalise tokens for durable consistency.

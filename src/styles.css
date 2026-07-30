@@ -37,6 +37,31 @@
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 
+  /* Spacing scale (4px base) — prefer these over hardcoded px */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+  --section-y: clamp(var(--space-8), 9vw, var(--space-9));
+  --gutter: max(20px, calc((100vw - 1180px) / 2));
+
+  /* Type scale — formalises the display/body clamps */
+  --fs-eyebrow: 0.76rem;
+  --fs-body: 1.06rem;
+  --fs-lead: clamp(1.08rem, 2vw, 1.4rem);
+  --fs-h3: 1.42rem;
+  --fs-h2: clamp(2rem, 4vw, 3.8rem);
+  --fs-h1: clamp(3rem, 9vw, 7.4rem);
+  --lh-tight: 1.05;
+  --lh-body: 1.6;
+  --lh-loose: 1.75;
+
   font-family: var(--font-body);
   color: var(--ink);
   background: var(--paper);
@@ -203,6 +228,26 @@ img {
 .nav-links a:focus-visible {
   background: rgba(11, 92, 67, 0.1);
   outline: none;
+}
+
+.nav-links a.is-active {
+  color: var(--forest);
+  background: rgba(11, 92, 67, 0.12);
+}
+
+.nav-links a.is-active::after {
+  content: "";
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 4px;
+  height: 2px;
+  border-radius: var(--r-pill);
+  background: var(--brick);
+}
+
+.nav-links a {
+  position: relative;
 }
 
 .nav-links .nav-cta {
@@ -448,7 +493,7 @@ h1 {
 
 /* Sections ---------------------------------------------------------------- */
 section {
-  padding: 96px max(20px, calc((100vw - 1180px) / 2));
+  padding: var(--space-9) var(--gutter);
   scroll-margin-top: 88px;
 }
 
@@ -766,6 +811,29 @@ h2 {
 .membership-price span:last-child {
   color: var(--muted);
   font-weight: 600;
+}
+
+.membership-benefits {
+  list-style: none;
+  margin: 22px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.membership-benefits li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: start;
+  line-height: 1.5;
+  font-size: 0.98rem;
+  color: var(--ink);
+}
+
+.membership-benefits svg {
+  color: var(--forest);
+  margin-top: 2px;
 }
 
 .pathways {
@@ -1743,8 +1811,8 @@ footer::before {
 
 @media (max-width: 640px) {
   section {
-    padding-top: 68px;
-    padding-bottom: 68px;
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-8);
   }
 
   h1 {

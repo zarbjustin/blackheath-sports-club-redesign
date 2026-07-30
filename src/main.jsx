@@ -61,6 +61,7 @@ import "./styles.css";
 import {
   coreMessaging,
   club,
+  membershipBenefits,
   sports,
   otherFacilities,
   venueFacilities,
@@ -358,6 +359,11 @@ function Membership() {
             <span className="price">{club.socialMembership}</span>
             <span>Social membership, giving full use of the bar facilities.</span>
           </div>
+          <ul className="membership-benefits" aria-label="Social membership benefits">
+            {membershipBenefits.map((benefit) => (
+              <li key={benefit}><CircleCheckBig size={18} aria-hidden="true" /> {benefit}</li>
+            ))}
+          </ul>
           <a
             className="button primary compact"
             href="#enquire"
@@ -889,6 +895,7 @@ function Contact() {
 function App() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeId, setActiveId] = useState("");
   const navRef = useRef(null);
   const toggleRef = useRef(null);
 
@@ -911,6 +918,41 @@ function App() {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const sections = Array.from(
+      document.querySelectorAll("#main-content section[id]")
+    );
+    if (!sections.length || typeof IntersectionObserver === "undefined") {
+      return undefined;
+    }
+
+    const visible = new Map();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            visible.set(entry.target.id, entry.intersectionRatio);
+          } else {
+            visible.delete(entry.target.id);
+          }
+        }
+        let best = "";
+        let bestRatio = 0;
+        for (const [id, ratio] of visible) {
+          if (ratio > bestRatio) {
+            bestRatio = ratio;
+            best = id;
+          }
+        }
+        if (best) setActiveId(best);
+      },
+      { rootMargin: "-45% 0px -45% 0px", threshold: [0, 0.25, 0.5, 1] }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -990,9 +1032,20 @@ function App() {
           className={open ? "nav-links is-open" : "nav-links"}
           aria-label="Primary navigation"
         >
-          {navItems.map(([label, href]) => (
-            <a key={href} href={href} onClick={() => setOpen(false)}>{label}</a>
-          ))}
+          {navItems.map(([label, href]) => {
+            const isActive = href === `#${activeId}`;
+            return (
+              <a
+                key={href}
+                href={href}
+                aria-current={isActive ? "true" : undefined}
+                className={isActive ? "is-active" : undefined}
+                onClick={() => setOpen(false)}
+              >
+                {label}
+              </a>
+            );
+          })}
           <a className="nav-cta" href="#enquire" onClick={() => setOpen(false)}>Enquire</a>
         </nav>
       </header>
