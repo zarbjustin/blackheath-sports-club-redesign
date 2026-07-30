@@ -285,7 +285,7 @@ function Sports() {
               variants={staggerItem}
             >
               <div className="sport-media">
-                <img src={sport.image} alt={`${sport.key} at Blackheath Sports Club`} width={900} height={360} loading="lazy" decoding="async" />
+                <img src={sport.image} alt={`${sport.key} action`} width={1600} height={1100} loading="lazy" decoding="async" />
                 <span className="sport-badge"><Icon size={22} /></span>
               </div>
               <div className="sport-body">

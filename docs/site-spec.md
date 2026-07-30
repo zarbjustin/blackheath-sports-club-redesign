@@ -8,7 +8,7 @@ This document is the working specification. It should evolve as the club supplie
 
 For implementation handover, see `docs/ai-handover.md`. For the ranked next-work roadmap, see `docs/backlog.md`.
 
-## As-built status (updated 2026-07-08)
+## As-built status (updated 2026-07-31)
 
 The repo is no longer a first-pass concept — it is a feature-rich single-page site grounded in the
 real club's facts (validated against the live blackheathsportsclub.co.uk). The sections below marked
@@ -20,6 +20,10 @@ Delivered so far:
 - Real, fact-grounded content across all sections (address, phone, bar hours, £50 social membership,
   no-dogs rule, 1883/1885/1937 heritage), structured in `src/data.js`.
 - Real club photography optimised to WebP; responsive hero with blur-up; custom per-sport SVG icons.
+- Homepage sports cards use 1600 x 1100 action images: authentic Blackheath Age Grade
+  Rugby photography plus reviewable interim generated concepts for Cricket, Lawn Tennis
+  and Squash. Provenance is recorded in `docs/media-sources.md`; approved Blackheath
+  action photography remains the production preference.
 - Correct external links to each sport's official site + Gym and Day Nursery.
 - Venue-hire section, membership, heritage timeline, gallery, media/video-ready section,
   click-to-load Google Map, grounds map.
