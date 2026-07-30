@@ -94,7 +94,7 @@ export const sports = [
     key: "Cricket",
     detail: "Played at the Rectory Field since 1885 — summer fixtures, junior development and a green heart to the club.",
     url: "https://www.pitchero.com/clubs/blackheathcricketclub",
-    site: "pitchero.com",
+    site: "Blackheath Cricket Club",
     image: cricketImg,
     accent: "var(--club-red)",
   },
