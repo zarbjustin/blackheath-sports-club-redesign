@@ -229,6 +229,7 @@ function Welcome() {
         <div className="intro-copy">
           <p>{coreMessaging.heritage}</p>
           <p>{coreMessaging.sportingCommunity}</p>
+          <p>{coreMessaging.communityOffer}</p>
           <div className="notice">
             <PawPrint size={20} />
             <p>{club.dogNotice}</p>
