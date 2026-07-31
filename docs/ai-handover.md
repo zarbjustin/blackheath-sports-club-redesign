@@ -3,13 +3,14 @@
 This document lets any developer or AI pick the project up cold from another machine.
 Read this first, then `docs/design-review-2026-07-30.md` (full review + BL-A…BL-O backlog and sprint plan — the current source of truth for remaining work), then `docs/site-spec.md` (product spec) and `docs/backlog.md` (earlier ranked roadmap).
 
-## Current review branch — 2026-07-31: seasonal opening-hours admin
+## Latest release — 2026-07-31: seasonal opening-hours admin
 
-Branch `codex/seasonal-opening-hours-admin` adds an authenticated editor for separate
+PR [#30](https://github.com/zarbjustin/blackheath-sports-club-redesign/pull/30)
+merged into `main` at commit `0759056`. It adds an authenticated editor for separate
 Summer and Winter bar schedules. Administrators can update all seven days, mark days
 closed, choose the active public season and publish a short notice without a deployment.
-The implementation includes a public read API, protected admin API, D1 persistence,
-revision history, static fallback hours and runtime structured-data updates.
+The release includes a public read API, protected admin API, D1 persistence, revision
+history, static fallback hours and runtime structured-data updates.
 
 Cloudflare infrastructure is already provisioned:
 
@@ -21,12 +22,17 @@ Cloudflare infrastructure is already provisioned:
 - Protected routes: `/admin` and `/admin/*` on both temporary `.co.uk` and `.com` aliases
 - Access issuer and audience are configured as Pages environment variables
 
-Both seasons are seeded with the approved current schedule. Review the branch preview,
-merge through the protected `main` branch, then verify authenticated publication on the
-production alias. Full operation, security and recovery instructions are in
+Cloudflare Pages production deployment `b0047628-0ccf-4947-9c87-e60c5141a775`
+succeeded. GitHub CI, security audit, Lighthouse, link checking and the GitHub Pages
+mirror passed after merge. The public API was verified against the production D1
+database, and `/admin/` plus `/admin/api/opening-hours` were verified behind Cloudflare
+Access on both temporary custom domains.
+
+Both seasons remain seeded with the approved current schedule until the club confirms
+different seasonal times. Full operation, security and recovery instructions are in
 `docs/opening-hours-admin.md`.
 
-## Latest release — 2026-07-31: sports-card action photography
+## Prior release — 2026-07-31: sports-card action photography
 
 PR [#28](https://github.com/zarbjustin/blackheath-sports-club-redesign/pull/28)
 merged into `main` at commit `2d18400`. It replaces the four low-resolution
@@ -44,7 +50,7 @@ succeeded. GitHub CI, security audit, Lighthouse, link checking and the GitHub P
 mirror passed after merge. The canonical Pages URL and `new.blackheathsportsclub.co.uk`
 were verified with HTTP 200, and the production bundle references the new Rugby asset.
 
-## Prior release — 2026-07-30: official identity + hero crest refinement
+## Earlier release — 2026-07-30: official identity + hero crest refinement
 
 The official identity work shipped to `main` through PR [#20](https://github.com/zarbjustin/blackheath-sports-club-redesign/pull/20) at production commit `c3ed531`. GitHub CI passed and Cloudflare Pages production deployment `e3c4604a-3c9c-40cf-a306-ee1b9c9dec7a` completed successfully.
 
@@ -84,14 +90,14 @@ The official identity work shipped to `main` through PR [#20](https://github.com
 - **Live site:** https://blackheath-sports-club-redesign.pages.dev/
 - **GitHub Pages mirror:** https://zarbjustin.github.io/blackheath-sports-club-redesign/
 - **Production branch:** `main` (deploys automatically via Cloudflare Pages and GitHub Pages)
-- **Current work:** Seasonal opening-hours administration is on
-  `codex/seasonal-opening-hours-admin`; it must reach `main` through a pull request because
-  direct pushes are blocked by branch protection.
+- **Current work:** Seasonal opening-hours administration is live on `main`. Subsequent
+  changes must continue through pull requests because direct pushes are blocked by branch
+  protection.
 - **Stack:** Vite 8 + React 19 (single-page, plain CSS), Framer Motion (via LazyMotion), lucide-react 1.23 icons, self-hosted variable fonts (Inter + Fraunces), `sharp` for build-time image optimisation.
 - **Hosting:** Cloudflare Pages primary, with Pages Functions, D1 and Access for opening-hours administration; GitHub Pages remains a static public mirror.
-- **Status:** The official-logo redesign, approved club copy and refreshed sports imagery
-  are live. Seasonal opening-hours administration is build-verified and responsive-QA
-  verified on the review branch.
+- **Status:** The official-logo redesign, approved club copy, refreshed sports imagery and
+  seasonal opening-hours administration are live. The hours editor is available at
+  `https://new.blackheathsportsclub.co.uk/admin/`.
 - **Official identity baseline:** `c3ed531` (`Apply the official Blackheath Sports Club identity (#20)`) on 2026-07-30; use `git log -1` for the current production tip.
 
 ## Conversation memory — 2026-07-30

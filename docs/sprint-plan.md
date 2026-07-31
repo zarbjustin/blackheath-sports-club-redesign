@@ -4,7 +4,7 @@ This is the execution backlog for turning the current concept into a production-
 
 ## Seasonal opening-hours administration
 
-Status: In review on `codex/seasonal-opening-hours-admin`.
+Status: Delivered on `main` through PR #30 at commit `0759056`.
 
 Delivered:
 
@@ -17,14 +17,13 @@ Delivered:
 - Optimistic revision locking, server-side validation and D1 audit history.
 - Operator, access-management and recovery runbook in `docs/opening-hours-admin.md`.
 
-Remaining before release:
+Operational follow-up:
 
 - Confirm whether Summer and Winter currently use different times; both are deliberately
   seeded with the last approved schedule until the club supplies seasonal values.
-- Review the Cloudflare branch deployment on desktop and mobile.
-- Merge through the protected `main` branch after CI passes.
-- Sign in on the production admin route, publish a test revision and verify the public
-  schedule after the cache window.
+- Sign in on the production admin route and publish the confirmed seasonal values.
+- Verify the public schedule after the five-minute edge-cache window whenever the active
+  season changes.
 
 ## Visual media refresh: sports-card action photography
 
