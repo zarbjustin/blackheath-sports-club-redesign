@@ -1537,6 +1537,24 @@ a.contact-card:hover {
   font-weight: 600;
 }
 
+.contact-season {
+  margin-top: 3px;
+  color: var(--forest);
+  font-size: 0.76rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.opening-hours-notice {
+  margin-top: 7px;
+  padding-top: 9px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
 .contact-footer {
   display: flex;
   flex-wrap: wrap;

@@ -86,8 +86,11 @@ import hero1920 from "./assets/rectory-field-1920.webp";
 import { heroBlur } from "./assets/hero-blur.js";
 import clubCrest from "./assets/brand/bsc-crest.svg";
 import heatherMotif from "./assets/brand/bsc-heather.svg";
-
-registerSW({ immediate: true });
+import {
+  cloneDefaultSeasonalHours,
+  toOpeningHoursSpecification,
+  toPublicOpeningHours,
+} from "../shared/seasonal-hours.js";
 
 const sportIcons = {
   Cricket: CricketIcon,
@@ -99,6 +102,50 @@ const sportIcons = {
 const lucide = { Dumbbell, Baby, Beer, PartyPopper, Utensils, Accessibility, Car, Tv };
 
 const easeOut = [0.22, 1, 0.36, 1];
+const fallbackOpeningHours = toPublicOpeningHours(cloneDefaultSeasonalHours());
+
+function updateStructuredOpeningHours(days) {
+  const script = document.querySelector('script[type="application/ld+json"]');
+  if (!script) return;
+
+  try {
+    const data = JSON.parse(script.textContent);
+    const clubNode = data["@graph"]?.find((node) => node["@id"]?.endsWith("#club"));
+    if (!clubNode) return;
+    clubNode.openingHoursSpecification = toOpeningHoursSpecification(days);
+    script.textContent = JSON.stringify(data);
+  } catch {
+    // The static JSON-LD remains a valid fallback.
+  }
+}
+
+function useOpeningHours() {
+  const [openingHours, setOpeningHours] = useState(fallbackOpeningHours);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch("/api/opening-hours", {
+      headers: { Accept: "application/json" },
+      signal: controller.signal,
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error("Opening hours are unavailable.");
+        return response.json();
+      })
+      .then((data) => {
+        if (!data.ok || !Array.isArray(data.hours) || !Array.isArray(data.days)) return;
+        setOpeningHours(data);
+        updateStructuredOpeningHours(data.days);
+      })
+      .catch(() => {
+        // Keep the verified static fallback when the live schedule cannot be reached.
+      });
+
+    return () => controller.abort();
+  }, []);
+
+  return openingHours;
+}
 
 const revealVariants = {
   hidden: { opacity: 0, y: 28 },
@@ -394,7 +441,7 @@ function Membership() {
   );
 }
 
-function Enquiry() {
+function Enquiry({ openingHours }) {
   const [status, setStatus] = useState("idle"); // idle | submitting | success | error | mailto
   const [errorMsg, setErrorMsg] = useState("");
   const configured = enquiry.accessKey !== ENQUIRY_PLACEHOLDER_KEY;
@@ -565,7 +612,10 @@ function Enquiry() {
         <ul className="enquiry-contacts" aria-label="Contact the club directly">
           <li><Mail size={17} /> <a href={`mailto:${club.contact.email}`}>{club.contact.email}</a></li>
           <li><Phone size={17} /> <a href={club.contact.phoneHref}>{club.contact.phone}</a></li>
-          <li><Clock size={17} /> {club.hours.map((h) => `${h.days} ${h.time}`).join(" · ")}</li>
+          <li>
+            <Clock size={17} />
+            {openingHours.hours.map((h) => `${h.days} ${h.time}`).join(" · ")}
+          </li>
         </ul>
       </div>
     </Reveal>
@@ -945,7 +995,7 @@ function Visit() {
   );
 }
 
-function Contact() {
+function Contact({ openingHours }) {
   return (
     <Reveal className="contact" id="contact">
       <div className="section-heading">
@@ -974,9 +1024,13 @@ function Contact() {
         <div className="contact-card">
           <Clock size={22} />
           <span className="contact-label">Bar opening hours</span>
-          {club.hours.map((h) => (
+          <span className="contact-season">{openingHours.seasonLabel} schedule</span>
+          {openingHours.hours.map((h) => (
             <span className="contact-value" key={h.days}>{h.days}: {h.time}</span>
           ))}
+          {openingHours.notice && (
+            <span className="opening-hours-notice">{openingHours.notice}</span>
+          )}
         </div>
       </div>
       <div className="contact-footer">
@@ -1010,11 +1064,16 @@ function Contact() {
 }
 
 function App() {
+  const openingHours = useOpeningHours();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeId, setActiveId] = useState("");
   const navRef = useRef(null);
   const toggleRef = useRef(null);
+
+  useEffect(() => {
+    registerSW({ immediate: true });
+  }, []);
 
   useEffect(() => {
     loadCloudflareAnalytics(analytics);
@@ -1174,12 +1233,12 @@ function App() {
         <OtherFacilities />
         <Membership />
         <VenueHire />
-        <Enquiry />
+        <Enquiry openingHours={openingHours} />
         <Heritage />
         <Gallery />
         {media.video.source && <Media />}
         <Visit />
-        <Contact />
+        <Contact openingHours={openingHours} />
       </main>
 
       <footer>

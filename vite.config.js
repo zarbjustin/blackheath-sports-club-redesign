@@ -1,12 +1,14 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
+import { resolve } from "node:path";
 
 export default defineConfig({
   base: "./",
   plugins: [
     react(),
     VitePWA({
+      disable: process.env.DISABLE_PWA === "true",
       registerType: "autoUpdate",
       manifest: {
         name: "Blackheath Sports Club",
@@ -81,4 +83,12 @@ export default defineConfig({
       },
     }),
   ],
+  build: {
+    rollupOptions: {
+      input: {
+        main: resolve(import.meta.dirname, "index.html"),
+        admin: resolve(import.meta.dirname, "admin/index.html"),
+      },
+    },
+  },
 });
