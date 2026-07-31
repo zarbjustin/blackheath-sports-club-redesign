@@ -49,10 +49,6 @@ export const club = {
     phone: "020 8858 1578",
     phoneHref: "tel:+442088581578",
   },
-  hours: [
-    { days: "Weekdays", time: "6pm – 11pm" },
-    { days: "Weekends", time: "11:30am – 11pm" },
-  ],
   social: {
     facebook: "https://www.facebook.com/profile.php?id=100087115879365",
     twitter: "https://twitter.com/BHSportsClub",

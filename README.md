@@ -5,6 +5,7 @@ Modern website concept for Blackheath Sports Club at Rectory Field.
 Live deployments:
 
 - Cloudflare Pages: https://blackheath-sports-club-redesign.pages.dev/
+- Opening-hours admin: https://new.blackheathsportsclub.co.uk/admin/
 - GitHub Pages mirror: https://zarbjustin.github.io/blackheath-sports-club-redesign/
 
 ## What this repo contains
@@ -19,6 +20,7 @@ Live deployments:
 - A sprint execution plan in `docs/sprint-plan.md`.
 - PWA/offline support with installable app metadata, generated icons and an offline visit/contact page.
 - Privacy-friendly analytics scaffolding and conversion hooks ready for the Cloudflare Web Analytics/dashboard setup.
+- An authenticated seasonal opening-hours editor backed by Cloudflare Access, Pages Functions and D1.
 
 ## Review summary
 
@@ -77,3 +79,6 @@ npm run optimize:pwa-icons
 The current improvement plan, sprint structure and acceptance criteria live in [`docs/site-spec.md`](docs/site-spec.md).
 
 For another AI/LLM or developer taking over the work, start with [`docs/ai-handover.md`](docs/ai-handover.md) (current state, architecture, build/deploy gotchas), then [`docs/backlog.md`](docs/backlog.md) for the ranked next-work roadmap.
+
+For opening-hours operation, access management and recovery, use
+[`docs/opening-hours-admin.md`](docs/opening-hours-admin.md).

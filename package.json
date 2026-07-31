@@ -3,9 +3,13 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "build": "vite build",
+    "test": "node --test tests/*.test.js",
     "preview": "vite preview --host 127.0.0.1",
     "optimize:hero": "node scripts/optimize-hero.mjs",
     "optimize:og": "node scripts/make-og-image.mjs",

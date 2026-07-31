@@ -36,14 +36,18 @@ Delivered so far:
 - PWA/offline: installable manifest, generated app icons, Apple touch icon, auto-updating service
   worker, cached static shell and offline fallback with visit/contact details.
 - Venue-hire enquiry form (Web3Forms) with validation, consent, honeypot, success/error and mailto
-  fallback — awaiting the club's access key to go live.
+  fallback, with the club's production access key configured.
+- Seasonal opening-hours administration: separate Summer and Winter seven-day schedules, active
+  season control, optional public notice, authenticated Cloudflare Access editor, D1 revision
+  history and a resilient static fallback.
 - **Dependency maintenance (2026-07-08):** all Dependabot PRs resolved, 0 open PRs, 0 stale branches.
   Stack is now Vite 8 + @vitejs/plugin-react 6 + lucide-react 1.23; GitHub Actions pinned to latest
   stable versions. Social brand icons (Twitter/X, Facebook) implemented as inline SVG components in
   `src/main.jsx` since lucide-react v1 dropped brand icons.
 
-Still outstanding (see `docs/backlog.md` for the ranked plan): custom domain + real security headers,
-governance/safeguarding pages, CI quality gates, volunteer CMS, fixtures/events and media pipeline.
+Still outstanding (see `docs/backlog.md` for the ranked plan): custom domain, broader
+governance/safeguarding content, fixtures/events and media pipeline, and a wider volunteer CMS
+beyond the delivered opening-hours editor.
 Plus club sign-off on prices/media/booking links and final production-domain/canonical/PWA-scope
 decisions.
 

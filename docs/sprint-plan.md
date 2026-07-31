@@ -2,6 +2,30 @@
 
 This is the execution backlog for turning the current concept into a production-ready club website. It is intentionally written in a way that another AI/LLM can pick up and work from.
 
+## Seasonal opening-hours administration
+
+Status: In review on `codex/seasonal-opening-hours-admin`.
+
+Delivered:
+
+- Separate editable Summer and Winter seven-day schedules.
+- Active public season control, closed-day support and an optional public notice.
+- Responsive `/admin/` interface with schedule preview and recent publication history.
+- Cloudflare Access protection plus independent server-side JWT verification.
+- Production and preview D1 databases, Pages bindings and seeded approved fallback hours.
+- Public API integration and runtime opening-hours structured-data updates.
+- Optimistic revision locking, server-side validation and D1 audit history.
+- Operator, access-management and recovery runbook in `docs/opening-hours-admin.md`.
+
+Remaining before release:
+
+- Confirm whether Summer and Winter currently use different times; both are deliberately
+  seeded with the last approved schedule until the club supplies seasonal values.
+- Review the Cloudflare branch deployment on desktop and mobile.
+- Merge through the protected `main` branch after CI passes.
+- Sign in on the production admin route, publish a test revision and verify the public
+  schedule after the cache window.
+
 ## Visual media refresh: sports-card action photography
 
 Status: Delivered on `main` through PR #28 at commit `2d18400`.
