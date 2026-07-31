@@ -3,6 +3,20 @@ import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
 import { resolve } from "node:path";
 
+function excludeAdminFromPwa() {
+  return {
+    name: "exclude-admin-from-pwa",
+    enforce: "post",
+    transformIndexHtml: {
+      order: "post",
+      handler(html, context) {
+        if (!context.path.endsWith("/admin/index.html")) return html;
+        return html.replace(/<link rel="manifest"[^>]*>\s*/g, "");
+      },
+    },
+  };
+}
+
 export default defineConfig({
   base: "./",
   plugins: [
@@ -82,6 +96,7 @@ export default defineConfig({
         enabled: false,
       },
     }),
+    excludeAdminFromPwa(),
   ],
   build: {
     rollupOptions: {
