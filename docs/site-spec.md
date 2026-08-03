@@ -23,6 +23,8 @@ Delivered so far:
   daytime and floodlit rugby, a shared cricket-and-lawn-tennis view, the summer clubhouse and
   golden hour at Rectory Field, with pause/play controls and a blur-up placeholder; custom
   per-sport SVG icons.
+  Hero slides are explicitly ordered by light level, progressing from bright summer daylight to
+  golden hour and floodlit night.
 - Homepage sports cards use 1600 x 1100 action images: authentic Blackheath Age Grade
   Rugby photography plus reviewable interim generated concepts for Cricket, Lawn Tennis
   and Squash. Provenance is recorded in `docs/media-sources.md`; approved Blackheath

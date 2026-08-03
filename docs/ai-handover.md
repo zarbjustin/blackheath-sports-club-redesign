@@ -10,8 +10,11 @@ daytime rugby and floodlit rugby at Rectory Field, a shared cricket-and-lawn-ten
 clubhouse on a summer day and the clubhouse at golden hour. The hero rotates every seven seconds
 with direct slide controls and pause/play; visitors who prefer reduced motion see a static first
 image. Source PNG/JPEG files live at `src/assets/hero-*`;
-`npm run optimize:hero` regenerates each four-size responsive WebP set and the cricket blur
+`npm run optimize:hero` regenerates each four-size responsive WebP set and the first-slide blur
 placeholder, and `npm run optimize:og` refreshes the cricket-led social-sharing image.
+The array in `src/main.jsx` is sorted by each slide's `lightOrder`: lower numbers appear first.
+The current sequence is summer clubhouse, shared multi-sport view, cricket, daytime rugby, golden
+hour, then floodlit rugby. Assign a new photo a value between its intended neighbours.
 
 ## Latest release — 2026-07-31: seasonal opening-hours admin
 

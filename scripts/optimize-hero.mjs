@@ -13,6 +13,7 @@ const heroes = [
   { name: "hero-clubhouse-summer", file: "hero-clubhouse-summer.png" },
   { name: "hero-clubhouse-golden-hour", file: "hero-clubhouse-golden-hour.png" },
 ];
+const blurSource = "hero-clubhouse-summer.png";
 
 const widths = [640, 1024, 1440, 1920];
 
@@ -29,7 +30,7 @@ for (const hero of heroes) {
 }
 
 // Tiny blur-up placeholder as an inline data URI (heavily compressed).
-const blurBuf = await sharp(resolve(outDir, heroes[0].file))
+const blurBuf = await sharp(resolve(outDir, blurSource))
   .resize({ width: 20 })
   .webp({ quality: 30 })
   .toBuffer();
