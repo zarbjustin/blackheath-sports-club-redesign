@@ -1,11 +1,11 @@
 // Generates a 1200x630 Open Graph share image into public/og-image.jpg
-// from the hero concept photo, with a dark scrim and title overlay.
+// from the approved Rectory Field cricket hero, with a dark scrim and title overlay.
 import sharp from "sharp";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const src = resolve(here, "../src/assets/rectory-field-concept.png");
+const src = resolve(here, "../src/assets/hero-cricket.png");
 const logoSrc = resolve(here, "../src/assets/brand/source/bsc-logo-outlined.png");
 const out = resolve(here, "../public/og-image.jpg");
 

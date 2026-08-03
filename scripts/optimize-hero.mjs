@@ -4,22 +4,30 @@ import { dirname, resolve } from "node:path";
 import { writeFileSync } from "node:fs";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const src = resolve(here, "../src/assets/rectory-field-concept.png");
 const outDir = resolve(here, "../src/assets");
+const heroes = [
+  { name: "hero-cricket", file: "hero-cricket.png" },
+  { name: "hero-one-club-many-sports", file: "hero-one-club-many-sports.jpg" },
+  { name: "hero-clubhouse-summer", file: "hero-clubhouse-summer.png" },
+  { name: "hero-clubhouse-golden-hour", file: "hero-clubhouse-golden-hour.png" },
+];
 
 const widths = [640, 1024, 1440, 1920];
 
-for (const w of widths) {
-  const out = resolve(outDir, `rectory-field-${w}.webp`);
-  await sharp(src)
-    .resize({ width: w, withoutEnlargement: true })
-    .webp({ quality: 72 })
-    .toFile(out);
-  console.log("wrote", out);
+for (const hero of heroes) {
+  const src = resolve(outDir, hero.file);
+  for (const w of widths) {
+    const out = resolve(outDir, `${hero.name}-${w}.webp`);
+    await sharp(src)
+      .resize({ width: w, withoutEnlargement: true })
+      .webp({ quality: 72 })
+      .toFile(out);
+    console.log("wrote", out);
+  }
 }
 
 // Tiny blur-up placeholder as an inline data URI (heavily compressed).
-const blurBuf = await sharp(src)
+const blurBuf = await sharp(resolve(outDir, heroes[0].file))
   .resize({ width: 20 })
   .webp({ quality: 30 })
   .toBuffer();
