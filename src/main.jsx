@@ -32,9 +32,11 @@ import {
   Menu,
   MessageCircle,
   Navigation,
+  Pause,
   PartyPopper,
   PawPrint,
   Phone,
+  Play,
   Send,
   Sparkles,
   TriangleAlert,
@@ -79,10 +81,22 @@ import {
 } from "./data.js";
 import { loadCloudflareAnalytics, trackEvent, trackOutbound } from "./analytics.js";
 
-import hero640 from "./assets/rectory-field-640.webp";
-import hero1024 from "./assets/rectory-field-1024.webp";
-import hero1440 from "./assets/rectory-field-1440.webp";
-import hero1920 from "./assets/rectory-field-1920.webp";
+import cricket640 from "./assets/hero-cricket-640.webp";
+import cricket1024 from "./assets/hero-cricket-1024.webp";
+import cricket1440 from "./assets/hero-cricket-1440.webp";
+import cricket1920 from "./assets/hero-cricket-1920.webp";
+import multiSport640 from "./assets/hero-one-club-many-sports-640.webp";
+import multiSport1024 from "./assets/hero-one-club-many-sports-1024.webp";
+import multiSport1440 from "./assets/hero-one-club-many-sports-1440.webp";
+import multiSport1920 from "./assets/hero-one-club-many-sports-1920.webp";
+import summer640 from "./assets/hero-clubhouse-summer-640.webp";
+import summer1024 from "./assets/hero-clubhouse-summer-1024.webp";
+import summer1440 from "./assets/hero-clubhouse-summer-1440.webp";
+import summer1920 from "./assets/hero-clubhouse-summer-1920.webp";
+import goldenHour640 from "./assets/hero-clubhouse-golden-hour-640.webp";
+import goldenHour1024 from "./assets/hero-clubhouse-golden-hour-1024.webp";
+import goldenHour1440 from "./assets/hero-clubhouse-golden-hour-1440.webp";
+import goldenHour1920 from "./assets/hero-clubhouse-golden-hour-1920.webp";
 import { heroBlur } from "./assets/hero-blur.js";
 import clubCrest from "./assets/brand/bsc-crest.svg";
 import heatherMotif from "./assets/brand/bsc-heather.svg";
@@ -103,6 +117,28 @@ const lucide = { Dumbbell, Baby, Beer, PartyPopper, Utensils, Accessibility, Car
 
 const easeOut = [0.22, 1, 0.36, 1];
 const fallbackOpeningHours = toPublicOpeningHours(cloneDefaultSeasonalHours());
+const heroSlides = [
+  {
+    src: cricket1440,
+    srcSet: `${cricket640} 640w, ${cricket1024} 1024w, ${cricket1440} 1440w, ${cricket1920} 1920w`,
+    alt: "Cricket being played at the Rectory Field, home of Blackheath Sports Club",
+  },
+  {
+    src: multiSport1440,
+    srcSet: `${multiSport640} 640w, ${multiSport1024} 1024w, ${multiSport1440} 1440w, ${multiSport1920} 1920w`,
+    alt: "Cricket and lawn tennis being played across the Rectory Field",
+  },
+  {
+    src: summer1440,
+    srcSet: `${summer640} 640w, ${summer1024} 1024w, ${summer1440} 1440w, ${summer1920} 1920w`,
+    alt: "The clubhouse and cricket ground at the Rectory Field on a summer day",
+  },
+  {
+    src: goldenHour1440,
+    srcSet: `${goldenHour640} 640w, ${goldenHour1024} 1024w, ${goldenHour1440} 1440w, ${goldenHour1920} 1920w`,
+    alt: "The clubhouse terrace and Rectory Field at golden hour",
+  },
+];
 
 function updateStructuredOpeningHours(days) {
   const script = document.querySelector('script[type="application/ld+json"]');
@@ -180,35 +216,81 @@ function Reveal({ as = "section", className, children, ...rest }) {
 
 function Hero() {
   const reduceMotion = useReducedMotion();
-  const [loaded, setLoaded] = useState(false);
-  const imgRef = useRef(null);
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [loadedSlides, setLoadedSlides] = useState(() => new Set());
   const { scrollY } = useScroll();
   const rawY = useTransform(scrollY, [0, 700], [0, 120]);
   const parallaxY = reduceMotion ? 0 : rawY;
 
   useEffect(() => {
-    // If the image is served from cache, onLoad may fire before hydration.
-    if (imgRef.current?.complete) setLoaded(true);
-  }, []);
+    if (paused || reduceMotion) return undefined;
+    const timer = window.setInterval(
+      () => setActiveSlide((current) => (current + 1) % heroSlides.length),
+      7000,
+    );
+    return () => window.clearInterval(timer);
+  }, [paused, reduceMotion]);
+
+  const markLoaded = (index) => {
+    setLoadedSlides((current) => {
+      if (current.has(index)) return current;
+      return new Set(current).add(index);
+    });
+  };
 
   return (
     <section className="hero" aria-label={`${club.name} at ${club.address.line1}`}>
-      <m.div className="hero-media" style={{ y: parallaxY }}>
-        <img
-          ref={imgRef}
-          className={loaded ? "hero-img is-loaded" : "hero-img"}
-          style={{ backgroundImage: `url(${heroBlur})` }}
-          src={hero1440}
-          srcSet={`${hero640} 640w, ${hero1024} 1024w, ${hero1440} 1440w, ${hero1920} 1920w`}
-          sizes="100vw"
-          width={1672}
-          height={941}
-          alt="The Rectory Field, home of Blackheath Sports Club"
-          fetchPriority="high"
-          onLoad={() => setLoaded(true)}
-        />
+      <m.div
+        className="hero-media"
+        style={{ y: parallaxY, backgroundImage: `url(${heroBlur})` }}
+        role="group"
+        aria-roledescription="carousel"
+        aria-label="Rectory Field highlights"
+      >
+        {heroSlides.map((slide, index) => (
+          <img
+            key={slide.alt}
+            className={`hero-img${loadedSlides.has(index) ? " is-loaded" : ""}${activeSlide === index ? " is-active" : ""}`}
+            src={slide.src}
+            srcSet={slide.srcSet}
+            sizes="100vw"
+            width={2400}
+            height={960}
+            alt={activeSlide === index ? slide.alt : ""}
+            aria-hidden={activeSlide !== index}
+            fetchPriority={index === 0 ? "high" : "auto"}
+            loading={index === 0 ? "eager" : "lazy"}
+            onLoad={() => markLoaded(index)}
+          />
+        ))}
       </m.div>
       <div className="hero-scrim" aria-hidden="true" />
+
+      <div className="hero-carousel-controls" aria-label="Hero image controls">
+        <div className="hero-carousel-dots">
+          {heroSlides.map((slide, index) => (
+            <button
+              key={slide.alt}
+              type="button"
+              className={activeSlide === index ? "is-active" : ""}
+              aria-label={`Show hero image ${index + 1} of ${heroSlides.length}`}
+              aria-current={activeSlide === index ? "true" : undefined}
+              onClick={() => setActiveSlide(index)}
+            />
+          ))}
+        </div>
+        {!reduceMotion && (
+          <button
+            className="hero-carousel-toggle"
+            type="button"
+            aria-label={paused ? "Play hero image rotation" : "Pause hero image rotation"}
+            onClick={() => setPaused((current) => !current)}
+          >
+            {paused ? <Play size={15} /> : <Pause size={15} />}
+          </button>
+        )}
+      </div>
 
       <m.div className="hero-content" variants={staggerContainer} initial="hidden" animate="show">
         <m.div className="hero-brand-lockup" variants={staggerItem}>

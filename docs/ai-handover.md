@@ -3,6 +3,16 @@
 This document lets any developer or AI pick the project up cold from another machine.
 Read this first, then `docs/design-review-2026-07-30.md` (full review + BL-A…BL-O backlog and sprint plan — the current source of truth for remaining work), then `docs/site-spec.md` (product spec) and `docs/backlog.md` (earlier ranked roadmap).
 
+## Latest update — 2026-08-03: rotating real Rectory Field hero
+
+The generated homepage concept image has been replaced by four approved wide photographs: cricket
+being played at Rectory Field, a shared cricket-and-lawn-tennis view, the clubhouse on a summer day
+and the clubhouse at golden hour. The hero rotates every seven seconds with direct slide controls
+and pause/play; visitors who prefer reduced motion see a static first image. Source PNG/JPEG files
+live at `src/assets/hero-*`;
+`npm run optimize:hero` regenerates each four-size responsive WebP set and the cricket blur
+placeholder, and `npm run optimize:og` refreshes the cricket-led social-sharing image.
+
 ## Latest release — 2026-07-31: seasonal opening-hours admin
 
 PR [#30](https://github.com/zarbjustin/blackheath-sports-club-redesign/pull/30)

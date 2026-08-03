@@ -8,7 +8,7 @@ This document is the working specification. It should evolve as the club supplie
 
 For implementation handover, see `docs/ai-handover.md`. For the ranked next-work roadmap, see `docs/backlog.md`.
 
-## As-built status (updated 2026-07-31)
+## As-built status (updated 2026-08-03)
 
 The repo is no longer a first-pass concept — it is a feature-rich single-page site grounded in the
 real club's facts (validated against the live blackheathsportsclub.co.uk). The sections below marked
@@ -19,7 +19,9 @@ Delivered so far:
 
 - Real, fact-grounded content across all sections (address, phone, bar hours, £50 social membership,
   no-dogs rule, 1883/1885/1937 heritage), structured in `src/data.js`.
-- Real club photography optimised to WebP; responsive hero with blur-up; custom per-sport SVG icons.
+- Real club photography optimised to WebP; the responsive homepage hero rotates between cricket,
+  a shared cricket-and-lawn-tennis view, the summer clubhouse and golden hour at Rectory Field,
+  with pause/play controls and a blur-up placeholder; custom per-sport SVG icons.
 - Homepage sports cards use 1600 x 1100 action images: authentic Blackheath Age Grade
   Rugby photography plus reviewable interim generated concepts for Cricket, Lawn Tennis
   and Squash. Provenance is recorded in `docs/media-sources.md`; approved Blackheath
@@ -66,7 +68,8 @@ Key assumptions in the concept:
 
 ### 1. Replace concept imagery with real club media
 
-The generated hero image gives the right composition, but production should use real photography and short video from Rectory Field.
+The homepage hero now uses real Rectory Field cricket photography. More approved photography and
+short video from the ground would deepen the site further.
 
 Needed assets:
 
@@ -523,7 +526,7 @@ Operational metrics:
 
 ## Immediate next actions
 
-1. Replace placeholder hero image with real club-approved photography.
+1. Collect additional real club-approved photography for sport, venue-hire and junior sections.
 2. Confirm sport-specific contacts and booking links.
 3. Collect membership categories, prices and eligibility.
 4. Collect venue hire details and photos.
