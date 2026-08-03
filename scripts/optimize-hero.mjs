@@ -7,6 +7,8 @@ const here = dirname(fileURLToPath(import.meta.url));
 const outDir = resolve(here, "../src/assets");
 const heroes = [
   { name: "hero-cricket", file: "hero-cricket.png" },
+  { name: "hero-rugby-match", file: "hero-rugby-match.jpg" },
+  { name: "hero-rugby-floodlights", file: "hero-rugby-floodlights.jpg" },
   { name: "hero-one-club-many-sports", file: "hero-one-club-many-sports.jpg" },
   { name: "hero-clubhouse-summer", file: "hero-clubhouse-summer.png" },
   { name: "hero-clubhouse-golden-hour", file: "hero-clubhouse-golden-hour.png" },

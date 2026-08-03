@@ -20,8 +20,9 @@ Delivered so far:
 - Real, fact-grounded content across all sections (address, phone, bar hours, £50 social membership,
   no-dogs rule, 1883/1885/1937 heritage), structured in `src/data.js`.
 - Real club photography optimised to WebP; the responsive homepage hero rotates between cricket,
-  a shared cricket-and-lawn-tennis view, the summer clubhouse and golden hour at Rectory Field,
-  with pause/play controls and a blur-up placeholder; custom per-sport SVG icons.
+  daytime and floodlit rugby, a shared cricket-and-lawn-tennis view, the summer clubhouse and
+  golden hour at Rectory Field, with pause/play controls and a blur-up placeholder; custom
+  per-sport SVG icons.
 - Homepage sports cards use 1600 x 1100 action images: authentic Blackheath Age Grade
   Rugby photography plus reviewable interim generated concepts for Cricket, Lawn Tennis
   and Squash. Provenance is recorded in `docs/media-sources.md`; approved Blackheath
