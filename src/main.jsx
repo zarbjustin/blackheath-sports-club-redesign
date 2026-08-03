@@ -125,38 +125,45 @@ const lucide = { Dumbbell, Baby, Beer, PartyPopper, Utensils, Accessibility, Car
 
 const easeOut = [0.22, 1, 0.36, 1];
 const fallbackOpeningHours = toPublicOpeningHours(cloneDefaultSeasonalHours());
+// Lower values appear first, moving from the brightest daylight into evening.
 const heroSlides = [
   {
+    lightOrder: 30,
     src: cricket1440,
     srcSet: `${cricket640} 640w, ${cricket1024} 1024w, ${cricket1440} 1440w, ${cricket1920} 1920w`,
     alt: "Cricket being played at the Rectory Field, home of Blackheath Sports Club",
   },
   {
+    lightOrder: 40,
     src: rugby1440,
     srcSet: `${rugby640} 640w, ${rugby1024} 1024w, ${rugby1440} 1440w, ${rugby1920} 1920w`,
     alt: "Rugby being played across the pitches at the Rectory Field",
   },
   {
+    lightOrder: 60,
     src: rugbyNight1440,
     srcSet: `${rugbyNight640} 640w, ${rugbyNight1024} 1024w, ${rugbyNight1440} 1440w, ${rugbyNight1920} 1920w`,
     alt: "An evening rugby match under the floodlights at the Rectory Field",
   },
   {
+    lightOrder: 20,
     src: multiSport1440,
     srcSet: `${multiSport640} 640w, ${multiSport1024} 1024w, ${multiSport1440} 1440w, ${multiSport1920} 1920w`,
     alt: "Cricket and lawn tennis being played across the Rectory Field",
   },
   {
+    lightOrder: 10,
     src: summer1440,
     srcSet: `${summer640} 640w, ${summer1024} 1024w, ${summer1440} 1440w, ${summer1920} 1920w`,
     alt: "The clubhouse and cricket ground at the Rectory Field on a summer day",
   },
   {
+    lightOrder: 50,
     src: goldenHour1440,
     srcSet: `${goldenHour640} 640w, ${goldenHour1024} 1024w, ${goldenHour1440} 1440w, ${goldenHour1920} 1920w`,
     alt: "The clubhouse terrace and Rectory Field at golden hour",
   },
-];
+].sort((a, b) => a.lightOrder - b.lightOrder);
 
 function updateStructuredOpeningHours(days) {
   const script = document.querySelector('script[type="application/ld+json"]');
