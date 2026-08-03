@@ -89,6 +89,10 @@ import rugby640 from "./assets/hero-rugby-match-640.webp";
 import rugby1024 from "./assets/hero-rugby-match-1024.webp";
 import rugby1440 from "./assets/hero-rugby-match-1440.webp";
 import rugby1920 from "./assets/hero-rugby-match-1920.webp";
+import rugbyNight640 from "./assets/hero-rugby-floodlights-640.webp";
+import rugbyNight1024 from "./assets/hero-rugby-floodlights-1024.webp";
+import rugbyNight1440 from "./assets/hero-rugby-floodlights-1440.webp";
+import rugbyNight1920 from "./assets/hero-rugby-floodlights-1920.webp";
 import multiSport640 from "./assets/hero-one-club-many-sports-640.webp";
 import multiSport1024 from "./assets/hero-one-club-many-sports-1024.webp";
 import multiSport1440 from "./assets/hero-one-club-many-sports-1440.webp";
@@ -131,6 +135,11 @@ const heroSlides = [
     src: rugby1440,
     srcSet: `${rugby640} 640w, ${rugby1024} 1024w, ${rugby1440} 1440w, ${rugby1920} 1920w`,
     alt: "Rugby being played across the pitches at the Rectory Field",
+  },
+  {
+    src: rugbyNight1440,
+    srcSet: `${rugbyNight640} 640w, ${rugbyNight1024} 1024w, ${rugbyNight1440} 1440w, ${rugbyNight1920} 1920w`,
+    alt: "An evening rugby match under the floodlights at the Rectory Field",
   },
   {
     src: multiSport1440,
